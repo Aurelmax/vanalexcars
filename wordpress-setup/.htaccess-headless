@@ -1,0 +1,91 @@
+# Configuration .htaccess pour WordPress Headless Vanalexcars
+# Bloquer l'accès public sauf pour l'API REST et l'admin
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Autoriser l'API REST WordPress
+RewriteCond %{REQUEST_URI} ^/wp-json/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser l'admin WordPress
+RewriteCond %{REQUEST_URI} ^/wp-admin/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les fichiers WordPress core
+RewriteCond %{REQUEST_URI} ^/wp-includes/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les uploads (images, documents)
+RewriteCond %{REQUEST_URI} ^/wp-content/uploads/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les fichiers CSS/JS du thème (si nécessaire)
+RewriteCond %{REQUEST_URI} ^/wp-content/themes/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les plugins (si nécessaire)
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les fichiers de configuration
+RewriteCond %{REQUEST_URI} ^/wp-config\.php$ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Autoriser les fichiers robots.txt et sitemap.xml
+RewriteCond %{REQUEST_URI} ^/(robots\.txt|sitemap\.xml)$ [NC]
+RewriteRule ^(.*)$ - [L]
+
+# Bloquer tout le reste et rediriger vers le frontend
+RewriteCond %{REQUEST_URI} !^/wp-json/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-admin/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-includes/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-content/uploads/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-content/themes/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-content/plugins/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-config\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/(robots\.txt|sitemap\.xml)$ [NC]
+RewriteRule ^(.*)$ http://localhost:3002/$1 [R=301,L]
+</IfModule>
+
+# Sécurité supplémentaire
+<Files "wp-config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|tar|gz)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Désactiver l'affichage des erreurs PHP
+php_flag display_errors Off
+php_flag log_errors On
+
+# Optimisations de performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
