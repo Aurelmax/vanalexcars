@@ -94,6 +94,15 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link
+                  href='/demande-upload'
+                  className='text-gray-300 hover:text-premium-gold transition flex items-center space-x-2'
+                >
+                  <span>📄</span>
+                  <span>Documents Cartes Grises</span>
+                </Link>
+              </li>
             </ul>
           </div>
 

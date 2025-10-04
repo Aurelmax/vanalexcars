@@ -259,6 +259,22 @@ const AdminFormulaires: React.FC = () => {
                 )
               </button>
               <button
+                onClick={() => setFilter('registration_documents')}
+                className={`px-4 py-2 rounded-md text-sm font-medium ${
+                  filter === 'registration_documents'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                Documents (
+                {Array.isArray(submissions)
+                  ? submissions.filter(
+                      s => s.form_type === 'registration_documents'
+                    ).length
+                  : 0}
+                )
+              </button>
+              <button
                 onClick={() => setFilter('testimonial')}
                 className={`px-4 py-2 rounded-md text-sm font-medium ${
                   filter === 'testimonial'
@@ -270,6 +286,20 @@ const AdminFormulaires: React.FC = () => {
                 {Array.isArray(submissions)
                   ? submissions.filter(s => s.form_type === 'testimonial')
                       .length
+                  : 0}
+                )
+              </button>
+              <button
+                onClick={() => setFilter('newsletter')}
+                className={`px-4 py-2 rounded-md text-sm font-medium ${
+                  filter === 'newsletter'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                Newsletter (
+                {Array.isArray(submissions)
+                  ? submissions.filter(s => s.form_type === 'newsletter').length
                   : 0}
                 )
               </button>

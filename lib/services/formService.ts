@@ -38,14 +38,34 @@ export interface NewsletterFormData {
   interests?: string[];
 }
 
+export interface RegistrationDocumentsFormData {
+  name: string;
+  email: string;
+  phone?: string;
+  request_type: 'search' | 'advice' | 'quote';
+  urgency: 'low' | 'medium' | 'high';
+  message?: string;
+  documents: {
+    identity: File[];
+    proof_of_address: File[];
+    mandate: File[];
+  };
+}
+
 export interface FormSubmission {
   id: number;
-  type: 'contact' | 'vehicle_request' | 'testimonial' | 'newsletter';
+  type:
+    | 'contact'
+    | 'vehicle_request'
+    | 'testimonial'
+    | 'newsletter'
+    | 'registration_documents';
   data:
     | ContactFormData
     | VehicleRequestFormData
     | TestimonialFormData
-    | NewsletterFormData;
+    | NewsletterFormData
+    | RegistrationDocumentsFormData;
   status: 'new' | 'read' | 'replied' | 'archived';
   date: string;
   ip?: string;
@@ -299,6 +319,26 @@ class FormService {
 
     if (!response.ok) {
       throw new Error("Erreur lors de l'inscription à la newsletter");
+    }
+
+    return response.json();
+  }
+
+  // Soumettre des documents d'immatriculation
+  async submitRegistrationDocuments(
+    data: RegistrationDocumentsFormData
+  ): Promise<FormSubmission> {
+    const response = await fetch(`${this.baseUrl}/registration-documents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la soumission des documents');
     }
 
     return response.json();
