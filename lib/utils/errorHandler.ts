@@ -173,7 +173,7 @@ export function getUserErrorMessage(error: AppError): string {
   if (error.source === 'validation' && error.details) {
     // Pour les erreurs de validation, retourner le premier message
     const firstError = Object.values(error.details)[0];
-    return firstError || error.message;
+    return (firstError as string) || error.message;
   }
 
   return error.message;

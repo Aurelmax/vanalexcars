@@ -20,7 +20,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
+  const { values, errors, getFieldProps, handleSubmit, reset } =
     useForm<ContactFormData>({
       initialValues: {
         name: '',
@@ -81,6 +81,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       },
     });
 
+  // Helper function to get field props
+  const getField = (field: keyof ContactFormData) => getFieldProps(field);
+
   return (
     <div className='max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8'>
       <h2 className='text-2xl font-bold text-gray-900 mb-6 text-center'>
@@ -113,7 +116,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               id='name'
               name='name'
               value={values.name}
-              onChange={handleChange}
+              onChange={getField('name').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -136,7 +139,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               id='email'
               name='email'
               value={values.email}
-              onChange={handleChange}
+              onChange={getField('email').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -160,7 +163,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             id='phone'
             name='phone'
             value={values.phone}
-            onChange={handleChange}
+            onChange={getField('phone').onChange}
             className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             placeholder='06 12 34 56 78'
           />
@@ -177,7 +180,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             id='subject'
             name='subject'
             value={values.subject}
-            onChange={handleChange}
+            onChange={getField('subject').onChange}
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
               errors.subject ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -204,7 +207,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             id='message'
             name='message'
             value={values.message}
-            onChange={handleChange}
+            onChange={getField('message').onChange}
             rows={5}
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
               errors.message ? 'border-red-500' : 'border-gray-300'

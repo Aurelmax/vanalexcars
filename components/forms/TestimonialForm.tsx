@@ -24,7 +24,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
+  const { values, errors, getFieldProps, setFieldValue, handleSubmit, reset } =
     useForm<TestimonialFormData>({
       initialValues: {
         name: '',
@@ -101,13 +101,11 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
       },
     });
 
+  // Helper function to get field props
+  const getField = (field: keyof TestimonialFormData) => getFieldProps(field);
+
   const handlePhotoChange = (files: File[]) => {
-    handleChange({
-      target: {
-        name: 'photos',
-        value: files,
-      },
-    } as any);
+    setFieldValue('photos', files);
   };
 
   return (
@@ -143,7 +141,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               id='name'
               name='name'
               value={values.name}
-              onChange={handleChange}
+              onChange={getField('name').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -166,7 +164,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               id='email'
               name='email'
               value={values.email}
-              onChange={handleChange}
+              onChange={getField('email').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -189,7 +187,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               id='location'
               name='location'
               value={values.location}
-              onChange={handleChange}
+              onChange={getField('location').onChange}
               className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
               placeholder='Nice, Cannes, Monaco...'
             />
@@ -207,7 +205,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               id='vehicle_purchased'
               name='vehicle_purchased'
               value={values.vehicle_purchased}
-              onChange={handleChange}
+              onChange={getField('vehicle_purchased').onChange}
               className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
               placeholder='Porsche 911, BMW M3...'
             />
@@ -224,11 +222,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               <button
                 key={star}
                 type='button'
-                onClick={() =>
-                  handleChange({
-                    target: { name: 'rating', value: star },
-                  } as any)
-                }
+                onClick={() => setFieldValue('rating', star)}
                 className={`text-2xl ${
                   star <= values.rating ? 'text-yellow-400' : 'text-gray-300'
                 } hover:text-yellow-400 transition-colors`}
@@ -255,7 +249,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
             id='title'
             name='title'
             value={values.title}
-            onChange={handleChange}
+            onChange={getField('title').onChange}
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
               errors.title ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -278,7 +272,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
             id='testimonial'
             name='testimonial'
             value={values.testimonial}
-            onChange={handleChange}
+            onChange={getField('testimonial').onChange}
             rows={6}
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
               errors.testimonial ? 'border-red-500' : 'border-gray-300'
@@ -328,11 +322,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
             type='checkbox'
             id='consent'
             checked={values.consent}
-            onChange={e =>
-              handleChange({
-                target: { name: 'consent', value: e.target.checked },
-              } as any)
-            }
+            onChange={e => setFieldValue('consent', e.target.checked)}
             className={`h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded mt-1 ${
               errors.consent ? 'border-red-500' : ''
             }`}

@@ -82,9 +82,11 @@ class AuthService {
       const data = await response.json();
       console.log('Données reçues:', data);
 
-      if (data.success) {
+      if (data.success && data.data?.token) {
         this.token = data.data.token;
-        this.setStoredToken(this.token);
+        if (this.token) {
+          this.setStoredToken(this.token);
+        }
       }
 
       return data;

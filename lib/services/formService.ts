@@ -14,9 +14,9 @@ export interface VehicleRequestFormData {
   name: string;
   email: string;
   phone: string;
-  brand: string;
-  model: string;
-  year?: string;
+  vehicle_make: string;
+  vehicle_model: string;
+  vehicle_year?: string;
   budget?: string;
   message: string;
 }
@@ -30,6 +30,7 @@ export interface TestimonialFormData {
   title: string;
   testimonial: string;
   photos?: File[];
+  consent?: boolean;
 }
 
 export interface NewsletterFormData {
@@ -72,6 +73,14 @@ export interface FormSubmission {
   userAgent?: string;
 }
 
+// Interface étendue pour les données réelles de l'API
+export interface ExtendedFormSubmission extends FormSubmission {
+  form_type: string;
+  form_data: any;
+  form_status: string;
+  meta?: any;
+}
+
 // Service pour gérer les formulaires
 class FormService {
   private baseUrl: string;
@@ -79,82 +88,6 @@ class FormService {
   constructor() {
     // Utiliser les endpoints Next.js pour éviter les problèmes CORS
     this.baseUrl = '/api/forms';
-  }
-
-  // Récupérer les soumissions de formulaires
-  async getFormSubmissions(formType?: string): Promise<FormSubmission[]> {
-    const url = formType
-      ? `${this.baseUrl}/submissions?form_type=${formType}`
-      : `${this.baseUrl}/submissions`;
-
-    console.log(
-      '🔍 FormService: Tentative de récupération des soumissions vers:',
-      url
-    );
-
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      console.log(
-        '📡 FormService: Réponse reçue:',
-        response.status,
-        response.statusText
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ FormService: Erreur de réponse:', errorText);
-        throw new Error(
-          `Erreur lors de la récupération des soumissions: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const data = await response.json();
-      console.log('📊 FormService: Données reçues:', data);
-      console.log('📈 FormService: Structure des données:', {
-        success: data.success,
-        hasData: !!data.data,
-        dataLength: data.data?.length || 0,
-        dataType: Array.isArray(data.data) ? 'array' : typeof data.data,
-      });
-
-      // Vérifier la structure de la réponse
-      let results = [];
-      if (data.success && Array.isArray(data.data)) {
-        console.log(
-          '✅ FormService: Structure correcte détectée, extraction des données...'
-        );
-        results = data.data;
-        console.log('📋 FormService: Données extraites:', results);
-      } else if (Array.isArray(data)) {
-        console.log('✅ FormService: Données directes (array)');
-        results = data;
-      } else {
-        console.warn('⚠️ FormService: Structure de données inattendue:', data);
-        console.warn('⚠️ FormService: data.success:', data.success);
-        console.warn('⚠️ FormService: data.data:', data.data);
-        console.warn(
-          '⚠️ FormService: Array.isArray(data.data):',
-          Array.isArray(data.data)
-        );
-        results = [];
-      }
-
-      console.log('✅ FormService: Retour des résultats:', results);
-      console.log(
-        '📊 FormService: Nombre final de soumissions:',
-        results.length
-      );
-      return results;
-    } catch (error) {
-      console.error('💥 FormService: Erreur complète:', error);
-      throw error;
-    }
   }
 
   // Soumettre un formulaire de contact
@@ -186,7 +119,7 @@ class FormService {
         ...authService.getAuthHeaders(),
       },
       body: JSON.stringify({
-        title: `Demande véhicule: ${data.brand} ${data.model}`,
+        title: `Demande véhicule: ${data.vehicle_make} ${data.vehicle_model}`,
         content: data.message,
         status: 'publish',
         meta: {
@@ -252,22 +185,6 @@ class FormService {
     // Intégration avec un service d'email (SendGrid, Mailgun, etc.)
     // Ou utilisation de l'API WordPress pour envoyer des emails
     console.log('Email de notification envoyé pour:', submission);
-  }
-
-  // Soumettre des documents d'immatriculation
-  async submitRegistrationDocuments(
-    formData: FormData
-  ): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/posts`, {
-      method: 'POST',
-      body: formData, // Pas de Content-Type, laissez le navigateur le définir
-    });
-
-    if (!response.ok) {
-      throw new Error("Erreur lors de l'envoi des documents");
-    }
-
-    return response.json();
   }
 
   // Soumettre un témoignage

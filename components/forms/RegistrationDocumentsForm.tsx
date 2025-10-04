@@ -29,7 +29,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
+  const { values, errors, getFieldProps, setFieldValue, handleSubmit, reset } =
     useForm<RegistrationDocumentsFormData>({
       initialValues: {
         name: '',
@@ -95,7 +95,11 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
           });
 
           // Envoyer via l'API
-          await formService.submitRegistrationDocuments(formData);
+          await formService.submitRegistrationDocuments({
+            ...values,
+            request_type: values.request_type as 'search' | 'advice' | 'quote',
+            urgency: values.urgency as 'low' | 'medium' | 'high',
+          });
 
           setSubmitStatus('success');
 
@@ -114,19 +118,18 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
       },
     });
 
+  // Helper function to get field props
+  const getField = (field: keyof RegistrationDocumentsFormData) =>
+    getFieldProps(field);
+
   const handleDocumentsChange = (
     type: 'identity' | 'proof_of_address' | 'mandate',
     files: File[]
   ) => {
-    handleChange({
-      target: {
-        name: 'documents',
-        value: {
-          ...values.documents,
-          [type]: files,
-        },
-      },
-    } as any);
+    setFieldValue('documents', {
+      ...values.documents,
+      [type]: files,
+    });
   };
 
   return (
@@ -187,7 +190,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                   name='request_type'
                   value={option.value}
                   checked={values.request_type === option.value}
-                  onChange={handleChange}
+                  onChange={getField('request_type').onChange}
                   className='sr-only'
                 />
                 <div className='text-center'>
@@ -225,7 +228,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                 id='name'
                 name='name'
                 value={values.name}
-                onChange={handleChange}
+                onChange={getField('name').onChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                   errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -248,7 +251,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                 id='email'
                 name='email'
                 value={values.email}
-                onChange={handleChange}
+                onChange={getField('email').onChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -271,7 +274,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                 id='phone'
                 name='phone'
                 value={values.phone}
-                onChange={handleChange}
+                onChange={getField('phone').onChange}
                 className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
                 placeholder='+33 6 12 34 56 78'
               />
@@ -288,7 +291,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                 id='urgency'
                 name='urgency'
                 value={values.urgency}
-                onChange={handleChange}
+                onChange={getField('urgency').onChange}
                 className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
               >
                 <option value='low'>Faible</option>
@@ -563,7 +566,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
             id='message'
             name='message'
             value={values.message}
-            onChange={handleChange}
+            onChange={getField('message').onChange}
             rows={4}
             className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             placeholder='Décrivez votre projet, vos critères, vos contraintes...'

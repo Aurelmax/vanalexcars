@@ -294,7 +294,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         );
         logSecurityError(`Erreur de validation: ${error}`, {
           filename: file.name,
-          error: error.message,
+          error: error instanceof Error ? error.message : String(error),
         });
         newErrors.push(`🚨 Erreur lors de la validation de ${file.name}`);
       }

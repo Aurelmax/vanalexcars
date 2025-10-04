@@ -152,7 +152,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'CLEAR_CACHE':
       if (action.payload) {
-        const { [action.payload]: removed, ...remaining } = state.cache;
+        const { [action.payload]: removed, ...remaining } = state.cache as any;
         return {
           ...state,
           cache: remaining,
@@ -307,7 +307,7 @@ export function useCache() {
   };
 
   const getCache = (key: string) => {
-    return state.cache[key];
+    return (state.cache as any)[key];
   };
 
   const isCacheValid = (key: string, maxAge: number = 5 * 60 * 1000) => {

@@ -102,7 +102,11 @@ const TestRegistrationDocumentsForm: React.FC<
         formData.append(`mandate_${index}`, file);
       });
 
-      const result = await formService.submitRegistrationDocuments(formData);
+      const result = await formService.submitRegistrationDocuments({
+        ...values,
+        request_type: values.request_type as 'search' | 'advice' | 'quote',
+        urgency: values.urgency as 'low' | 'medium' | 'high',
+      });
       console.log("Documents d'immatriculation envoyés avec succès:", result);
 
       setSubmitStatus('success');

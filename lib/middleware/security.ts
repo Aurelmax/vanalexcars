@@ -199,7 +199,7 @@ export const securityMiddleware = (handler: Function) => {
     } catch (error) {
       logSecurityEvent(
         'SECURITY_MIDDLEWARE_ERROR',
-        { error: error.message, ip },
+        { error: error instanceof Error ? error.message : String(error), ip },
         req
       );
       return res.status(500).json({

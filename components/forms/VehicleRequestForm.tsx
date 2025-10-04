@@ -25,7 +25,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
+  const { values, errors, getFieldProps, setFieldValue, handleSubmit, reset } =
     useForm<VehicleRequestFormData>({
       initialValues: {
         name: '',
@@ -82,13 +82,16 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
           await formService.submitVehicleRequest({
             name: values.name,
             email: values.email,
-            phone: values.phone,
+            phone: values.phone || '',
             vehicle_make: values.vehicle_make,
             vehicle_model: values.vehicle_model,
-            vehicle_year: values.vehicle_year,
-            budget: values.budget,
-            message: values.message,
-          });
+            vehicle_year: values.vehicle_year || '',
+            budget:
+              values.budget !== undefined && values.budget !== null
+                ? String(values.budget)
+                : undefined,
+            message: values.message || '',
+          } as any);
 
           setSubmitStatus('success');
 
@@ -106,6 +109,10 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
         }
       },
     });
+
+  // Helper function to get field props
+  const getField = (field: keyof VehicleRequestFormData) =>
+    getFieldProps(field);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 35 }, (_, i) => currentYear - i);
@@ -143,7 +150,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='name'
               name='name'
               value={values.name}
-              onChange={handleChange}
+              onChange={getField('name').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -166,7 +173,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='email'
               name='email'
               value={values.email}
-              onChange={handleChange}
+              onChange={getField('email').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -190,7 +197,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
             id='phone'
             name='phone'
             value={values.phone}
-            onChange={handleChange}
+            onChange={getField('phone').onChange}
             className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             placeholder='06 12 34 56 78'
           />
@@ -208,7 +215,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='vehicle_make'
               name='vehicle_make'
               value={values.vehicle_make}
-              onChange={handleChange}
+              onChange={getField('vehicle_make').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.vehicle_make ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -243,7 +250,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='vehicle_model'
               name='vehicle_model'
               value={values.vehicle_model}
-              onChange={handleChange}
+              onChange={getField('vehicle_model').onChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
                 errors.vehicle_model ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -269,7 +276,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='vehicle_year'
               name='vehicle_year'
               value={values.vehicle_year || ''}
-              onChange={handleChange}
+              onChange={getField('vehicle_year').onChange}
               className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             >
               <option value=''>Toutes les années</option>
@@ -296,7 +303,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               id='budget'
               name='budget'
               value={values.budget || ''}
-              onChange={handleChange}
+              onChange={getField('budget').onChange}
               min='0'
               step='1000'
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
@@ -321,7 +328,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
             id='message'
             name='message'
             value={values.message}
-            onChange={handleChange}
+            onChange={getField('message').onChange}
             rows={4}
             className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             placeholder='Couleur souhaitée, options particulières, kilométrage maximum, etc.'

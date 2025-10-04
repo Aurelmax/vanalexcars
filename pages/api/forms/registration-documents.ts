@@ -117,7 +117,7 @@ async function handleRegistrationDocuments(
     console.error('Registration documents submission error:', error);
     logSecurityEvent(
       'REGISTRATION_DOCUMENTS_ERROR',
-      { error: error.message },
+      { error: error instanceof Error ? error.message : String(error) },
       req
     );
     return res.status(500).json({

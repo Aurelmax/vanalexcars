@@ -18,7 +18,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
+  const { values, errors, getFieldProps, setFieldValue, handleSubmit, reset } =
     useForm<NewsletterFormData>({
       initialValues: {
         email: '',
@@ -70,13 +70,11 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
       ? currentInterests.filter(i => i !== interest)
       : [...currentInterests, interest];
 
-    handleChange({
-      target: {
-        name: 'interests',
-        value: updatedInterests,
-      },
-    } as any);
+    setFieldValue('interests', updatedInterests);
   };
+
+  // Helper function to get field props
+  const getField = (field: keyof NewsletterFormData) => getFieldProps(field);
 
   return (
     <div className='bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-xl p-8 text-black'>
@@ -111,7 +109,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
                 id='email'
                 name='email'
                 value={values.email}
-                onChange={handleChange}
+                onChange={getField('email').onChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-gray-800 ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -134,7 +132,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
                 id='name'
                 name='name'
                 value={values.name}
-                onChange={handleChange}
+                onChange={getField('name').onChange}
                 className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-gray-800'
                 placeholder='Votre prénom'
               />

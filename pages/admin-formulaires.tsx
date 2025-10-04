@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { FormSubmission, formService } from '../lib/services/formService';
+import {
+  ExtendedFormSubmission,
+  formService,
+} from '../lib/services/formService';
 
 const AdminFormulaires: React.FC = () => {
-  const [submissions, setSubmissions] = useState<FormSubmission[]>([]);
+  const [submissions, setSubmissions] = useState<ExtendedFormSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
@@ -25,11 +28,15 @@ const AdminFormulaires: React.FC = () => {
       const data = await formService.getFormSubmissions();
 
       // Traiter la structure de données de l'API
-      let submissionsArray = [];
+      let submissionsArray: ExtendedFormSubmission[] = [];
       if (Array.isArray(data)) {
-        submissionsArray = data;
-      } else if (data && data.success && Array.isArray(data.data)) {
-        submissionsArray = data.data;
+        submissionsArray = data as ExtendedFormSubmission[];
+      } else if (
+        data &&
+        (data as any).success &&
+        Array.isArray((data as any).data)
+      ) {
+        submissionsArray = (data as any).data as ExtendedFormSubmission[];
       } else {
         console.warn('Structure de données inattendue:', data);
         submissionsArray = [];

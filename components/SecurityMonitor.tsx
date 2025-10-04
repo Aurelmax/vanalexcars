@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 interface SecurityEvent {
   id: string;
-  type: 'upload' | 'validation' | 'error' | 'success';
+  type: 'upload' | 'validation' | 'error' | 'success' | 'warning';
   message: string;
   timestamp: Date;
   details?: any;
+  severity?: 'low' | 'medium' | 'high' | 'critical';
 }
 
 interface SecurityMonitorProps {

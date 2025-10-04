@@ -82,9 +82,9 @@ const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
         name: values.name,
         email: values.email,
         phone: values.phone,
-        brand: values.brand,
-        model: values.model,
-        year: values.year,
+        vehicle_make: values.vehicle_make,
+        vehicle_model: values.vehicle_model,
+        vehicle_year: values.vehicle_year,
         budget: values.budget,
         message: values.message,
       };

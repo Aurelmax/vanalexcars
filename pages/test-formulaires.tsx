@@ -32,10 +32,13 @@ const TestFormulairesPage: React.FC = () => {
       console.log('✅ Soumissions reçues:', submissions);
       console.log('📊 Nombre de soumissions:', submissions?.length || 0);
       // Traiter correctement la réponse de l'API
-      let results = [];
+      let results: any[] = [];
       if (submissions && typeof submissions === 'object') {
-        if (submissions.success && Array.isArray(submissions.data)) {
-          results = submissions.data;
+        if (
+          (submissions as any).success &&
+          Array.isArray((submissions as any).data)
+        ) {
+          results = (submissions as any).data;
         } else if (Array.isArray(submissions)) {
           results = submissions;
         }
