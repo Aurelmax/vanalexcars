@@ -6,10 +6,12 @@ import {
 
 interface TestTestimonialFormProps {
   onSubmit?: (data: any) => void;
+  onSuccess?: () => void;
 }
 
 const TestTestimonialForm: React.FC<TestTestimonialFormProps> = ({
   onSubmit,
+  onSuccess,
 }) => {
   const [values, setValues] = useState({
     name: '',
@@ -116,6 +118,10 @@ const TestTestimonialForm: React.FC<TestTestimonialFormProps> = ({
 
       if (onSubmit) {
         onSubmit(values);
+      }
+
+      if (onSuccess) {
+        onSuccess();
       }
 
       // Reset form

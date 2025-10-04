@@ -3,9 +3,13 @@ import { ContactFormData, formService } from '../../lib/services/formService';
 
 interface TestContactFormProps {
   onSubmit?: (data: any) => void;
+  onSuccess?: () => void;
 }
 
-const TestContactForm: React.FC<TestContactFormProps> = ({ onSubmit }) => {
+const TestContactForm: React.FC<TestContactFormProps> = ({
+  onSubmit,
+  onSuccess,
+}) => {
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -83,6 +87,10 @@ const TestContactForm: React.FC<TestContactFormProps> = ({ onSubmit }) => {
 
       if (onSubmit) {
         onSubmit(values);
+      }
+
+      if (onSuccess) {
+        onSuccess();
       }
 
       // Reset form

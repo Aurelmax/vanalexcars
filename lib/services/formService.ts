@@ -67,28 +67,74 @@ class FormService {
       ? `${this.baseUrl}/submissions?form_type=${formType}`
       : `${this.baseUrl}/submissions`;
 
-    console.log('Tentative de récupération des soumissions vers:', url);
+    console.log(
+      '🔍 FormService: Tentative de récupération des soumissions vers:',
+      url
+    );
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    console.log('Réponse reçue:', response.status, response.statusText);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Erreur de réponse:', errorText);
-      throw new Error(
-        `Erreur lors de la récupération des soumissions: ${response.status} ${response.statusText}`
+      console.log(
+        '📡 FormService: Réponse reçue:',
+        response.status,
+        response.statusText
       );
-    }
 
-    const data = await response.json();
-    console.log('Données reçues:', data);
-    return data.data || [];
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ FormService: Erreur de réponse:', errorText);
+        throw new Error(
+          `Erreur lors de la récupération des soumissions: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      console.log('📊 FormService: Données reçues:', data);
+      console.log('📈 FormService: Structure des données:', {
+        success: data.success,
+        hasData: !!data.data,
+        dataLength: data.data?.length || 0,
+        dataType: Array.isArray(data.data) ? 'array' : typeof data.data,
+      });
+
+      // Vérifier la structure de la réponse
+      let results = [];
+      if (data.success && Array.isArray(data.data)) {
+        console.log(
+          '✅ FormService: Structure correcte détectée, extraction des données...'
+        );
+        results = data.data;
+        console.log('📋 FormService: Données extraites:', results);
+      } else if (Array.isArray(data)) {
+        console.log('✅ FormService: Données directes (array)');
+        results = data;
+      } else {
+        console.warn('⚠️ FormService: Structure de données inattendue:', data);
+        console.warn('⚠️ FormService: data.success:', data.success);
+        console.warn('⚠️ FormService: data.data:', data.data);
+        console.warn(
+          '⚠️ FormService: Array.isArray(data.data):',
+          Array.isArray(data.data)
+        );
+        results = [];
+      }
+
+      console.log('✅ FormService: Retour des résultats:', results);
+      console.log(
+        '📊 FormService: Nombre final de soumissions:',
+        results.length
+      );
+      return results;
+    } catch (error) {
+      console.error('💥 FormService: Erreur complète:', error);
+      throw error;
+    }
   }
 
   // Soumettre un formulaire de contact

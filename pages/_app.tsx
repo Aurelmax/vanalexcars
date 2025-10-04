@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import { validateConfig } from '../config/api';
 import { AppProvider } from '../context/AppContext';
 import '../globals.css';
+import { AuthProvider } from '../hooks/useAuth';
 
 // Validation de la configuration au démarrage
 if (typeof window !== 'undefined') {
@@ -15,9 +16,11 @@ if (typeof window !== 'undefined') {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <AppProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AuthProvider>
     </AppProvider>
   );
 }

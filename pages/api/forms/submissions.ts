@@ -1,4 +1,6 @@
+import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
+import path from 'path';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,41 +13,24 @@ export default async function handler(
   const { form_type } = req.query;
 
   try {
-    // Récupérer les soumissions depuis WordPress
-    let url = 'http://172.22.0.3:80/wp-json/wp/v2/posts?meta_key=form_type';
+    // Lire les soumissions depuis le fichier local
+    const submissionsPath = path.join(process.cwd(), 'lib', 'submissions.json');
+    let submissions = [];
 
+    try {
+      const data = fs.readFileSync(submissionsPath, 'utf8');
+      submissions = JSON.parse(data);
+    } catch (error) {
+      // Fichier n'existe pas encore, retourner un tableau vide
+      submissions = [];
+    }
+
+    // Filtrer par type de formulaire si spécifié
     if (form_type) {
-      url += `&meta_value=${form_type}`;
+      submissions = submissions.filter(
+        submission => submission.form_type === form_type
+      );
     }
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error('WordPress submissions fetch error:', errorData);
-      return res.status(response.status).json({
-        error: 'Failed to fetch submissions',
-        details: errorData,
-      });
-    }
-
-    const data = await response.json();
-
-    // Transformer les données pour le frontend
-    const submissions = data.map((post: any) => ({
-      id: post.id,
-      title: post.title.rendered,
-      content: post.content.rendered,
-      date: post.date,
-      status: post.status,
-      form_type: post.meta?.form_type || 'unknown',
-      form_data: post.meta?.form_data || {},
-    }));
 
     return res.status(200).json({
       success: true,

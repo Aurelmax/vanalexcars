@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
+import Confetti from '../components/Confetti';
 import Layout from '../components/Layout';
 import TestContactForm from '../components/forms/TestContactForm';
 import TestFormSelector from '../components/forms/TestFormSelector';
@@ -14,28 +15,63 @@ const TestFormulairesPage: React.FC = () => {
   const [submissionResults, setSubmissionResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  // Fonction pour déclencher les confettis
+  const triggerConfetti = () => {
+    setShowConfetti(true);
+  };
 
   // Charger les soumissions depuis WordPress
   const loadSubmissions = async () => {
+    console.log('🔄 Début du chargement des soumissions...');
     setLoading(true);
     setError(null);
     try {
       const submissions = await formService.getFormSubmissions();
-      console.log('Soumissions reçues:', submissions);
-      // S'assurer que submissions est un tableau
-      setSubmissionResults(Array.isArray(submissions) ? submissions : []);
+      console.log('✅ Soumissions reçues:', submissions);
+      console.log('📊 Nombre de soumissions:', submissions?.length || 0);
+      // Traiter correctement la réponse de l'API
+      let results = [];
+      if (submissions && typeof submissions === 'object') {
+        if (submissions.success && Array.isArray(submissions.data)) {
+          results = submissions.data;
+        } else if (Array.isArray(submissions)) {
+          results = submissions;
+        }
+      }
+      console.log('📝 Résultats à afficher:', results);
+
+      // Forcer la mise à jour avec un petit délai
+      setTimeout(() => {
+        setSubmissionResults(results);
+        setLoading(false);
+        console.log('🏁 Chargement terminé avec délai');
+      }, 100);
     } catch (err) {
-      console.error('Erreur lors du chargement des soumissions:', err);
+      console.error('❌ Erreur lors du chargement des soumissions:', err);
       setError('Erreur lors du chargement des soumissions');
-    } finally {
       setLoading(false);
     }
   };
 
   // Charger les soumissions au montage du composant
   useEffect(() => {
+    console.log('🚀 Composant monté, chargement des soumissions...');
     loadSubmissions();
   }, []);
+
+  // Debug: Rechargement automatique supprimé
+
+  // Debug: Afficher l'état des soumissions
+  useEffect(() => {
+    console.log('🔄 État des soumissions mis à jour:', {
+      loading,
+      error,
+      submissionResults: submissionResults.length,
+      results: submissionResults,
+    });
+  }, [loading, error, submissionResults]);
 
   const handleFormSubmit = (formType: string, data: any) => {
     const result = {
@@ -61,30 +97,35 @@ const TestFormulairesPage: React.FC = () => {
         return (
           <TestContactForm
             onSubmit={data => handleFormSubmit('contact', data)}
+            onSuccess={triggerConfetti}
           />
         );
       case 'vehicle':
         return (
           <TestVehicleRequestForm
             onSubmit={data => handleFormSubmit('vehicle_request', data)}
+            onSuccess={triggerConfetti}
           />
         );
       case 'documents':
         return (
           <TestRegistrationDocumentsForm
             onSubmit={data => handleFormSubmit('registration_documents', data)}
+            onSuccess={triggerConfetti}
           />
         );
       case 'testimonial':
         return (
           <TestTestimonialForm
             onSubmit={data => handleFormSubmit('testimonial', data)}
+            onSuccess={triggerConfetti}
           />
         );
       case 'newsletter':
         return (
           <TestNewsletterForm
             onSubmit={data => handleFormSubmit('newsletter', data)}
+            onSuccess={triggerConfetti}
           />
         );
       default:
@@ -218,12 +259,21 @@ const TestFormulairesPage: React.FC = () => {
               {/* Panel de résultats */}
               <div className='lg:col-span-1'>
                 <div className='bg-white rounded-lg shadow-lg p-6'>
-                  <h3 className='text-xl font-bold text-gray-900 mb-4 flex items-center'>
-                    <span className='w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3'>
-                      ✓
-                    </span>
-                    Résultats des Tests
-                  </h3>
+                  <div className='flex justify-between items-center mb-4'>
+                    <h3 className='text-xl font-bold text-gray-900 flex items-center'>
+                      <span className='w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3'>
+                        ✓
+                      </span>
+                      Résultats des Tests
+                    </h3>
+                    <button
+                      onClick={loadSubmissions}
+                      disabled={loading}
+                      className='px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50'
+                    >
+                      {loading ? '⏳' : '🔄'} Recharger
+                    </button>
+                  </div>
 
                   {loading ? (
                     <div className='text-center py-8'>
@@ -354,6 +404,12 @@ const TestFormulairesPage: React.FC = () => {
           </div>
         </div>
       </Layout>
+
+      {/* Confettis */}
+      <Confetti
+        trigger={showConfetti}
+        onComplete={() => setShowConfetti(false)}
+      />
     </>
   );
 };

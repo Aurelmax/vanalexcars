@@ -6,10 +6,12 @@ import {
 
 interface TestVehicleRequestFormProps {
   onSubmit?: (data: any) => void;
+  onSuccess?: () => void;
 }
 
 const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
   onSubmit,
+  onSuccess,
 }) => {
   const [values, setValues] = useState({
     name: '',
@@ -94,6 +96,10 @@ const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
 
       if (onSubmit) {
         onSubmit(values);
+      }
+
+      if (onSuccess) {
+        onSuccess();
       }
 
       // Reset form

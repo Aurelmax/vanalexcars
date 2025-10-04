@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Confetti from '../components/Confetti';
 import Hero from '../components/Hero';
 
 export default function Contact() {
@@ -8,6 +9,8 @@ export default function Contact() {
     phone: '',
     message: '',
   });
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -15,9 +18,36 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Message envoyé ! Je vous recontacte rapidement.');
+    setIsSubmitting(true);
+
+    try {
+      // Simuler l'envoi du formulaire
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Afficher les confettis avec un petit délai
+      console.log('🎉 Déclenchement des confettis !');
+      setTimeout(() => {
+        setShowConfetti(true);
+      }, 100);
+
+      // Réinitialiser le formulaire
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
+
+      // Message de succès
+      alert('Message envoyé ! Je vous recontacte rapidement.');
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      alert("Erreur lors de l'envoi du message. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -168,15 +198,26 @@ export default function Contact() {
 
                 <button
                   type='submit'
-                  className='w-full bg-yellow-500 text-black py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105'
+                  disabled={isSubmitting}
+                  className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 ${
+                    isSubmitting
+                      ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                      : 'bg-yellow-500 text-black hover:bg-yellow-400'
+                  }`}
                 >
-                  Envoyer le message
+                  {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Confettis */}
+      <Confetti
+        trigger={showConfetti}
+        onComplete={() => setShowConfetti(false)}
+      />
     </>
   );
 }

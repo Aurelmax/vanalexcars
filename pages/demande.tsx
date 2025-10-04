@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Confetti from '../components/Confetti';
 import Hero from '../components/Hero';
 
 export default function FormulaireDemande() {
@@ -13,6 +14,8 @@ export default function FormulaireDemande() {
     forfait: '',
     message: '',
   });
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -22,10 +25,38 @@ export default function FormulaireDemande() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Demande envoyée, merci !');
-    // A remplacer par appel API réel
+    setIsSubmitting(true);
+
+    try {
+      // Simuler l'envoi du formulaire
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Afficher les confettis
+      setShowConfetti(true);
+
+      // Réinitialiser le formulaire
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        demandeType: '',
+        voiture: '',
+        budget: '',
+        urgence: '',
+        forfait: '',
+        message: '',
+      });
+
+      // Message de succès
+      alert('Demande envoyée, merci ! Je vous recontacte rapidement.');
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      alert("Erreur lors de l'envoi de la demande. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -440,9 +471,14 @@ export default function FormulaireDemande() {
             <div className='text-center'>
               <button
                 type='submit'
-                className='bg-premium-gold text-premium-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105'
+                disabled={isSubmitting}
+                className={`px-12 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${
+                  isSubmitting
+                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                    : 'bg-premium-gold text-premium-black hover:bg-yellow-400'
+                }`}
               >
-                Envoyer ma demande
+                {isSubmitting ? 'Envoi en cours...' : 'Envoyer ma demande'}
               </button>
               <p className='text-sm text-gray-500 mt-4'>
                 Je vous recontacte sous 24h pour discuter de votre projet
@@ -451,6 +487,12 @@ export default function FormulaireDemande() {
           </form>
         </div>
       </div>
+
+      {/* Confettis */}
+      <Confetti
+        trigger={showConfetti}
+        onComplete={() => setShowConfetti(false)}
+      />
     </>
   );
 }

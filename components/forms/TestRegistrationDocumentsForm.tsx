@@ -4,11 +4,12 @@ import FileUpload from './FileUpload';
 
 interface TestRegistrationDocumentsFormProps {
   onSubmit?: (data: any) => void;
+  onSuccess?: () => void;
 }
 
 const TestRegistrationDocumentsForm: React.FC<
   TestRegistrationDocumentsFormProps
-> = ({ onSubmit }) => {
+> = ({ onSubmit, onSuccess }) => {
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -108,6 +109,10 @@ const TestRegistrationDocumentsForm: React.FC<
 
       if (onSubmit) {
         onSubmit(values);
+      }
+
+      if (onSuccess) {
+        onSuccess();
       }
 
       // Reset form

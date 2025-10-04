@@ -6,10 +6,12 @@ import {
 
 interface TestNewsletterFormProps {
   onSubmit?: (data: any) => void;
+  onSuccess?: () => void;
 }
 
 const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
   onSubmit,
+  onSuccess,
 }) => {
   const [values, setValues] = useState({
     email: '',
@@ -77,6 +79,10 @@ const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
 
       if (onSubmit) {
         onSubmit(values);
+      }
+
+      if (onSuccess) {
+        onSuccess();
       }
 
       // Reset form
