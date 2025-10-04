@@ -240,6 +240,8 @@ export function useWordPressVehicles(params?: {
   search?: string;
   orderby?: string;
   order?: 'asc' | 'desc';
+  featured?: boolean;
+  is_new?: boolean;
 }) {
   const [vehicles, setVehicles] = useState<WordPressPost[]>([]);
   const [loading, setLoading] = useState(false);

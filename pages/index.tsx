@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AnimatedBanner from '../components/AnimatedBanner';
 import Hero from '../components/Hero';
+import VehicleGrid from '../components/VehicleGrid';
 
 export default function Home() {
   return (
@@ -10,22 +11,11 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero
-        title='Votre Expert en Import Automobile'
-        subtitle='Spécialiste Porsche & Véhicules de Prestige'
-        description="Importateur indépendant basé à Antibes, je vous accompagne dans l'achat de votre véhicule en Allemagne avec expertise et transparence."
-        primaryButton={{
-          text: 'Demandez votre véhicule',
-          href: '/demande',
-        }}
-        secondaryButton={{
-          text: 'Découvrir mes services',
-          href: '/services',
-        }}
-        showStats={true}
-        showCar={true}
+        title="Importez votre véhicule d'Allemagne en toute confiance"
+        subtitle="Un accompagnement personnalisé pour trouver et livrer le véhicule de vos rêves, directement depuis l'Allemagne jusqu'à votre porte."
       />
 
-      {/* Services Overview */}
+      {/* Comment ça marche */}
       <section className='py-16 bg-gray-50'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-12'>
@@ -33,338 +23,289 @@ export default function Home() {
               Comment ça marche ?
             </h2>
             <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Un processus simple et transparent pour votre import automobile
+              Un processus simple et transparent pour importer votre véhicule
+              d'Allemagne
             </p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            <div className='bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow'>
-              <div className='w-16 h-16 bg-premium-gold rounded-full flex items-center justify-center mx-auto mb-6'>
-                <span className='text-2xl'>🔍</span>
+            {/* Étape 1 */}
+            <div className='text-center'>
+              <div className='bg-yellow-500 text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4'>
+                1
               </div>
               <h3 className='text-xl font-semibold text-gray-900 mb-4'>
-                Recherche & Vérification
+                Vous me contactez
               </h3>
-              <p className='text-gray-600 mb-4'>
-                Sélection et contrôle technique en Allemagne
+              <p className='text-gray-600'>
+                Décrivez-moi le véhicule que vous recherchez, vos critères et
+                votre budget.
               </p>
-              <ul className='text-sm text-gray-500 space-y-1'>
-                <li>• Recherche selon vos critères</li>
-                <li>• Contrôle technique complet</li>
-                <li>• Essai routier</li>
-                <li>• Rapport détaillé</li>
-              </ul>
             </div>
 
-            <div className='bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow'>
-              <div className='w-16 h-16 bg-premium-gold rounded-full flex items-center justify-center mx-auto mb-6'>
-                <span className='text-2xl'>🤝</span>
+            {/* Étape 2 */}
+            <div className='text-center'>
+              <div className='bg-yellow-500 text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4'>
+                2
               </div>
               <h3 className='text-xl font-semibold text-gray-900 mb-4'>
-                Négociation & Achat
+                Je recherche en Allemagne
               </h3>
-              <p className='text-gray-600 mb-4'>
-                Paiement sécurisé et accompagnement
+              <p className='text-gray-600'>
+                Je parcours les annonces allemandes et vous propose les
+                meilleures options.
               </p>
-              <ul className='text-sm text-gray-500 space-y-1'>
-                <li>• Négociation du prix</li>
-                <li>• Paiement sécurisé</li>
-                <li>• Récupération des documents</li>
-                <li>• Accompagnement complet</li>
-              </ul>
             </div>
 
-            <div className='bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow'>
-              <div className='w-16 h-16 bg-premium-gold rounded-full flex items-center justify-center mx-auto mb-6'>
-                <span className='text-2xl'>🚛</span>
+            {/* Étape 3 */}
+            <div className='text-center'>
+              <div className='bg-yellow-500 text-black w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4'>
+                3
               </div>
               <h3 className='text-xl font-semibold text-gray-900 mb-4'>
-                Transport & Livraison
+                Livraison en France
               </h3>
-              <p className='text-gray-600 mb-4'>
-                Rapatriement et livraison à domicile
+              <p className='text-gray-600'>
+                Je m'occupe de tout : achat, immatriculation, livraison à votre
+                domicile.
               </p>
-              <ul className='text-sm text-gray-500 space-y-1'>
-                <li>• Organisation du transport</li>
-                <li>• Suivi en temps réel</li>
-                <li>• Livraison à domicile</li>
-                <li>• Remise des clés</li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Véhicules Disponibles */}
-      <section className='py-16 bg-gray-50'>
+      <VehicleGrid title='Véhicules Disponibles' featured={true} limit={8} />
+
+      {/* Forfaits Section */}
+      <section className='py-16 bg-white'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='text-center mb-12'>
             <h2 className='text-3xl font-bold text-gray-900 mb-4'>
-              Véhicules Disponibles
+              Mes Forfaits Premium
             </h2>
             <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Sélection de véhicules premium actuellement disponibles en
-              Allemagne
+              Choisissez le forfait qui correspond à vos besoins
             </p>
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-            {/* Véhicule 1 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group'>
-              <div className='relative'>
-                <img
-                  src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&crop=center'
-                  alt='Porsche 911 S Cabriolet'
-                  className='w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300'
-                />
-                <div className='absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-sm font-semibold'>
-                  Pro
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+            {/* Forfait Basic */}
+            <div className='bg-white rounded-xl shadow-lg p-8 border-2 border-gray-200 hover:border-yellow-500 transition-colors'>
+              <div className='text-center mb-6'>
+                <h3 className='text-2xl font-bold text-gray-900 mb-2'>Basic</h3>
+                <div className='text-4xl font-bold text-yellow-500 mb-2'>
+                  299€
                 </div>
+                <p className='text-gray-600'>Par véhicule</p>
               </div>
-              <div className='p-4'>
-                <div className='text-2xl font-bold text-yellow-500 mb-2'>
-                  87 899 €
-                </div>
-                <h3 className='text-lg font-semibold text-gray-900 mb-2'>
-                  Porsche 911 S Cabriolet
-                </h3>
-                <div className='space-y-1 text-sm text-gray-600'>
-                  <div className='flex justify-between'>
-                    <span>Kilométrage:</span>
-                    <span className='font-medium'>42 579 km</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Puissance:</span>
-                    <span className='font-medium'>400 CH</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Propriétaires:</span>
-                    <span className='font-medium'>2</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Date:</span>
-                    <span className='font-medium'>04/2012</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Boîte:</span>
-                    <span className='font-medium'>Automatique</span>
-                  </div>
-                </div>
-                <div className='mt-4 pt-3 border-t border-gray-200'>
-                  <p className='text-xs text-gray-500 mb-3'>
-                    📍 Grünwald, Allemagne
-                  </p>
-                  <div className='flex gap-2'>
-                    <Link
-                      href='/vehicule/porsche-911-s-cabriolet'
-                      className='flex-1 bg-gray-800 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Voir le détail
-                    </Link>
-                    <Link
-                      href='/contact'
-                      className='flex-1 bg-yellow-500 text-black py-2 px-4 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Me contacter
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <ul className='space-y-4 mb-8'>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Recherche ciblée
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Rapport détaillé
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Support email
+                </li>
+              </ul>
+              <Link
+                href='/contact'
+                className='block w-full bg-gray-900 text-white text-center py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors'
+              >
+                Choisir Basic
+              </Link>
             </div>
 
-            {/* Véhicule 2 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group'>
-              <div className='relative'>
-                <img
-                  src='https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop&crop=center'
-                  alt='Porsche 911 Carrera 4 Cabrio'
-                  className='w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300'
-                />
-                <div className='absolute top-4 right-4 bg-gray-600 text-white px-2 py-1 rounded text-sm font-semibold'>
-                  Particulier
-                </div>
+            {/* Forfait Premium */}
+            <div className='bg-white rounded-xl shadow-lg p-8 border-2 border-yellow-500 relative'>
+              <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
+                <span className='bg-yellow-500 text-black px-4 py-1 rounded-full text-sm font-semibold'>
+                  Recommandé
+                </span>
               </div>
-              <div className='p-4'>
-                <div className='text-2xl font-bold text-yellow-500 mb-2'>
-                  67 000 €
-                </div>
-                <h3 className='text-lg font-semibold text-gray-900 mb-2'>
-                  Porsche 911 Carrera 4 Cabrio
+              <div className='text-center mb-6'>
+                <h3 className='text-2xl font-bold text-gray-900 mb-2'>
+                  Premium
                 </h3>
-                <div className='space-y-1 text-sm text-gray-600'>
-                  <div className='flex justify-between'>
-                    <span>Kilométrage:</span>
-                    <span className='font-medium'>38 000 km</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Puissance:</span>
-                    <span className='font-medium'>325 CH</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Propriétaires:</span>
-                    <span className='font-medium'>3</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Date:</span>
-                    <span className='font-medium'>01/2008</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Boîte:</span>
-                    <span className='font-medium'>Manuelle</span>
-                  </div>
+                <div className='text-4xl font-bold text-yellow-500 mb-2'>
+                  599€
                 </div>
-                <div className='mt-4 pt-3 border-t border-gray-200'>
-                  <p className='text-xs text-gray-500 mb-3'>
-                    📍 Rust, Allemagne
-                  </p>
-                  <div className='flex gap-2'>
-                    <Link
-                      href='/vehicule/porsche-911-carrera-4-cabrio'
-                      className='flex-1 bg-gray-800 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Voir le détail
-                    </Link>
-                    <Link
-                      href='/contact'
-                      className='flex-1 bg-yellow-500 text-black py-2 px-4 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Me contacter
-                    </Link>
-                  </div>
-                </div>
+                <p className='text-gray-600'>Par véhicule</p>
               </div>
+              <ul className='space-y-4 mb-8'>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Recherche personnalisée
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Inspection sur place
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Négociation prix
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Support téléphonique
+                </li>
+              </ul>
+              <Link
+                href='/contact'
+                className='block w-full bg-yellow-500 text-black text-center py-3 px-6 rounded-lg font-semibold hover:bg-yellow-400 transition-colors'
+              >
+                Choisir Premium
+              </Link>
             </div>
 
-            {/* Véhicule 3 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group'>
-              <div className='relative'>
-                <img
-                  src='https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop&crop=center'
-                  alt='Porsche 911 Carrera 4 Cabrio'
-                  className='w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300'
-                />
-                <div className='absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-sm font-semibold'>
-                  Pro
+            {/* Forfait VIP */}
+            <div className='bg-white rounded-xl shadow-lg p-8 border-2 border-gray-200 hover:border-yellow-500 transition-colors'>
+              <div className='text-center mb-6'>
+                <h3 className='text-2xl font-bold text-gray-900 mb-2'>VIP</h3>
+                <div className='text-4xl font-bold text-yellow-500 mb-2'>
+                  999€
                 </div>
-                <div className='absolute bottom-4 left-4 bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold'>
-                  AUTOGALERIE
-                </div>
+                <p className='text-gray-600'>Par véhicule</p>
               </div>
-              <div className='p-4'>
-                <div className='text-2xl font-bold text-yellow-500 mb-2'>
-                  49 997 €
-                </div>
-                <h3 className='text-lg font-semibold text-gray-900 mb-2'>
-                  Porsche 911 Carrera 4 Cabrio
-                </h3>
-                <div className='space-y-1 text-sm text-gray-600'>
-                  <div className='flex justify-between'>
-                    <span>Kilométrage:</span>
-                    <span className='font-medium'>92 183 km</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Puissance:</span>
-                    <span className='font-medium'>325 CH</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Consommation:</span>
-                    <span className='font-medium'>11,3 l/100km</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Date:</span>
-                    <span className='font-medium'>04/2006</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Boîte:</span>
-                    <span className='font-medium'>Manuelle</span>
-                  </div>
-                </div>
-                <div className='mt-4 pt-3 border-t border-gray-200'>
-                  <p className='text-xs text-gray-500 mb-3'>
-                    📍 Wartenberg, Allemagne
-                  </p>
-                  <div className='flex gap-2'>
-                    <Link
-                      href='/vehicule/porsche-911-carrera-4-cabrio-wartenberg'
-                      className='flex-1 bg-gray-800 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Voir le détail
-                    </Link>
-                    <Link
-                      href='/contact'
-                      className='flex-1 bg-yellow-500 text-black py-2 px-4 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Me contacter
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Véhicule 4 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group'>
-              <div className='relative'>
-                <img
-                  src='https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&h=300&fit=crop&crop=center'
-                  alt='Porsche 911 Carrera'
-                  className='w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300'
-                />
-                <div className='absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded text-sm font-semibold'>
-                  Pro
-                </div>
-                <div className='absolute bottom-4 left-4 bg-black text-white px-2 py-1 rounded text-xs font-semibold'>
-                  PORSCHE ZENTRUM
-                </div>
-              </div>
-              <div className='p-4'>
-                <div className='text-2xl font-bold text-yellow-500 mb-2'>
-                  84 900 €
-                </div>
-                <h3 className='text-lg font-semibold text-gray-900 mb-2'>
-                  Porsche 911 Carrera
-                </h3>
-                <div className='space-y-1 text-sm text-gray-600'>
-                  <div className='flex justify-between'>
-                    <span>Kilométrage:</span>
-                    <span className='font-medium'>69 096 km</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Puissance:</span>
-                    <span className='font-medium'>349 CH</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Propriétaires:</span>
-                    <span className='font-medium'>4</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Date:</span>
-                    <span className='font-medium'>12/2013</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>Boîte:</span>
-                    <span className='font-medium'>Automatique</span>
-                  </div>
-                </div>
-                <div className='mt-4 pt-3 border-t border-gray-200'>
-                  <p className='text-xs text-gray-500 mb-3'>
-                    📍 Mannheim, Allemagne
-                  </p>
-                  <div className='flex gap-2'>
-                    <Link
-                      href='/vehicule/porsche-911-carrera-mannheim'
-                      className='flex-1 bg-gray-800 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Voir le détail
-                    </Link>
-                    <Link
-                      href='/contact'
-                      className='flex-1 bg-yellow-500 text-black py-2 px-4 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 text-center block'
-                    >
-                      Me contacter
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <ul className='space-y-4 mb-8'>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Service sur-mesure
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Accompagnement complet
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Livraison France
+                </li>
+                <li className='flex items-center'>
+                  <svg
+                    className='w-5 h-5 text-green-500 mr-3'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Support prioritaire
+                </li>
+              </ul>
+              <Link
+                href='/contact'
+                className='block w-full bg-gray-900 text-white text-center py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors'
+              >
+                Choisir VIP
+              </Link>
             </div>
           </div>
 
@@ -379,345 +320,17 @@ export default function Home() {
               </p>
               <div className='flex flex-col sm:flex-row gap-4 justify-center'>
                 <Link
+                  href='/contact'
+                  className='bg-black text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors'
+                >
+                  Me contacter
+                </Link>
+                <Link
                   href='/demande'
-                  className='bg-gray-800 text-yellow-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all duration-300 transform hover:scale-105'
+                  className='bg-white text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors'
                 >
-                  Demander une recherche personnalisée
+                  Faire une demande
                 </Link>
-                <Link
-                  href='/services'
-                  className='border-2 border-gray-800 text-gray-800 px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 hover:text-yellow-500 transition-all duration-300'
-                >
-                  Voir mes services
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Forfaits Section */}
-      <section className='py-16 bg-white'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='text-center mb-12'>
-            <h2 className='text-3xl font-bold text-gray-900 mb-4'>
-              Mes Forfaits Premium
-            </h2>
-            <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Service de proximité et d'expertise en face-à-face en Allemagne,
-              gage de confiance et sécurité accrue pour votre import automobile.
-            </p>
-          </div>
-
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            {/* Forfait Essentiel */}
-            <div className='bg-gray-50 rounded-lg p-6 border border-gray-200 hover:border-premium-gold transition-all duration-300'>
-              <h3 className='text-xl font-bold text-gray-900 mb-2'>
-                Forfait Essentiel
-              </h3>
-              <p className='text-sm text-gray-600 mb-4'>
-                Vérification & Achat sur Place
-              </p>
-              <p className='text-gray-700 mb-6'>
-                Idéal pour ceux qui veulent une vérification experte et un
-                accompagnement sécurisé.
-              </p>
-              <ul className='space-y-3 mb-8'>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Déplacement personnalisé en Allemagne
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Paiement sécurisé sur place
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Accompagnement administratif
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Rapport complet remis
-                  </span>
-                </li>
-              </ul>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-premium-gold mb-2'>
-                  Sur devis
-                </div>
-                <Link
-                  href='/contact'
-                  className='w-full bg-premium-gold text-premium-black py-2 rounded font-semibold hover:bg-yellow-400 transition block text-center'
-                >
-                  Choisir ce forfait
-                </Link>
-              </div>
-            </div>
-
-            {/* Forfait Confort */}
-            <div className='bg-white rounded-lg p-6 border-2 border-premium-gold shadow-lg relative hover:shadow-xl transition-all duration-300'>
-              <div className='absolute -top-3 left-1/2 transform -translate-x-1/2'>
-                <span className='bg-premium-gold text-premium-black text-xs font-bold px-3 py-1 rounded-full'>
-                  Plus Populaire
-                </span>
-              </div>
-              <h3 className='text-xl font-bold text-gray-900 mb-2'>
-                Forfait Confort
-              </h3>
-              <p className='text-sm text-gray-600 mb-4'>
-                Import & Rapatriement
-              </p>
-              <p className='text-gray-700 mb-6'>
-                Le choix populaire pour une prise en charge complète de
-                l'importation et du transport.
-              </p>
-              <ul className='space-y-3 mb-8'>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Tous les services du forfait Essentiel
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Organisation du rapatriement
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Suivi en temps réel du transport
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-gold mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-700'>
-                    Assistance quitus fiscal
-                  </span>
-                </li>
-              </ul>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-premium-gold mb-2'>
-                  Sur devis
-                </div>
-                <Link
-                  href='/contact'
-                  className='w-full bg-premium-gold text-premium-black py-2 rounded font-semibold hover:bg-yellow-400 transition block text-center'
-                >
-                  Choisir ce forfait
-                </Link>
-              </div>
-            </div>
-
-            {/* Forfait VIP Premium */}
-            <div className='bg-gradient-to-br from-premium-gold to-yellow-600 rounded-lg p-6 text-premium-black relative hover:scale-105 transition-all duration-300'>
-              <div className='absolute -top-3 right-4'>
-                <span className='bg-premium-black text-premium-gold text-xs font-bold px-3 py-1 rounded-full'>
-                  VIP Premium
-                </span>
-              </div>
-              <h3 className='text-xl font-bold mb-2'>Forfait VIP Premium</h3>
-              <p className='text-sm text-gray-800 mb-4'>Tout Inclus</p>
-              <p className='text-gray-700 mb-6'>
-                L'expérience ultime pour un service sans souci, de la
-                négociation à la livraison.
-              </p>
-              <ul className='space-y-3 mb-8'>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-black mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-800'>
-                    Tous les services du forfait Confort
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-black mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-800'>
-                    Assistance personnalisée 24/7
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-black mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-800'>
-                    Gestion des négociations
-                  </span>
-                </li>
-                <li className='flex items-start'>
-                  <svg
-                    className='w-5 h-5 text-premium-black mr-2 mt-0.5'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  <span className='text-sm text-gray-800'>
-                    Expertise technique approfondie
-                  </span>
-                </li>
-              </ul>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-premium-black mb-2'>
-                  Sur devis
-                </div>
-                <Link
-                  href='/contact'
-                  className='w-full bg-premium-black text-premium-gold py-2 rounded font-semibold hover:bg-gray-800 transition block text-center'
-                >
-                  Choisir ce forfait
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Points forts */}
-          <div className='mt-12 text-center'>
-            <h3 className='text-xl font-bold text-gray-900 mb-6'>
-              Points forts de l'offre Vanalexcars
-            </h3>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto'>
-              <div className='bg-gray-50 p-6 rounded-lg shadow-md text-left'>
-                <p className='text-gray-700'>
-                  Service de proximité et d'expertise en face-à-face en
-                  Allemagne, gage de confiance et sécurité accrue.
-                </p>
-              </div>
-              <div className='bg-gray-50 p-6 rounded-lg shadow-md text-left'>
-                <p className='text-gray-700'>
-                  Paiement sécurisé et garanti uniquement une fois que le client
-                  est satisfait du véhicule.
-                </p>
-              </div>
-              <div className='bg-gray-50 p-6 rounded-lg shadow-md text-left'>
-                <p className='text-gray-700'>
-                  Flexibilité dans la logistique de rapatriement adaptée à
-                  chaque demande.
-                </p>
-              </div>
-              <div className='bg-gray-50 p-6 rounded-lg shadow-md text-left'>
-                <p className='text-gray-700'>
-                  Transparence totale avec suivi et documents remis au client.
-                </p>
               </div>
             </div>
           </div>
@@ -737,231 +350,59 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='space-y-6'>
+          <div className='space-y-8'>
             {/* FAQ 1 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Qu'est-ce qui fait de Vanalexcar un service premium ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Notre premium se traduit dans chaque étape : partenariats
-                  privilégiés avec les concessionnaires officiels allemands,
-                  transactions transparentes, documents d'origine certifiés et
-                  traçabilité totale. Nous nous engageons sur la qualité
-                  relationnelle, administrative et mécanique du véhicule pour un
-                  service clé en main.
-                </p>
-              </div>
+            <div className='bg-white rounded-lg shadow-md p-6'>
+              <h3 className='text-xl font-semibold text-gray-900 mb-3'>
+                Combien coûte l'import d'un véhicule d'Allemagne ?
+              </h3>
+              <p className='text-gray-600'>
+                Le coût dépend du forfait choisi (299€ à 999€) et des frais
+                administratifs (immatriculation, carte grise, etc.). Je vous
+                fournis un devis détaillé avant toute démarche.
+              </p>
             </div>
 
             {/* FAQ 2 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Comment fonctionne le rapatriement de mon véhicule ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Vous choisissez votre mode de rapatriement : par la route avec
-                  plaque temporaire allemande (Kurzzeitkennzeichen) ou par
-                  transporteur sur camion. Dans tous les cas, votre véhicule
-                  arrive prêt à rouler en WW provisoire, avec toutes les
-                  démarches administratives gérées par nos soins. Nous assurons
-                  ensuite la carte grise définitive.
-                </p>
-              </div>
+            <div className='bg-white rounded-lg shadow-md p-6'>
+              <h3 className='text-xl font-semibold text-gray-900 mb-3'>
+                Combien de temps prend le processus ?
+              </h3>
+              <p className='text-gray-600'>
+                En moyenne, 2-4 semaines entre la sélection du véhicule et la
+                livraison en France. Cela inclut l'achat, l'immatriculation
+                temporaire allemande, et la livraison.
+              </p>
             </div>
 
             {/* FAQ 3 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Quels sont vos partenariats avec les concessionnaires
-                  allemands ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Nous entretenons des partenariats privilégiés avec les
-                  concessionnaires officiels allemands, garantissant des
-                  transactions transparentes, des documents d'origine certifiés
-                  et une traçabilité totale. Ces relations nous permettent
-                  d'accéder aux meilleurs véhicules et de vous offrir un service
-                  de confiance.
-                </p>
-              </div>
+            <div className='bg-white rounded-lg shadow-md p-6'>
+              <h3 className='text-xl font-semibold text-gray-900 mb-3'>
+                Le véhicule est-il garanti ?
+              </h3>
+              <p className='text-gray-600'>
+                Oui, tous les véhicules sont inspectés avant achat. Je négocie
+                également une garantie constructeur si disponible. Vous avez
+                également ma garantie de satisfaction.
+              </p>
             </div>
 
             {/* FAQ 4 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Que signifie "service clé en main" chez Vanalexcar ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Un service clé en main signifie que vous n'avez rien à gérer.
-                  Nous nous occupons de tout : recherche, vérification, achat,
-                  transport, démarches administratives, quitus fiscal,
-                  certificat de conformité, immatriculation. Vous recevez
-                  simplement vos clés et vos documents par courrier.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ 5 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Quelle est la différence entre votre approche et un import
-                  classique ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Notre approche globale porte autant sur la qualité
-                  relationnelle et administrative que sur la qualité mécanique.
-                  Nous sommes votre point d'entrée fiable, rigoureux et fluide
-                  entre l'Allemagne et la France. La qualité du service avant
-                  même la qualité du véhicule.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ 6 */}
-            <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-              <button className='w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  Comment garantissez-vous la traçabilité totale ?
-                </h3>
-                <svg
-                  className='w-5 h-5 text-yellow-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M19 9l-7 7-7-7'
-                  />
-                </svg>
-              </button>
-              <div className='px-6 pb-4'>
-                <p className='text-gray-600'>
-                  Les technologies actuelles offrent une transparence inédite
-                  sur le marché de l'import. Nous disposons d'outils permettant
-                  de croiser les données européennes pour garantir la véracité
-                  absolue des informations de chaque véhicule. Avec nos
-                  partenaires concessionnaires officiels, ces vérifications
-                  confirment toujours la qualité et la fiabilité des véhicules
-                  que nous sélectionnons.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to Action FAQ */}
-          <div className='text-center mt-12'>
-            <div className='bg-gradient-to-r from-premium-gold to-yellow-500 rounded-xl p-8 text-premium-black'>
-              <h3 className='text-2xl font-bold mb-4'>
-                Vous avez d'autres questions ?
+            <div className='bg-white rounded-lg shadow-md p-6'>
+              <h3 className='text-xl font-semibold text-gray-900 mb-3'>
+                Puis-je visiter le véhicule avant achat ?
               </h3>
-              <p className='text-lg mb-6'>
-                Je suis à votre disposition pour répondre à toutes vos
-                interrogations
+              <p className='text-gray-600'>
+                Avec le forfait Premium et VIP, je peux organiser une visite sur
+                place. Pour le forfait Basic, je fournis un rapport détaillé
+                avec photos et vidéos.
               </p>
-              <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-                <Link
-                  href='/contact'
-                  className='bg-premium-black text-premium-gold px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105'
-                >
-                  Me contacter
-                </Link>
-                <Link
-                  href='/demande'
-                  className='border-2 border-premium-black text-premium-black px-8 py-3 rounded-lg font-semibold hover:bg-premium-black hover:text-premium-gold transition-all duration-300'
-                >
-                  Demander un devis
-                </Link>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonial */}
+      {/* Témoignages */}
       <section className='py-16 bg-premium-black text-premium-white'>
         <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <div className='bg-premium-gray-dark rounded-2xl p-8 lg:p-12'>
@@ -969,7 +410,7 @@ export default function Home() {
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
-                  className='w-6 h-6 text-premium-gold'
+                  className='w-6 h-6 text-yellow-500 mx-1'
                   fill='currentColor'
                   viewBox='0 0 20 20'
                 >
@@ -977,24 +418,45 @@ export default function Home() {
                 </svg>
               ))}
             </div>
-            <blockquote className='text-xl lg:text-2xl italic text-premium-gray-light mb-6'>
-              "Service exceptionnel ! Alexandre m'a trouvé la Porsche de mes
-              rêves en Allemagne et s'est occupé de tout. Livraison parfaite à
-              Antibes. Je recommande vivement !"
+            <blockquote className='text-xl lg:text-2xl font-medium mb-6'>
+              "Service exceptionnel ! Alexandre a trouvé exactement la BMW M3
+              que je cherchais, à un prix imbattable. Le processus était
+              transparent et la livraison parfaite."
             </blockquote>
-            <div className='flex items-center justify-center space-x-4'>
-              <div className='w-12 h-12 bg-premium-gold rounded-full flex items-center justify-center'>
-                <span className='text-premium-black font-bold'>M</span>
-              </div>
+            <div className='flex items-center justify-center'>
               <div className='text-left'>
-                <div className='font-semibold text-premium-white'>
-                  Marc Dubois
-                </div>
-                <div className='text-premium-gray-light text-sm'>
-                  Client satisfait, Nice
+                <div className='font-semibold text-lg'>Marc Dubois</div>
+                <div className='text-premium-gray-light'>
+                  Propriétaire BMW M3 Competition
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className='py-16 bg-gradient-to-r from-yellow-500 to-yellow-400'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
+          <h2 className='text-3xl lg:text-4xl font-bold text-black mb-6'>
+            Prêt à trouver votre véhicule idéal ?
+          </h2>
+          <p className='text-xl text-black mb-8'>
+            Contactez-moi dès aujourd'hui pour commencer votre recherche
+          </p>
+          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
+            <Link
+              href='/contact'
+              className='bg-black text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors'
+            >
+              Me contacter
+            </Link>
+            <Link
+              href='/demande'
+              className='bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors'
+            >
+              Faire une demande
+            </Link>
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Vehicle {
   id: number;
@@ -17,9 +18,12 @@ interface Vehicle {
 }
 
 interface VehicleGridProps {
-  vehicles: Vehicle[];
+  vehicles?: Vehicle[];
   title?: string;
   showLoadMore?: boolean;
+  featured?: boolean;
+  is_new?: boolean;
+  limit?: number;
 }
 
 const mockVehicles: Vehicle[] = [
@@ -30,7 +34,8 @@ const mockVehicles: Vehicle[] = [
     year: 2022,
     mileage: '12 500 km',
     location: 'Antibes',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: false,
     isFeatured: true,
     fuelType: 'Essence',
@@ -44,7 +49,8 @@ const mockVehicles: Vehicle[] = [
     year: 2023,
     mileage: '8 200 km',
     location: 'Nice',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: true,
     isFeatured: false,
     fuelType: 'Essence',
@@ -58,7 +64,8 @@ const mockVehicles: Vehicle[] = [
     year: 2021,
     mileage: '15 800 km',
     location: 'Cannes',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: false,
     isFeatured: true,
     fuelType: 'Essence',
@@ -72,7 +79,8 @@ const mockVehicles: Vehicle[] = [
     year: 2022,
     mileage: '18 500 km',
     location: 'Monaco',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: false,
     isFeatured: false,
     fuelType: 'Essence',
@@ -86,7 +94,8 @@ const mockVehicles: Vehicle[] = [
     year: 2023,
     mileage: '5 200 km',
     location: 'Antibes',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: true,
     isFeatured: true,
     fuelType: 'Électrique',
@@ -100,7 +109,8 @@ const mockVehicles: Vehicle[] = [
     year: 2020,
     mileage: '12 000 km',
     location: 'Nice',
-    imageUrl: '/api/placeholder/300/200',
+    imageUrl:
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
     isNew: false,
     isFeatured: true,
     fuelType: 'Essence',
@@ -110,10 +120,106 @@ const mockVehicles: Vehicle[] = [
 ];
 
 export default function VehicleGrid({
-  vehicles = mockVehicles,
+  vehicles,
   title = 'Nos meilleures offres',
   showLoadMore = true,
+  featured,
+  is_new,
+  limit = 8,
 }: VehicleGridProps) {
+  const [apiVehicles, setApiVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/vehicles');
+        if (!response.ok) {
+          throw new Error('Erreur lors du chargement des véhicules');
+        }
+        const data = await response.json();
+
+        // Convertir les données de l'API au format attendu
+        const formattedVehicles: Vehicle[] = data.map((vehicle: any) => ({
+          id: vehicle.id,
+          title: vehicle.title,
+          price: `€ ${vehicle.price.toLocaleString()}`,
+          year: vehicle.year,
+          mileage: `${vehicle.mileage.toLocaleString()} km`,
+          location: vehicle.location,
+          imageUrl: vehicle.image_url || vehicle.featured_image?.url || '',
+          isNew: vehicle.is_new,
+          isFeatured: vehicle.is_featured,
+          fuelType: vehicle.fuel_type,
+          transmission: vehicle.transmission,
+          power: vehicle.power,
+        }));
+
+        setApiVehicles(formattedVehicles);
+      } catch (err) {
+        console.error('Erreur lors du chargement des véhicules:', err);
+        setError('Erreur lors du chargement des véhicules');
+        // Fallback sur les données mockées en cas d'erreur
+        setApiVehicles(mockVehicles.slice(0, limit));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className='py-12 bg-gray-50'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center'>
+            <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto'></div>
+            <p className='mt-4 text-gray-600'>Chargement des véhicules...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className='py-12 bg-gray-50'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='text-center'>
+            <p className='text-red-600'>{error}</p>
+            <p className='text-gray-600 mt-2'>
+              Affichage des données de démonstration
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Utiliser les données de l'API ou les véhicules passés en props
+  const displayVehicles = vehicles || apiVehicles.slice(0, limit);
+
+  return (
+    <VehicleGridContent
+      vehicles={displayVehicles}
+      title={title}
+      showLoadMore={showLoadMore}
+    />
+  );
+}
+
+function VehicleGridContent({
+  vehicles,
+  title,
+  showLoadMore,
+}: {
+  vehicles: Vehicle[];
+  title: string;
+  showLoadMore: boolean;
+}) {
   return (
     <section className='py-12 bg-gray-50'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -137,6 +243,8 @@ export default function VehicleGrid({
                 <Image
                   src={vehicle.imageUrl}
                   alt={vehicle.title}
+                  width={300}
+                  height={200}
                   className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
                 />
                 {vehicle.isNew && (
@@ -226,7 +334,7 @@ export default function VehicleGrid({
                 </div>
 
                 <Link
-                  href={`/vehicule/${vehicle.id}`}
+                  href={`/vehicule/${vehicle.slug || vehicle.id}`}
                   className='block w-full bg-premium-gold text-premium-black text-center py-2 px-4 rounded font-semibold hover:bg-yellow-400 transition-colors duration-300'
                 >
                   Voir les détails
