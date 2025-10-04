@@ -1,0 +1,422 @@
+import React, { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
+import { formService } from '../../lib/services/formService';
+import FileUpload from './FileUpload';
+
+interface RegistrationDocumentsFormData {
+  name: string;
+  email: string;
+  phone?: string;
+  request_type: 'search' | 'advice' | 'quote';
+  urgency: 'low' | 'medium' | 'high';
+  message?: string;
+  documents: {
+    identity: File[];
+    proof_of_address: File[];
+    mandate: File[];
+  };
+}
+
+const RegistrationDocumentsForm: React.FC = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const { values, errors, handleChange, handleSubmit, reset } = useForm<RegistrationDocumentsFormData>({
+    initialValues: {
+      name: '',
+      email: '',
+      phone: '',
+      request_type: 'search',
+      urgency: 'medium',
+      message: '',
+      documents: {
+        identity: [],
+        proof_of_address: [],
+        mandate: []
+      }
+    },
+    validate: (values) => {
+      const errors: Partial<Record<keyof RegistrationDocumentsFormData, string>> = {};
+      
+      if (!values.name.trim()) {
+        errors.name = 'Le nom est requis';
+      }
+      
+      if (!values.email.trim()) {
+        errors.email = 'L\'email est requis';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+        errors.email = 'L\'email n\'est pas valide';
+      }
+      
+      if (!values.request_type) {
+        errors.request_type = 'Le type de demande est requis';
+      }
+      
+      if (!values.urgency) {
+        errors.urgency = 'Le niveau d\'urgence est requis';
+      }
+      
+      return errors;
+    },
+    onSubmit: async (values) => {
+      setIsSubmitting(true);
+      setSubmitStatus('idle');
+      
+      try {
+        // Créer un FormData pour l'envoi avec les fichiers
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('email', values.email);
+        formData.append('phone', values.phone || '');
+        formData.append('request_type', values.request_type);
+        formData.append('urgency', values.urgency);
+        formData.append('message', values.message || '');
+        
+        // Ajouter les fichiers
+        values.documents.identity.forEach((file, index) => {
+          formData.append(`identity_${index}`, file);
+        });
+        values.documents.proof_of_address.forEach((file, index) => {
+          formData.append(`proof_of_address_${index}`, file);
+        });
+        values.documents.mandate.forEach((file, index) => {
+          formData.append(`mandate_${index}`, file);
+        });
+        
+        // Envoyer via l'API
+        await formService.submitRegistrationDocuments(formData);
+        
+        setSubmitStatus('success');
+        reset();
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi:', error);
+        setSubmitStatus('error');
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  });
+
+  const handleDocumentsChange = (type: 'identity' | 'proof_of_address' | 'mandate', files: File[]) => {
+    handleChange({
+      target: {
+        name: 'documents',
+        value: {
+          ...values.documents,
+          [type]: files
+        }
+      }
+    } as any);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        Demande avec documents d'immatriculation
+      </h2>
+      
+      {submitStatus === 'success' && (
+        <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+          ✅ Votre demande et vos documents ont été envoyés avec succès !
+        </div>
+      )}
+      
+      {submitStatus === 'error' && (
+        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          ❌ Une erreur est survenue. Veuillez réessayer.
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Type de demande */}
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Type de demande</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                value: 'search',
+                icon: '🔍',
+                title: 'Recherche ciblée',
+                description: 'Je recherche un véhicule spécifique'
+              },
+              {
+                value: 'advice',
+                icon: '💡',
+                title: 'Conseil & Expertise',
+                description: 'J\'ai besoin de conseils pour mon projet'
+              },
+              {
+                value: 'quote',
+                icon: '💰',
+                title: 'Devis personnalisé',
+                description: 'Je veux un devis pour mes services'
+              }
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all ${
+                  values.request_type === option.value
+                    ? 'border-yellow-400 bg-yellow-50'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="request_type"
+                  value={option.value}
+                  checked={values.request_type === option.value}
+                  onChange={handleChange}
+                  className="sr-only"
+                />
+                <div className="text-center">
+                  <div className="text-3xl mb-2">{option.icon}</div>
+                  <div className="font-semibold text-gray-900">{option.title}</div>
+                  <div className="text-sm text-gray-600 mt-1">{option.description}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+          {errors.request_type && (
+            <p className="mt-2 text-sm text-red-600">{errors.request_type}</p>
+          )}
+        </div>
+
+        {/* Informations personnelles */}
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Vos informations</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                Nom complet *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
+                  errors.name ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Votre nom complet"
+              />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Adresse e-mail *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
+                  errors.email ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="votre@email.com"
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Téléphone
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                placeholder="+33 6 12 34 56 78"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="urgency" className="block text-sm font-medium text-gray-700 mb-2">
+                Urgence
+              </label>
+              <select
+                id="urgency"
+                name="urgency"
+                value={values.urgency}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+              >
+                <option value="low">Faible</option>
+                <option value="medium">Moyenne</option>
+                <option value="high">Élevée</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Documents d'immatriculation */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+          <div className="flex items-center mb-4">
+            <div className="text-2xl mr-3">📄</div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Documents d'immatriculation
+              </h3>
+              <p className="text-sm text-gray-600">
+                Collecte simplifiée pour vos démarches administratives
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Documents requis du client */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-3">Vous me transmettez :</h4>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center mb-2">
+                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      1
+                    </div>
+                    <span className="font-medium text-gray-900">Votre pièce d'identité</span>
+                  </div>
+                  <FileUpload
+                    onFilesChange={(files) => handleDocumentsChange('identity', files)}
+                    maxFiles={2}
+                    maxSize={5}
+                    acceptedTypes={['image/*', 'application/pdf']}
+                    label="Pièce d'identité"
+                    description="Carte d'identité, passeport ou permis de conduire"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center mb-2">
+                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      2
+                    </div>
+                    <span className="font-medium text-gray-900">Un justificatif de domicile</span>
+                    <div className="ml-2 text-yellow-600">✓</div>
+                  </div>
+                  <FileUpload
+                    onFilesChange={(files) => handleDocumentsChange('proof_of_address', files)}
+                    maxFiles={2}
+                    maxSize={5}
+                    acceptedTypes={['image/*', 'application/pdf']}
+                    label="Justificatif de domicile"
+                    description="Facture EDF, téléphone, assurance, etc."
+                    required
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center mb-2">
+                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                      3
+                    </div>
+                    <span className="font-medium text-gray-900">Le mandat</span>
+                  </div>
+                  <FileUpload
+                    onFilesChange={(files) => handleDocumentsChange('mandate', files)}
+                    maxFiles={1}
+                    maxSize={5}
+                    acceptedTypes={['image/*', 'application/pdf']}
+                    label="Mandat"
+                    description="Document de mandat signé"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Services inclus */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-3">Je m'occupe de tout le reste :</h4>
+              <div className="space-y-3">
+                {[
+                  'Documents allemands',
+                  'Quitus fiscal',
+                  'COC (Certificat de Conformité)',
+                  'Démarches ANTS jusqu\'à la carte grise définitive'
+                ].map((service, index) => (
+                  <div key={index} className="flex items-center">
+                    <div className="w-5 h-5 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">
+                      ✓
+                    </div>
+                    <span className="text-gray-700">{service}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Astuce */}
+          <div className="mt-6 bg-yellow-100 border border-yellow-300 rounded-lg p-4">
+            <div className="flex items-start">
+              <div className="text-yellow-600 mr-3">💡</div>
+              <div>
+                <div className="font-semibold text-yellow-800 mb-1">Astuce :</div>
+                <div className="text-yellow-700 text-sm">
+                  Vous n'avez qu'à fournir ces 3 documents simples. Je m'occupe de toute la complexité administrative pour vous !
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Message complémentaire */}
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+            Informations complémentaires
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={values.message}
+            onChange={handleChange}
+            rows={4}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+            placeholder="Décrivez votre projet, vos critères, vos contraintes..."
+          />
+        </div>
+
+        {/* Acceptation des conditions */}
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="privacy"
+            required
+            className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
+          />
+          <label htmlFor="privacy" className="ml-2 block text-sm text-gray-700">
+            J'accepte la{' '}
+            <a href="/politique-confidentialite" className="text-yellow-600 hover:text-yellow-500">
+              politique de confidentialité
+            </a>
+            {' '}et les{' '}
+            <a href="/conditions-utilisation" className="text-yellow-600 hover:text-yellow-500">
+              conditions d'utilisation
+            </a>
+          </label>
+        </div>
+
+        {/* Bouton de soumission */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-yellow-500 text-black py-3 px-6 rounded-lg font-semibold hover:bg-yellow-400 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? 'Envoi en cours...' : 'Envoyer ma demande avec documents'}
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default RegistrationDocumentsForm;

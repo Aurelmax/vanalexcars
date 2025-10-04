@@ -21,10 +21,27 @@ export interface VehicleRequestFormData {
   message: string;
 }
 
+export interface TestimonialFormData {
+  name: string;
+  email: string;
+  location?: string;
+  vehicle_purchased?: string;
+  rating: number;
+  title: string;
+  testimonial: string;
+  photos?: File[];
+}
+
+export interface NewsletterFormData {
+  email: string;
+  name?: string;
+  interests?: string[];
+}
+
 export interface FormSubmission {
   id: number;
-  type: 'contact' | 'vehicle_request' | 'testimonial';
-  data: ContactFormData | VehicleRequestFormData;
+  type: 'contact' | 'vehicle_request' | 'testimonial' | 'newsletter';
+  data: ContactFormData | VehicleRequestFormData | TestimonialFormData | NewsletterFormData;
   status: 'new' | 'read' | 'replied' | 'archived';
   date: string;
   ip?: string;
@@ -142,6 +159,72 @@ class FormService {
     // Intégration avec un service d'email (SendGrid, Mailgun, etc.)
     // Ou utilisation de l'API WordPress pour envoyer des emails
     console.log('Email de notification envoyé pour:', submission);
+  }
+
+  // Soumettre des documents d'immatriculation
+  async submitRegistrationDocuments(formData: FormData): Promise<FormSubmission> {
+    const response = await fetch(`${this.baseUrl}/form-submissions`, {
+      method: 'POST',
+      body: formData, // Pas de Content-Type, laissez le navigateur le définir
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'envoi des documents");
+    }
+
+    return response.json();
+  }
+
+  // Soumettre un témoignage
+  async submitTestimonial(data: TestimonialFormData): Promise<FormSubmission> {
+    const response = await fetch(`${this.baseUrl}/testimonials`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: data.title,
+        content: data.testimonial,
+        status: 'publish',
+        meta: {
+          form_type: 'testimonial',
+          form_data: data,
+          submission_date: new Date().toISOString(),
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'envoi du témoignage");
+    }
+
+    return response.json();
+  }
+
+  // S'inscrire à la newsletter
+  async submitNewsletter(data: NewsletterFormData): Promise<FormSubmission> {
+    const response = await fetch(`${this.baseUrl}/newsletter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: `Newsletter: ${data.email}`,
+        content: `Inscription newsletter`,
+        status: 'publish',
+        meta: {
+          form_type: 'newsletter',
+          form_data: data,
+          submission_date: new Date().toISOString(),
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'inscription à la newsletter");
+    }
+
+    return response.json();
   }
 }
 
