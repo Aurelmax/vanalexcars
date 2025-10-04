@@ -343,6 +343,98 @@ const RegistrationDocumentsForm: React.FC = () => {
             </div>
           </div>
 
+          {/* Résumé des fichiers téléchargés */}
+          {(values.documents.identity.length > 0 || values.documents.proof_of_address.length > 0 || values.documents.mandate.length > 0) && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-green-800 mb-3 flex items-center">
+                <span className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+                  ✓
+                </span>
+                Fichiers téléchargés
+              </h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Pièce d'identité */}
+                <div className="bg-white rounded-lg border border-green-200 p-3">
+                  <div className="flex items-center mb-2">
+                    <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+                      1
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">Pièce d'identité</span>
+                    <div className="ml-auto">
+                      {values.documents.identity.length > 0 ? (
+                        <span className="text-green-600 text-sm">✓ {values.documents.identity.length} fichier(s)</span>
+                      ) : (
+                        <span className="text-gray-400 text-sm">En attente</span>
+                      )}
+                    </div>
+                  </div>
+                  {values.documents.identity.length > 0 && (
+                    <div className="text-xs text-gray-600">
+                      {values.documents.identity.map((file, index) => (
+                        <div key={index} className="truncate">
+                          {file.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Justificatif de domicile */}
+                <div className="bg-white rounded-lg border border-green-200 p-3">
+                  <div className="flex items-center mb-2">
+                    <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+                      2
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">Justificatif de domicile</span>
+                    <div className="ml-auto">
+                      {values.documents.proof_of_address.length > 0 ? (
+                        <span className="text-green-600 text-sm">✓ {values.documents.proof_of_address.length} fichier(s)</span>
+                      ) : (
+                        <span className="text-gray-400 text-sm">En attente</span>
+                      )}
+                    </div>
+                  </div>
+                  {values.documents.proof_of_address.length > 0 && (
+                    <div className="text-xs text-gray-600">
+                      {values.documents.proof_of_address.map((file, index) => (
+                        <div key={index} className="truncate">
+                          {file.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Mandat */}
+                <div className="bg-white rounded-lg border border-green-200 p-3">
+                  <div className="flex items-center mb-2">
+                    <div className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+                      3
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">Mandat</span>
+                    <div className="ml-auto">
+                      {values.documents.mandate.length > 0 ? (
+                        <span className="text-green-600 text-sm">✓ {values.documents.mandate.length} fichier(s)</span>
+                      ) : (
+                        <span className="text-gray-400 text-sm">En attente</span>
+                      )}
+                    </div>
+                  </div>
+                  {values.documents.mandate.length > 0 && (
+                    <div className="text-xs text-gray-600">
+                      {values.documents.mandate.map((file, index) => (
+                        <div key={index} className="truncate">
+                          {file.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Services inclus */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
             <h4 className="font-semibold text-gray-900 mb-4 flex items-center">

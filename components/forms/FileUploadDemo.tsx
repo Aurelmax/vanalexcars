@@ -75,32 +75,36 @@ const FileUploadDemo: React.FC = () => {
         </div>
       </div>
 
-      {/* Informations sur les fichiers */}
+      {/* Résumé des fichiers téléchargés */}
       {files.length > 0 && (
-        <div className="mt-8 bg-gray-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Fichiers sélectionnés ({files.length})
+        <div className="mt-8 bg-green-50 border border-green-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
+            <span className="w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-2">
+              ✓
+            </span>
+            Fichiers téléchargés ({files.length})
           </h3>
-          <div className="space-y-2">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {files.map((file, index) => (
-              <div key={index} className="flex items-center justify-between bg-white rounded-lg p-3">
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg">
+              <div key={index} className="bg-white rounded-lg border border-green-200 p-3">
+                <div className="flex items-center mb-2">
+                  <span className="text-lg mr-2">
                     {file.type.startsWith('image/') ? '🖼️' : '📄'}
                   </span>
-                  <div>
-                    <div className="font-medium text-gray-900">{file.name}</div>
-                    <div className="text-sm text-gray-500">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </div>
-                  </div>
+                  <span className="text-sm font-medium text-gray-900 flex-1 truncate">
+                    {file.name}
+                  </span>
+                  <button
+                    onClick={() => setFiles(files.filter((_, i) => i !== index))}
+                    className="text-red-500 hover:text-red-700 text-xs ml-2"
+                  >
+                    ✕
+                  </button>
                 </div>
-                <button
-                  onClick={() => setFiles(files.filter((_, i) => i !== index))}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  ✕
-                </button>
+                <div className="text-xs text-gray-500">
+                  {(file.size / 1024 / 1024).toFixed(2)} MB
+                </div>
               </div>
             ))}
           </div>
