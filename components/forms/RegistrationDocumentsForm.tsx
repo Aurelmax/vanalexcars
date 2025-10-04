@@ -299,6 +299,7 @@ const RegistrationDocumentsForm: React.FC = () => {
                   label=""
                   description="Carte d'identité, passeport ou permis de conduire"
                   required
+                  customFileName="piece-identite"
                 />
               </div>
 
@@ -319,6 +320,7 @@ const RegistrationDocumentsForm: React.FC = () => {
                   label=""
                   description="Facture EDF, téléphone, assurance, etc."
                   required
+                  customFileName="justificatif-domicile"
                 />
               </div>
 
@@ -338,6 +340,7 @@ const RegistrationDocumentsForm: React.FC = () => {
                   label=""
                   description="Document de mandat signé"
                   required
+                  customFileName="mandat"
                 />
               </div>
             </div>

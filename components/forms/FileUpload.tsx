@@ -8,6 +8,7 @@ interface FileUploadProps {
   label?: string;
   description?: string;
   required?: boolean;
+  customFileName?: string; // Nom personnalisé pour le fichier
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -17,12 +18,43 @@ const FileUpload: React.FC<FileUploadProps> = ({
   acceptedTypes = ['image/*', 'application/pdf'],
   label = 'Télécharger des fichiers',
   description,
-  required = false
+  required = false,
+  customFileName
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Fonction pour renommer automatiquement les fichiers
+  const renameFile = (file: File, customName?: string): File => {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const extension = file.name.split('.').pop() || '';
+    
+    // Nom par défaut basé sur le type de fichier
+    let baseName = customName || 'document';
+    
+    // Détecter le type de document basé sur le nom ou le type MIME
+    if (file.type.startsWith('image/')) {
+      baseName = 'image';
+    } else if (file.type === 'application/pdf') {
+      baseName = 'document';
+    } else if (file.name.toLowerCase().includes('carte') || file.name.toLowerCase().includes('identite')) {
+      baseName = 'piece-identite';
+    } else if (file.name.toLowerCase().includes('facture') || file.name.toLowerCase().includes('edf')) {
+      baseName = 'justificatif-domicile';
+    } else if (file.name.toLowerCase().includes('mandat')) {
+      baseName = 'mandat';
+    }
+    
+    const newName = `${baseName}_${timestamp}.${extension}`;
+    
+    // Créer un nouveau fichier avec le nom renommé
+    return new File([file], newName, {
+      type: file.type,
+      lastModified: file.lastModified
+    });
+  };
 
   const validateFile = (file: File): string | null => {
     // Vérifier la taille
@@ -57,13 +89,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
       return;
     }
 
-    // Valider chaque fichier
+    // Valider et renommer chaque fichier
     fileArray.forEach(file => {
       const error = validateFile(file);
       if (error) {
         newErrors.push(error);
       } else {
-        validFiles.push(file);
+        // Renommer automatiquement le fichier
+        const renamedFile = renameFile(file, customFileName);
+        validFiles.push(renamedFile);
       }
     });
 
