@@ -8,7 +8,7 @@ export default function Blog() {
   ];
 
   return (
-    <main className="min-h-screen bg-premium-black text-premium-white px-6 py-16">
+    <div className="px-6 py-16">
       <h1 className="text-3xl font-bold mb-6">Blog Vanalexcars</h1>
       <ul>
         {articles.map(({ id, title, date }) => (
@@ -18,6 +18,6 @@ export default function Blog() {
           </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }

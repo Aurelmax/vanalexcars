@@ -8,7 +8,7 @@ export default function Suivi() {
   ];
 
   return (
-    <main className="min-h-screen bg-premium-black text-premium-white px-6 py-16">
+    <div className="px-6 py-16">
       <h1 className="text-3xl font-bold mb-6">Suivi de vos demandes</h1>
       <ul>
         {demandes.map(({ id, modele, status }) => (
@@ -19,6 +19,6 @@ export default function Suivi() {
           </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }

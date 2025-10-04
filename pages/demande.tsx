@@ -14,7 +14,7 @@ export default function FormulaireDemande() {
   };
 
   return (
-    <main className="min-h-screen bg-premium-black text-premium-white px-6 py-16">
+    <div className="px-6 py-16">
       <h1 className="text-3xl font-bold mb-6">Formulaire de demande</h1>
       <form onSubmit={handleSubmit} className="max-w-md space-y-4">
         <input
@@ -48,6 +48,6 @@ export default function FormulaireDemande() {
           Soumettre la demande
         </button>
       </form>
-    </main>
+    </div>
   );
 }
