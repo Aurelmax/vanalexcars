@@ -1,8 +1,13 @@
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
+import {
+  logSecurityEvent,
+  securityMiddleware,
+  validateFormData,
+} from '../../../lib/middleware/security';
 
-export default async function handler(
+async function handleRegistrationDocuments(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -13,7 +18,31 @@ export default async function handler(
   const { name, email, phone, request_type, urgency, message, documents } =
     req.body;
 
+  // Validation des données avec sécurité renforcée
+  const validation = validateFormData({ name, email, message });
+  if (!validation.valid) {
+    logSecurityEvent(
+      'FORM_VALIDATION_FAILED',
+      { errors: validation.errors },
+      req
+    );
+    return res.status(400).json({
+      error: 'Données invalides',
+      details: validation.errors,
+    });
+  }
+
   if (!name || !email || !request_type || !urgency) {
+    logSecurityEvent(
+      'MISSING_REQUIRED_FIELDS',
+      {
+        name: !!name,
+        email: !!email,
+        request_type: !!request_type,
+        urgency: !!urgency,
+      },
+      req
+    );
     return res
       .status(400)
       .json({ error: 'Name, email, request_type and urgency are required' });
@@ -63,6 +92,19 @@ export default async function handler(
     // Sauvegarder dans le fichier
     fs.writeFileSync(submissionsPath, JSON.stringify(submissions, null, 2));
 
+    // Logger la soumission réussie
+    logSecurityEvent(
+      'REGISTRATION_DOCUMENTS_SUBMITTED',
+      {
+        id: newSubmission.id,
+        name,
+        email,
+        request_type,
+        urgency,
+      },
+      req
+    );
+
     return res.status(200).json({
       success: true,
       data: {
@@ -73,9 +115,17 @@ export default async function handler(
     });
   } catch (error) {
     console.error('Registration documents submission error:', error);
+    logSecurityEvent(
+      'REGISTRATION_DOCUMENTS_ERROR',
+      { error: error.message },
+      req
+    );
     return res.status(500).json({
       error: 'Internal server error',
       details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 }
+
+// Exporter avec le middleware de sécurité
+export default securityMiddleware(handleRegistrationDocuments);
