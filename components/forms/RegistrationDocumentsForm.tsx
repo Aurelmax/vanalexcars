@@ -261,7 +261,7 @@ const RegistrationDocumentsForm: React.FC = () => {
 
         {/* Documents d'immatriculation */}
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-6">
             <div className="text-2xl mr-3">📄</div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">
@@ -273,93 +273,105 @@ const RegistrationDocumentsForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Documents requis du client */}
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-3">Vous me transmettez :</h4>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center mb-2">
-                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-                      1
-                    </div>
-                    <span className="font-medium text-gray-900">Votre pièce d'identité</span>
+          {/* Section principale avec documents requis */}
+          <div className="mb-6">
+            <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+              <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                📋
+              </span>
+              Vous me transmettez :
+            </h4>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Pièce d'identité */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <div className="flex items-center mb-3">
+                  <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                    1
                   </div>
-                  <FileUpload
-                    onFilesChange={(files) => handleDocumentsChange('identity', files)}
-                    maxFiles={2}
-                    maxSize={5}
-                    acceptedTypes={['image/*', 'application/pdf']}
-                    label="Pièce d'identité"
-                    description="Carte d'identité, passeport ou permis de conduire"
-                    required
-                  />
+                  <span className="font-medium text-gray-900">Pièce d'identité</span>
                 </div>
-
-                <div>
-                  <div className="flex items-center mb-2">
-                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-                      2
-                    </div>
-                    <span className="font-medium text-gray-900">Un justificatif de domicile</span>
-                    <div className="ml-2 text-yellow-600">✓</div>
-                  </div>
-                  <FileUpload
-                    onFilesChange={(files) => handleDocumentsChange('proof_of_address', files)}
-                    maxFiles={2}
-                    maxSize={5}
-                    acceptedTypes={['image/*', 'application/pdf']}
-                    label="Justificatif de domicile"
-                    description="Facture EDF, téléphone, assurance, etc."
-                    required
-                  />
-                </div>
-
-                <div>
-                  <div className="flex items-center mb-2">
-                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-                      3
-                    </div>
-                    <span className="font-medium text-gray-900">Le mandat</span>
-                  </div>
-                  <FileUpload
-                    onFilesChange={(files) => handleDocumentsChange('mandate', files)}
-                    maxFiles={1}
-                    maxSize={5}
-                    acceptedTypes={['image/*', 'application/pdf']}
-                    label="Mandat"
-                    description="Document de mandat signé"
-                    required
-                  />
-                </div>
+                <FileUpload
+                  onFilesChange={(files) => handleDocumentsChange('identity', files)}
+                  maxFiles={2}
+                  maxSize={5}
+                  acceptedTypes={['image/*', 'application/pdf']}
+                  label=""
+                  description="Carte d'identité, passeport ou permis de conduire"
+                  required
+                />
               </div>
-            </div>
 
-            {/* Services inclus */}
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-3">Je m'occupe de tout le reste :</h4>
-              <div className="space-y-3">
-                {[
-                  'Documents allemands',
-                  'Quitus fiscal',
-                  'COC (Certificat de Conformité)',
-                  'Démarches ANTS jusqu\'à la carte grise définitive'
-                ].map((service, index) => (
-                  <div key={index} className="flex items-center">
-                    <div className="w-5 h-5 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">
-                      ✓
-                    </div>
-                    <span className="text-gray-700">{service}</span>
+              {/* Justificatif de domicile */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <div className="flex items-center mb-3">
+                  <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                    2
                   </div>
-                ))}
+                  <span className="font-medium text-gray-900">Justificatif de domicile</span>
+                  <div className="ml-2 text-yellow-600">✓</div>
+                </div>
+                <FileUpload
+                  onFilesChange={(files) => handleDocumentsChange('proof_of_address', files)}
+                  maxFiles={2}
+                  maxSize={5}
+                  acceptedTypes={['image/*', 'application/pdf']}
+                  label=""
+                  description="Facture EDF, téléphone, assurance, etc."
+                  required
+                />
+              </div>
+
+              {/* Mandat */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <div className="flex items-center mb-3">
+                  <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                    3
+                  </div>
+                  <span className="font-medium text-gray-900">Le mandat</span>
+                </div>
+                <FileUpload
+                  onFilesChange={(files) => handleDocumentsChange('mandate', files)}
+                  maxFiles={1}
+                  maxSize={5}
+                  acceptedTypes={['image/*', 'application/pdf']}
+                  label=""
+                  description="Document de mandat signé"
+                  required
+                />
               </div>
             </div>
           </div>
 
+          {/* Services inclus */}
+          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+            <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+              <span className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                🛠️
+              </span>
+              Je m'occupe de tout le reste :
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                'Documents allemands',
+                'Quitus fiscal',
+                'COC (Certificat de Conformité)',
+                'Démarches ANTS jusqu\'à la carte grise définitive'
+              ].map((service, index) => (
+                <div key={index} className="flex items-center">
+                  <div className="w-5 h-5 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">
+                    ✓
+                  </div>
+                  <span className="text-gray-700 text-sm">{service}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Astuce */}
-          <div className="mt-6 bg-yellow-100 border border-yellow-300 rounded-lg p-4">
+          <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
             <div className="flex items-start">
-              <div className="text-yellow-600 mr-3">💡</div>
+              <div className="text-yellow-600 mr-3 text-lg">💡</div>
               <div>
                 <div className="font-semibold text-yellow-800 mb-1">Astuce :</div>
                 <div className="text-yellow-700 text-sm">

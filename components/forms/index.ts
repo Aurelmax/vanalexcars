@@ -5,6 +5,7 @@ export { default as RegistrationDocumentsForm } from './RegistrationDocumentsFor
 export { default as TestimonialForm } from './TestimonialForm';
 export { default as NewsletterForm } from './NewsletterForm';
 export { default as FileUpload } from './FileUpload';
+export { default as FileUploadDemo } from './FileUploadDemo';
 export { default as FormSelector } from './FormSelector';
 
 // Export des types
