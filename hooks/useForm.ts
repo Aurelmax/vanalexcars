@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 export interface FormField {
-  value: any;
+  value: string | number | boolean | File[] | null;
   error: string | null;
   touched: boolean;
   dirty: boolean;
@@ -28,9 +28,9 @@ export interface UseFormOptions<T> {
   resetOnSubmit?: boolean;
 }
 
-export function useForm<T extends Record<string, any>>(
-  options: UseFormOptions<T>
-) {
+export function useForm<
+  T extends Record<string, string | number | boolean | File[] | null>,
+>(options: UseFormOptions<T>) {
   const {
     initialValues,
     validate,
@@ -61,7 +61,7 @@ export function useForm<T extends Record<string, any>>(
   );
 
   const setFieldValue = useCallback(
-    (field: keyof T, value: any) => {
+    (field: keyof T, value: string | number | boolean | File[] | null) => {
       setState(prev => {
         const newValues = { ...prev.values, [field]: value };
         const newDirty = { ...prev.dirty, [field]: true };

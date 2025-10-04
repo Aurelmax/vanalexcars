@@ -28,8 +28,8 @@ export interface AppState {
     content: boolean;
   };
   cache: {
-    vehicles: Record<string, any>;
-    content: Record<string, any>;
+    vehicles: Record<string, unknown>;
+    content: Record<string, unknown>;
     lastUpdated: Record<string, number>;
   };
 }
@@ -49,7 +49,7 @@ export type AppAction =
       type: 'SET_LOADING';
       payload: { key: keyof AppState['loading']; value: boolean };
     }
-  | { type: 'SET_CACHE'; payload: { key: string; data: any } }
+  | { type: 'SET_CACHE'; payload: { key: string; data: unknown } }
   | { type: 'CLEAR_CACHE'; payload?: string }
   | { type: 'RESET_APP' };
 
@@ -152,7 +152,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'CLEAR_CACHE':
       if (action.payload) {
-        const { [action.payload]: removed, ...remaining } = state.cache as any;
+        const { [action.payload]: _removed, ...remaining } =
+          state.cache as Record<string, unknown>;
         return {
           ...state,
           cache: remaining,
@@ -298,7 +299,7 @@ export function useLoading() {
 export function useCache() {
   const { state, dispatch } = useApp();
 
-  const setCache = (key: string, data: any) => {
+  const setCache = (key: string, data: unknown) => {
     dispatch({ type: 'SET_CACHE', payload: { key, data } });
   };
 
@@ -307,7 +308,7 @@ export function useCache() {
   };
 
   const getCache = (key: string) => {
-    return (state.cache as any)[key];
+    return (state.cache as Record<string, unknown>)[key];
   };
 
   const isCacheValid = (key: string, maxAge: number = 5 * 60 * 1000) => {

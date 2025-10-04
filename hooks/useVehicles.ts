@@ -45,7 +45,10 @@ export function useVehiclesByCategory(category: string, limit?: number) {
   );
 }
 
-export function useVehicleSearch(query: string, filters?: any) {
+export function useVehicleSearch(
+  query: string,
+  filters?: Record<string, string | number | boolean>
+) {
   return useApi<VehicleListResponse>(
     () => vehicleService.searchVehicles(query, filters),
     {

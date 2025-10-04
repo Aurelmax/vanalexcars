@@ -65,7 +65,7 @@ describe('ContactForm', () => {
       data: { id: 1, message: 'Message envoyé avec succès' },
     });
 
-    const { formService } = require('../../lib/services/formService');
+    const { formService } = await import('../../lib/services/formService');
     formService.submitContact = mockSubmit;
 
     render(<ContactForm />);
@@ -103,7 +103,7 @@ describe('ContactForm', () => {
         () => new Promise(resolve => setTimeout(resolve, 1000))
       );
 
-    const { formService } = require('../../lib/services/formService');
+    const { formService } = await import('../../lib/services/formService');
     formService.submitContact = mockSubmit;
 
     render(<ContactForm />);
@@ -128,7 +128,7 @@ describe('ContactForm', () => {
       .fn()
       .mockRejectedValue(new Error('Submission failed'));
 
-    const { formService } = require('../../lib/services/formService');
+    const { formService } = await import('../../lib/services/formService');
     formService.submitContact = mockSubmit;
 
     render(<ContactForm />);
@@ -155,7 +155,7 @@ describe('ContactForm', () => {
       data: { id: 1, message: 'Message envoyé avec succès' },
     });
 
-    const { formService } = require('../../lib/services/formService');
+    const { formService } = await import('../../lib/services/formService');
     formService.submitContact = mockSubmit;
 
     render(<ContactForm />);
