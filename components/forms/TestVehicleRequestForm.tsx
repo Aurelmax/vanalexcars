@@ -1,111 +1,119 @@
 import React, { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
-import { formService } from '../../lib/services/formService';
+import {
+  formService,
+  VehicleRequestFormData,
+} from '../../lib/services/formService';
 
-interface VehicleRequestFormData {
-  name: string;
-  email: string;
-  phone?: string;
-  vehicle_make: string;
-  vehicle_model: string;
-  vehicle_year?: number;
-  budget?: number;
-  message?: string;
+interface TestVehicleRequestFormProps {
+  onSubmit?: (data: any) => void;
 }
 
-interface VehicleRequestFormProps {
-  onSubmit?: (data: VehicleRequestFormData) => void;
-}
-
-const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
+const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
   onSubmit,
 }) => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    vehicle_make: '',
+    vehicle_model: '',
+    vehicle_year: '',
+    budget: '',
+    message: '',
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
-    useForm<VehicleRequestFormData>({
-      initialValues: {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!values.name.trim()) {
+      newErrors.name = 'Le nom est requis';
+    }
+
+    if (!values.email.trim()) {
+      newErrors.email = "L'email est requis";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
+
+    if (!values.vehicle_make.trim()) {
+      newErrors.vehicle_make = 'La marque est requise';
+    }
+
+    if (!values.vehicle_model.trim()) {
+      newErrors.vehicle_model = 'Le modèle est requis';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Envoi réel vers WordPress
+      const formData: VehicleRequestFormData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        brand: values.brand,
+        model: values.model,
+        year: values.year,
+        budget: values.budget,
+        message: values.message,
+      };
+
+      const result = await formService.submitVehicleRequest(formData);
+      console.log('Demande de véhicule envoyée avec succès:', result);
+
+      setSubmitStatus('success');
+
+      if (onSubmit) {
+        onSubmit(values);
+      }
+
+      // Reset form
+      setValues({
         name: '',
         email: '',
         phone: '',
         vehicle_make: '',
         vehicle_model: '',
-        vehicle_year: undefined,
-        budget: undefined,
+        vehicle_year: '',
+        budget: '',
         message: '',
-      },
-      validate: values => {
-        const errors: Partial<Record<keyof VehicleRequestFormData, string>> =
-          {};
-
-        if (!values.name.trim()) {
-          errors.name = 'Le nom est requis';
-        }
-
-        if (!values.email.trim()) {
-          errors.email = "L'email est requis";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-          errors.email = "L'email n'est pas valide";
-        }
-
-        if (!values.vehicle_make.trim()) {
-          errors.vehicle_make = 'La marque est requise';
-        }
-
-        if (!values.vehicle_model.trim()) {
-          errors.vehicle_model = 'Le modèle est requis';
-        }
-
-        if (
-          values.vehicle_year &&
-          (values.vehicle_year < 1990 ||
-            values.vehicle_year > new Date().getFullYear() + 1)
-        ) {
-          errors.vehicle_year =
-            "L'année doit être entre 1990 et " + (new Date().getFullYear() + 1);
-        }
-
-        if (values.budget && values.budget < 0) {
-          errors.budget = 'Le budget doit être positif';
-        }
-
-        return errors;
-      },
-      onSubmit: async values => {
-        setIsSubmitting(true);
-        setSubmitStatus('idle');
-
-        try {
-          await formService.submitVehicleRequest({
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-            vehicle_make: values.vehicle_make,
-            vehicle_model: values.vehicle_model,
-            vehicle_year: values.vehicle_year,
-            budget: values.budget,
-            message: values.message,
-          });
-
-          setSubmitStatus('success');
-
-          // Appeler la prop onSubmit si fournie
-          if (onSubmit) {
-            onSubmit(values);
-          }
-
-          reset();
-        } catch (error) {
-          console.error("Erreur lors de l'envoi:", error);
-          setSubmitStatus('error');
-        } finally {
-          setIsSubmitting(false);
-        }
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 35 }, (_, i) => currentYear - i);
@@ -268,7 +276,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
             <select
               id='vehicle_year'
               name='vehicle_year'
-              value={values.vehicle_year || ''}
+              value={values.vehicle_year}
               onChange={handleChange}
               className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
             >
@@ -279,9 +287,6 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
                 </option>
               ))}
             </select>
-            {errors.vehicle_year && (
-              <p className='mt-1 text-sm text-red-600'>{errors.vehicle_year}</p>
-            )}
           </div>
 
           <div>
@@ -295,18 +300,13 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
               type='number'
               id='budget'
               name='budget'
-              value={values.budget || ''}
+              value={values.budget}
               onChange={handleChange}
               min='0'
               step='1000'
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
-                errors.budget ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500'
               placeholder='50000'
             />
-            {errors.budget && (
-              <p className='mt-1 text-sm text-red-600'>{errors.budget}</p>
-            )}
           </div>
         </div>
 
@@ -335,9 +335,8 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
           <ul className='text-sm text-yellow-700 space-y-1'>
             <li>• Recherche personnalisée selon vos critères</li>
             <li>• Vérification technique complète</li>
-            <li>• Négociation du prix</li>
-            <li>• Accompagnement dans l'achat</li>
-            <li>• Organisation du transport</li>
+            <li>• Négociation des prix</li>
+            <li>• Accompagnement jusqu'à la livraison</li>
           </ul>
         </div>
 
@@ -371,4 +370,4 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
   );
 };
 
-export default VehicleRequestForm;
+export default TestVehicleRequestForm;

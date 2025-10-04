@@ -1,32 +1,125 @@
 import React, { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
-import { formService } from '../../lib/services/formService';
+import {
+  formService,
+  TestimonialFormData,
+} from '../../lib/services/formService';
 
-interface TestimonialFormData {
-  name: string;
-  email: string;
-  location?: string;
-  vehicle_purchased?: string;
-  rating: number;
-  title: string;
-  testimonial: string;
-  photos?: File[];
-  consent: boolean;
+interface TestTestimonialFormProps {
+  onSubmit?: (data: any) => void;
 }
 
-interface TestimonialFormProps {
-  onSubmit?: (data: TestimonialFormData) => void;
-}
+const TestTestimonialForm: React.FC<TestTestimonialFormProps> = ({
+  onSubmit,
+}) => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    location: '',
+    vehicle_purchased: '',
+    rating: 5,
+    title: '',
+    testimonial: '',
+    photos: [] as File[],
+    consent: false,
+  });
 
-const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
-    useForm<TestimonialFormData>({
-      initialValues: {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
+    setValues(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const handleRatingChange = (rating: number) => {
+    setValues(prev => ({ ...prev, rating }));
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setValues(prev => ({ ...prev, photos: Array.from(e.target.files!) }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!values.name.trim()) {
+      newErrors.name = 'Le nom est requis';
+    }
+
+    if (!values.email.trim()) {
+      newErrors.email = "L'email est requis";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
+
+    if (!values.title.trim()) {
+      newErrors.title = 'Le titre est requis';
+    }
+
+    if (!values.testimonial.trim()) {
+      newErrors.testimonial = 'Le témoignage est requis';
+    } else if (values.testimonial.length < 50) {
+      newErrors.testimonial = 'Le témoignage doit faire au moins 50 caractères';
+    }
+
+    if (!values.consent) {
+      newErrors.consent =
+        'Vous devez accepter la publication de votre témoignage';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Envoi réel vers WordPress
+      const formData: TestimonialFormData = {
+        name: values.name,
+        email: values.email,
+        location: values.location,
+        vehicle_purchased: values.vehicle_purchased,
+        rating: values.rating,
+        title: values.title,
+        testimonial: values.testimonial,
+        photos: values.photos,
+        consent: values.consent,
+      };
+
+      const result = await formService.submitTestimonial(formData);
+      console.log('Témoignage envoyé avec succès:', result);
+
+      setSubmitStatus('success');
+
+      if (onSubmit) {
+        onSubmit(values);
+      }
+
+      // Reset form
+      setValues({
         name: '',
         email: '',
         location: '',
@@ -36,78 +129,13 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
         testimonial: '',
         photos: [],
         consent: false,
-      },
-      validate: values => {
-        const errors: Partial<Record<keyof TestimonialFormData, string>> = {};
-
-        if (!values.name.trim()) {
-          errors.name = 'Le nom est requis';
-        }
-
-        if (!values.email.trim()) {
-          errors.email = "L'email est requis";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-          errors.email = "L'email n'est pas valide";
-        }
-
-        if (!values.title.trim()) {
-          errors.title = 'Le titre est requis';
-        }
-
-        if (!values.testimonial.trim()) {
-          errors.testimonial = 'Le témoignage est requis';
-        } else if (values.testimonial.length < 50) {
-          errors.testimonial =
-            'Le témoignage doit faire au moins 50 caractères';
-        }
-
-        if (!values.consent) {
-          errors.consent =
-            'Vous devez accepter la publication de votre témoignage';
-        }
-
-        return errors;
-      },
-      onSubmit: async values => {
-        setIsSubmitting(true);
-        setSubmitStatus('idle');
-
-        try {
-          await formService.submitTestimonial({
-            name: values.name,
-            email: values.email,
-            location: values.location,
-            vehicle_purchased: values.vehicle_purchased,
-            rating: values.rating,
-            title: values.title,
-            testimonial: values.testimonial,
-            photos: values.photos,
-          });
-
-          setSubmitStatus('success');
-
-          // Appeler la prop onSubmit si fournie
-          if (onSubmit) {
-            onSubmit(values);
-          }
-
-          reset();
-        } catch (error) {
-          console.error("Erreur lors de l'envoi:", error);
-          setSubmitStatus('error');
-        } finally {
-          setIsSubmitting(false);
-        }
-      },
-    });
-
-  const handlePhotoChange = (files: File[]) => {
-    handleChange({
-      target: {
-        name: 'photos',
-        value: files,
-      },
-    } as any);
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -224,16 +252,12 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               <button
                 key={star}
                 type='button'
-                onClick={() =>
-                  handleChange({
-                    target: { name: 'rating', value: star },
-                  } as any)
-                }
+                onClick={() => handleRatingChange(star)}
                 className={`text-2xl ${
                   star <= values.rating ? 'text-yellow-400' : 'text-gray-300'
                 } hover:text-yellow-400 transition-colors`}
               >
-                ★
+                ⭐
               </button>
             ))}
             <span className='ml-2 text-sm text-gray-600'>
@@ -307,11 +331,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
               type='file'
               multiple
               accept='image/*'
-              onChange={e => {
-                if (e.target.files) {
-                  handlePhotoChange(Array.from(e.target.files));
-                }
-              }}
+              onChange={handlePhotoChange}
               className='mt-2'
             />
             {values.photos && values.photos.length > 0 && (
@@ -328,11 +348,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
             type='checkbox'
             id='consent'
             checked={values.consent}
-            onChange={e =>
-              handleChange({
-                target: { name: 'consent', value: e.target.checked },
-              } as any)
-            }
+            onChange={handleChange}
             className={`h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded mt-1 ${
               errors.consent ? 'border-red-500' : ''
             }`}
@@ -359,4 +375,4 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default TestimonialForm;
+export default TestTestimonialForm;

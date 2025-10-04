@@ -1,68 +1,33 @@
 import React, { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
-import { formService } from '../../lib/services/formService';
+import {
+  formService,
+  NewsletterFormData,
+} from '../../lib/services/formService';
 
-interface NewsletterFormData {
-  email: string;
-  name?: string;
-  interests?: string[];
+interface TestNewsletterFormProps {
+  onSubmit?: (data: any) => void;
 }
 
-interface NewsletterFormProps {
-  onSubmit?: (data: NewsletterFormData) => void;
-}
+const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
+  onSubmit,
+}) => {
+  const [values, setValues] = useState({
+    email: '',
+    name: '',
+    interests: [] as string[],
+  });
 
-const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
-    useForm<NewsletterFormData>({
-      initialValues: {
-        email: '',
-        name: '',
-        interests: [],
-      },
-      validate: values => {
-        const errors: Partial<Record<keyof NewsletterFormData, string>> = {};
-
-        if (!values.email.trim()) {
-          errors.email = "L'email est requis";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-          errors.email = "L'email n'est pas valide";
-        }
-
-        return errors;
-      },
-      onSubmit: async values => {
-        setIsSubmitting(true);
-        setSubmitStatus('idle');
-
-        try {
-          await formService.submitNewsletter({
-            email: values.email,
-            name: values.name,
-            interests: values.interests,
-          });
-
-          setSubmitStatus('success');
-
-          // Appeler la prop onSubmit si fournie
-          if (onSubmit) {
-            onSubmit(values);
-          }
-
-          reset();
-        } catch (error) {
-          console.error("Erreur lors de l'inscription:", error);
-          setSubmitStatus('error');
-        } finally {
-          setIsSubmitting(false);
-        }
-      },
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
 
   const handleInterestChange = (interest: string) => {
     const currentInterests = values.interests || [];
@@ -70,12 +35,62 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
       ? currentInterests.filter(i => i !== interest)
       : [...currentInterests, interest];
 
-    handleChange({
-      target: {
-        name: 'interests',
-        value: updatedInterests,
-      },
-    } as any);
+    setValues(prev => ({ ...prev, interests: updatedInterests }));
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!values.email.trim()) {
+      newErrors.email = "L'email est requis";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Envoi réel vers WordPress
+      const formData: NewsletterFormData = {
+        email: values.email,
+        name: values.name,
+        interests: values.interests,
+      };
+
+      const result = await formService.submitNewsletter(formData);
+      console.log('Inscription newsletter envoyée avec succès:', result);
+
+      setSubmitStatus('success');
+
+      if (onSubmit) {
+        onSubmit(values);
+      }
+
+      // Reset form
+      setValues({
+        email: '',
+        name: '',
+        interests: [],
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -151,6 +166,8 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
                 'BMW',
                 'Mercedes-Benz',
                 'Audi',
+                'Ferrari',
+                'Lamborghini',
                 'Véhicules de prestige',
                 'Import automobile',
                 "Conseils d'achat",
@@ -179,7 +196,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
             <ul className='text-sm text-gray-700 space-y-1'>
               <li>• Nouveaux véhicules disponibles</li>
               <li>• Conseils d'import automobile</li>
-              <li>• Actualités du marché allemand</li>
+              <li>• Actualités du secteur</li>
               <li>• Offres exclusives</li>
             </ul>
           </div>
@@ -220,4 +237,4 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default NewsletterForm;
+export default TestNewsletterForm;

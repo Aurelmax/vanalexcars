@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import ContactForm from './ContactForm';
-import NewsletterForm from './NewsletterForm';
-import RegistrationDocumentsForm from './RegistrationDocumentsForm';
-import TestimonialForm from './TestimonialForm';
-import VehicleRequestForm from './VehicleRequestForm';
+import TestContactForm from './TestContactForm';
+import TestNewsletterForm from './TestNewsletterForm';
+import TestRegistrationDocumentsForm from './TestRegistrationDocumentsForm';
+import TestTestimonialForm from './TestTestimonialForm';
+import TestVehicleRequestForm from './TestVehicleRequestForm';
 
 type FormType =
   | 'contact'
@@ -12,11 +12,13 @@ type FormType =
   | 'testimonial'
   | 'newsletter';
 
-interface FormSelectorProps {
+interface TestFormSelectorProps {
   onFormSelect?: (formType: string) => void;
 }
 
-const FormSelector: React.FC<FormSelectorProps> = ({ onFormSelect }) => {
+const TestFormSelector: React.FC<TestFormSelectorProps> = ({
+  onFormSelect,
+}) => {
   const [selectedForm, setSelectedForm] = useState<FormType>('contact');
 
   const handleFormSelect = (formType: FormType) => {
@@ -91,17 +93,17 @@ const FormSelector: React.FC<FormSelectorProps> = ({ onFormSelect }) => {
   const renderForm = () => {
     switch (selectedForm) {
       case 'contact':
-        return <ContactForm />;
+        return <TestContactForm />;
       case 'vehicle':
-        return <VehicleRequestForm />;
+        return <TestVehicleRequestForm />;
       case 'documents':
-        return <RegistrationDocumentsForm />;
+        return <TestRegistrationDocumentsForm />;
       case 'testimonial':
-        return <TestimonialForm />;
+        return <TestTestimonialForm />;
       case 'newsletter':
-        return <NewsletterForm />;
+        return <TestNewsletterForm />;
       default:
-        return <ContactForm />;
+        return <TestContactForm />;
     }
   };
 
@@ -138,4 +140,4 @@ const FormSelector: React.FC<FormSelectorProps> = ({ onFormSelect }) => {
   );
 };
 
-export default FormSelector;
+export default TestFormSelector;

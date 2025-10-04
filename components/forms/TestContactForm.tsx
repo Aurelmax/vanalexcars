@@ -1,85 +1,105 @@
 import React, { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
-import { formService } from '../../lib/services/formService';
+import { ContactFormData, formService } from '../../lib/services/formService';
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone?: string;
-  subject: string;
-  message: string;
+interface TestContactFormProps {
+  onSubmit?: (data: any) => void;
 }
 
-interface ContactFormProps {
-  onSubmit?: (data: ContactFormData) => void;
-}
+const TestContactForm: React.FC<TestContactFormProps> = ({ onSubmit }) => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
 
-const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
-    useForm<ContactFormData>({
-      initialValues: {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!values.name.trim()) {
+      newErrors.name = 'Le nom est requis';
+    }
+
+    if (!values.email.trim()) {
+      newErrors.email = "L'email est requis";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
+
+    if (!values.subject.trim()) {
+      newErrors.subject = 'Le sujet est requis';
+    }
+
+    if (!values.message.trim()) {
+      newErrors.message = 'Le message est requis';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Envoi réel vers WordPress
+      const formData: ContactFormData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        message: values.message,
+        subject: values.subject,
+      };
+
+      const result = await formService.submitContactForm(formData);
+      console.log('Formulaire envoyé avec succès:', result);
+
+      setSubmitStatus('success');
+
+      if (onSubmit) {
+        onSubmit(values);
+      }
+
+      // Reset form
+      setValues({
         name: '',
         email: '',
         phone: '',
         subject: '',
         message: '',
-      },
-      validate: values => {
-        const errors: Partial<Record<keyof ContactFormData, string>> = {};
-
-        if (!values.name.trim()) {
-          errors.name = 'Le nom est requis';
-        }
-
-        if (!values.email.trim()) {
-          errors.email = "L'email est requis";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-          errors.email = "L'email n'est pas valide";
-        }
-
-        if (!values.subject.trim()) {
-          errors.subject = 'Le sujet est requis';
-        }
-
-        if (!values.message.trim()) {
-          errors.message = 'Le message est requis';
-        }
-
-        return errors;
-      },
-      onSubmit: async values => {
-        setIsSubmitting(true);
-        setSubmitStatus('idle');
-
-        try {
-          await formService.submitContactForm({
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-            message: values.message,
-          });
-
-          setSubmitStatus('success');
-
-          // Appeler la prop onSubmit si fournie
-          if (onSubmit) {
-            onSubmit(values);
-          }
-
-          reset();
-        } catch (error) {
-          console.error("Erreur lors de l'envoi:", error);
-          setSubmitStatus('error');
-        } finally {
-          setIsSubmitting(false);
-        }
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className='max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8'>
@@ -205,7 +225,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
             name='message'
             value={values.message}
             onChange={handleChange}
-            rows={5}
+            rows={4}
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 ${
               errors.message ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -246,4 +266,4 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default ContactForm;
+export default TestContactForm;

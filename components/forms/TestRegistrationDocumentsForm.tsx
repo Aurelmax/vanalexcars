@@ -1,37 +1,117 @@
 import React, { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
 import { formService } from '../../lib/services/formService';
 import FileUpload from './FileUpload';
 
-interface RegistrationDocumentsFormData {
-  name: string;
-  email: string;
-  phone?: string;
-  request_type: 'search' | 'advice' | 'quote';
-  urgency: 'low' | 'medium' | 'high';
-  message?: string;
-  documents: {
-    identity: File[];
-    proof_of_address: File[];
-    mandate: File[];
-  };
+interface TestRegistrationDocumentsFormProps {
+  onSubmit?: (data: any) => void;
 }
 
-interface RegistrationDocumentsFormProps {
-  onSubmit?: (data: RegistrationDocumentsFormData) => void;
-}
+const TestRegistrationDocumentsForm: React.FC<
+  TestRegistrationDocumentsFormProps
+> = ({ onSubmit }) => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    request_type: 'search',
+    urgency: 'medium',
+    message: '',
+    documents: {
+      identity: [] as File[],
+      proof_of_address: [] as File[],
+      mandate: [] as File[],
+    },
+  });
 
-const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
-  onSubmit,
-}) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, handleChange, handleSubmit, reset } =
-    useForm<RegistrationDocumentsFormData>({
-      initialValues: {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const handleDocumentsChange = (
+    type: 'identity' | 'proof_of_address' | 'mandate',
+    files: File[]
+  ) => {
+    setValues(prev => ({
+      ...prev,
+      documents: {
+        ...prev.documents,
+        [type]: files,
+      },
+    }));
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!values.name.trim()) {
+      newErrors.name = 'Le nom est requis';
+    }
+
+    if (!values.email.trim()) {
+      newErrors.email = "L'email est requis";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      newErrors.email = "L'email n'est pas valide";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Envoi réel vers WordPress avec fichiers
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('email', values.email);
+      formData.append('phone', values.phone || '');
+      formData.append('request_type', values.request_type);
+      formData.append('urgency', values.urgency);
+      formData.append('message', values.message || '');
+
+      // Ajouter les fichiers
+      values.documents.identity.forEach((file, index) => {
+        formData.append(`identity_${index}`, file);
+      });
+      values.documents.proof_of_address.forEach((file, index) => {
+        formData.append(`proof_of_address_${index}`, file);
+      });
+      values.documents.mandate.forEach((file, index) => {
+        formData.append(`mandate_${index}`, file);
+      });
+
+      const result = await formService.submitRegistrationDocuments(formData);
+      console.log("Documents d'immatriculation envoyés avec succès:", result);
+
+      setSubmitStatus('success');
+
+      if (onSubmit) {
+        onSubmit(values);
+      }
+
+      // Reset form
+      setValues({
         name: '',
         email: '',
         phone: '',
@@ -43,90 +123,13 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
           proof_of_address: [],
           mandate: [],
         },
-      },
-      validate: values => {
-        const errors: Partial<
-          Record<keyof RegistrationDocumentsFormData, string>
-        > = {};
-
-        if (!values.name.trim()) {
-          errors.name = 'Le nom est requis';
-        }
-
-        if (!values.email.trim()) {
-          errors.email = "L'email est requis";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-          errors.email = "L'email n'est pas valide";
-        }
-
-        if (!values.request_type) {
-          errors.request_type = 'Le type de demande est requis';
-        }
-
-        if (!values.urgency) {
-          errors.urgency = "Le niveau d'urgence est requis";
-        }
-
-        return errors;
-      },
-      onSubmit: async values => {
-        setIsSubmitting(true);
-        setSubmitStatus('idle');
-
-        try {
-          // Créer un FormData pour l'envoi avec les fichiers
-          const formData = new FormData();
-          formData.append('name', values.name);
-          formData.append('email', values.email);
-          formData.append('phone', values.phone || '');
-          formData.append('request_type', values.request_type);
-          formData.append('urgency', values.urgency);
-          formData.append('message', values.message || '');
-
-          // Ajouter les fichiers
-          values.documents.identity.forEach((file, index) => {
-            formData.append(`identity_${index}`, file);
-          });
-          values.documents.proof_of_address.forEach((file, index) => {
-            formData.append(`proof_of_address_${index}`, file);
-          });
-          values.documents.mandate.forEach((file, index) => {
-            formData.append(`mandate_${index}`, file);
-          });
-
-          // Envoyer via l'API
-          await formService.submitRegistrationDocuments(formData);
-
-          setSubmitStatus('success');
-
-          // Appeler la prop onSubmit si fournie
-          if (onSubmit) {
-            onSubmit(values);
-          }
-
-          reset();
-        } catch (error) {
-          console.error("Erreur lors de l'envoi:", error);
-          setSubmitStatus('error');
-        } finally {
-          setIsSubmitting(false);
-        }
-      },
-    });
-
-  const handleDocumentsChange = (
-    type: 'identity' | 'proof_of_address' | 'mandate',
-    files: File[]
-  ) => {
-    handleChange({
-      target: {
-        name: 'documents',
-        value: {
-          ...values.documents,
-          [type]: files,
-        },
-      },
-    } as any);
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -176,7 +179,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
             ].map(option => (
               <label
                 key={option.value}
-                className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all ${
+                className={`cursor-pointer border-2 rounded-lg p-4 transition-all ${
                   values.request_type === option.value
                     ? 'border-yellow-400 bg-yellow-50'
                     : 'border-gray-200 hover:border-gray-300'
@@ -202,9 +205,6 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
               </label>
             ))}
           </div>
-          {errors.request_type && (
-            <p className='mt-2 text-sm text-red-600'>{errors.request_type}</p>
-          )}
         </div>
 
         {/* Informations personnelles */}
@@ -611,4 +611,4 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
   );
 };
 
-export default RegistrationDocumentsForm;
+export default TestRegistrationDocumentsForm;

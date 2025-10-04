@@ -5,32 +5,32 @@
 echo "🚀 Installation du tableau de bord d'administration Vanalexcars..."
 
 # Vérifier que Docker est en cours d'exécution
-if ! docker ps | grep -q "wordpress"; then
+if ! docker ps | grep -q "vanalexcars-wp"; then
     echo "❌ WordPress n'est pas en cours d'exécution. Veuillez démarrer Docker d'abord."
     exit 1
 fi
 
 # Créer le dossier du plugin
 echo "📁 Création du dossier du plugin..."
-docker exec wordpress mkdir -p /var/www/html/wp-content/plugins/vanalexcars-admin
+docker exec vanalexcars-wp mkdir -p /var/www/html/wp-content/plugins/vanalexcars-admin
 
 # Copier les fichiers du plugin
 echo "📄 Copie des fichiers du plugin..."
-docker cp wordpress-setup/admin-forms-dashboard.php wordpress:/var/www/html/wp-content/plugins/vanalexcars-admin/
-docker cp wordpress-setup/admin-scripts.js wordpress:/var/www/html/wp-content/plugins/vanalexcars-admin/
-docker cp wordpress-setup/admin-styles.css wordpress:/var/www/html/wp-content/plugins/vanalexcars-admin/
+docker cp wordpress-setup/admin-forms-dashboard.php vanalexcars-wp:/var/www/html/wp-content/plugins/vanalexcars-admin/
+docker cp wordpress-setup/admin-scripts.js vanalexcars-wp:/var/www/html/wp-content/plugins/vanalexcars-admin/
+docker cp wordpress-setup/admin-styles.css vanalexcars-wp:/var/www/html/wp-content/plugins/vanalexcars-admin/
 
 # Créer le dossier des templates
 echo "📁 Création du dossier des templates..."
-docker exec wordpress mkdir -p /var/www/html/wp-content/plugins/vanalexcars-admin/templates
+docker exec vanalexcars-wp mkdir -p /var/www/html/wp-content/plugins/vanalexcars-admin/templates
 
 # Copier les templates
 echo "📄 Copie des templates..."
-docker cp wordpress-setup/templates/admin-dashboard.php wordpress:/var/www/html/wp-content/plugins/vanalexcars-admin/templates/
+docker cp wordpress-setup/templates/admin-dashboard.php vanalexcars-wp:/var/www/html/wp-content/plugins/vanalexcars-admin/templates/
 
 # Créer le fichier principal du plugin
 echo "📄 Création du fichier principal du plugin..."
-docker exec wordpress bash -c 'cat > /var/www/html/wp-content/plugins/vanalexcars-admin/vanalexcars-admin.php << EOF
+docker exec vanalexcars-wp bash -c 'cat > /var/www/html/wp-content/plugins/vanalexcars-admin/vanalexcars-admin.php << EOF
 <?php
 /**
  * Plugin Name: Vanalexcars Admin Dashboard
@@ -50,10 +50,10 @@ EOF'
 
 # Activer le plugin
 echo "🔌 Activation du plugin..."
-docker exec wordpress wp plugin activate vanalexcars-admin --allow-root
+docker exec vanalexcars-wp wp plugin activate vanalexcars-admin --allow-root
 
 # Vérifier l'activation
-if docker exec wordpress wp plugin is-active vanalexcars-admin --allow-root; then
+if docker exec vanalexcars-wp wp plugin is-active vanalexcars-admin --allow-root; then
     echo "✅ Plugin activé avec succès !"
 else
     echo "❌ Erreur lors de l'activation du plugin"
@@ -62,14 +62,14 @@ fi
 
 # Créer des données de test
 echo "📊 Création de données de test..."
-docker exec wordpress wp post create --post_type=form-submissions --post_title="Test Contact - John Doe" --post_content="Message de test" --post_status=publish --meta_input='{"form_type":"contact","form_data":"{\"name\":\"John Doe\",\"email\":\"john@example.com\",\"message\":\"Message de test\"}","submission_date":"'$(date -Iseconds)'"}' --allow-root
+docker exec vanalexcars-wp wp post create --post_type=form-submissions --post_title="Test Contact - John Doe" --post_content="Message de test" --post_status=publish --meta_input='{"form_type":"contact","form_data":"{\"name\":\"John Doe\",\"email\":\"john@example.com\",\"message\":\"Message de test\"}","submission_date":"'$(date -Iseconds)'"}' --allow-root
 
-docker exec wordpress wp post create --post_type=form-submissions --post_title="Test Véhicule - Jane Smith" --post_content="Demande de véhicule" --post_status=publish --meta_input='{"form_type":"vehicle_request","form_data":"{\"name\":\"Jane Smith\",\"email\":\"jane@example.com\",\"brand\":\"Porsche\",\"model\":\"911\"}","submission_date":"'$(date -Iseconds)'"}' --allow-root
+docker exec vanalexcars-wp wp post create --post_type=form-submissions --post_title="Test Véhicule - Jane Smith" --post_content="Demande de véhicule" --post_status=publish --meta_input='{"form_type":"vehicle_request","form_data":"{\"name\":\"Jane Smith\",\"email\":\"jane@example.com\",\"brand\":\"Porsche\",\"model\":\"911\"}","submission_date":"'$(date -Iseconds)'"}' --allow-root
 
 # Vérifier les permissions
 echo "🔐 Vérification des permissions..."
-docker exec wordpress chown -R www-data:www-data /var/www/html/wp-content/plugins/vanalexcars-admin
-docker exec wordpress chmod -R 755 /var/www/html/wp-content/plugins/vanalexcars-admin
+docker exec vanalexcars-wp chown -R www-data:www-data /var/www/html/wp-content/plugins/vanalexcars-admin
+docker exec vanalexcars-wp chmod -R 755 /var/www/html/wp-content/plugins/vanalexcars-admin
 
 echo "🎉 Installation terminée !"
 echo ""

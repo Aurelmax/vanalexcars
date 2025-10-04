@@ -1,4 +1,4 @@
-import { wordpressConfig } from '../../config/api';
+import { authService } from './authService';
 
 // Types pour les formulaires
 export interface ContactFormData {
@@ -41,7 +41,11 @@ export interface NewsletterFormData {
 export interface FormSubmission {
   id: number;
   type: 'contact' | 'vehicle_request' | 'testimonial' | 'newsletter';
-  data: ContactFormData | VehicleRequestFormData | TestimonialFormData | NewsletterFormData;
+  data:
+    | ContactFormData
+    | VehicleRequestFormData
+    | TestimonialFormData
+    | NewsletterFormData;
   status: 'new' | 'read' | 'replied' | 'archived';
   date: string;
   ip?: string;
@@ -53,26 +57,49 @@ class FormService {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = wordpressConfig.apiUrl;
+    // Utiliser les endpoints Next.js pour éviter les problèmes CORS
+    this.baseUrl = '/api/forms';
+  }
+
+  // Récupérer les soumissions de formulaires
+  async getFormSubmissions(formType?: string): Promise<FormSubmission[]> {
+    const url = formType
+      ? `${this.baseUrl}/submissions?form_type=${formType}`
+      : `${this.baseUrl}/submissions`;
+
+    console.log('Tentative de récupération des soumissions vers:', url);
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log('Réponse reçue:', response.status, response.statusText);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Erreur de réponse:', errorText);
+      throw new Error(
+        `Erreur lors de la récupération des soumissions: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    console.log('Données reçues:', data);
+    return data.data || [];
   }
 
   // Soumettre un formulaire de contact
   async submitContactForm(data: ContactFormData): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/form-submissions`, {
+    const response = await fetch(`${this.baseUrl}/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
       },
-      body: JSON.stringify({
-        title: `Contact: ${data.name}`,
-        content: data.message,
-        status: 'publish',
-        meta: {
-          form_type: 'contact',
-          form_data: data,
-          submission_date: new Date().toISOString(),
-        },
-      }),
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
@@ -86,10 +113,11 @@ class FormService {
   async submitVehicleRequest(
     data: VehicleRequestFormData
   ): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/form-submissions`, {
+    const response = await fetch(`${this.baseUrl}/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
       },
       body: JSON.stringify({
         title: `Demande véhicule: ${data.brand} ${data.model}`,
@@ -124,9 +152,7 @@ class FormService {
     if (params?.per_page)
       queryParams.append('per_page', params.per_page.toString());
 
-    const response = await fetch(
-      `${this.baseUrl}/form-submissions?${queryParams}`
-    );
+    const response = await fetch(`${this.baseUrl}/submissions?${queryParams}`);
 
     if (!response.ok) {
       throw new Error('Erreur lors de la récupération des soumissions');
@@ -137,10 +163,11 @@ class FormService {
 
   // Marquer une soumission comme lue
   async markAsRead(id: number): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/form-submissions/${id}`, {
+    const response = await fetch(`${this.baseUrl}/submissions/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
       },
       body: JSON.stringify({
         meta: {
@@ -162,8 +189,10 @@ class FormService {
   }
 
   // Soumettre des documents d'immatriculation
-  async submitRegistrationDocuments(formData: FormData): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/form-submissions`, {
+  async submitRegistrationDocuments(
+    formData: FormData
+  ): Promise<FormSubmission> {
+    const response = await fetch(`${this.baseUrl}/posts`, {
       method: 'POST',
       body: formData, // Pas de Content-Type, laissez le navigateur le définir
     });
@@ -177,10 +206,11 @@ class FormService {
 
   // Soumettre un témoignage
   async submitTestimonial(data: TestimonialFormData): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/testimonials`, {
+    const response = await fetch(`${this.baseUrl}/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
       },
       body: JSON.stringify({
         title: data.title,
@@ -203,10 +233,11 @@ class FormService {
 
   // S'inscrire à la newsletter
   async submitNewsletter(data: NewsletterFormData): Promise<FormSubmission> {
-    const response = await fetch(`${this.baseUrl}/newsletter`, {
+    const response = await fetch(`${this.baseUrl}/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...authService.getAuthHeaders(),
       },
       body: JSON.stringify({
         title: `Newsletter: ${data.email}`,
