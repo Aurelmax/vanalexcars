@@ -8,13 +8,13 @@ export default function Suivi() {
   ];
 
   return (
-    <div className="px-6 py-16">
-      <h1 className="text-3xl font-bold mb-6">Suivi de vos demandes</h1>
+    <div className='px-6 py-16'>
+      <h1 className='text-3xl font-bold mb-6'>Suivi de vos demandes</h1>
       <ul>
         {demandes.map(({ id, modele, status }) => (
-          <li key={id} className="mb-4 p-4 border-b border-gray-700">
+          <li key={id} className='mb-4 p-4 border-b border-gray-700'>
             <p>
-              <span className="font-semibold">{modele}</span> : {status}
+              <span className='font-semibold'>{modele}</span> : {status}
             </p>
           </li>
         ))}

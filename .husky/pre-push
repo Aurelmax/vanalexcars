@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Exécuter toutes les vérifications de qualité avant le push
+npm run pre-push
