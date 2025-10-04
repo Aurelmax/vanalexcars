@@ -3,21 +3,21 @@
 export interface AppError {
   code: string;
   message: string;
-  details?: any;
+  details?: Record<string, string | number | boolean>;
   timestamp: number;
   source: 'api' | 'validation' | 'network' | 'unknown';
 }
 
 export class CustomError extends Error {
   public code: string;
-  public details?: any;
+  public details?: Record<string, string | number | boolean>;
   public source: AppError['source'];
 
   constructor(
     message: string,
     code: string,
     source: AppError['source'] = 'unknown',
-    details?: any
+    details?: Record<string, string | number | boolean>
   ) {
     super(message);
     this.name = 'CustomError';
@@ -62,7 +62,7 @@ export function createAppError(
   message: string,
   code: string,
   source: AppError['source'] = 'unknown',
-  details?: any
+  details?: Record<string, string | number | boolean>
 ): AppError {
   return {
     code,
@@ -74,7 +74,11 @@ export function createAppError(
 }
 
 // Fonction pour gérer les erreurs HTTP
-export function handleHttpError(error: any): AppError {
+export function handleHttpError(
+  error:
+    | Error
+    | { response?: { status: number; data?: unknown }; message?: string }
+): AppError {
   if (error.response) {
     // Erreur HTTP avec réponse
     const status = error.response.status;
@@ -194,7 +198,16 @@ export function logError(error: AppError, context?: string) {
 
 // Hook pour gérer les erreurs dans les composants
 export function useErrorHandler() {
-  const handleError = (error: any, context?: string) => {
+  const handleError = (
+    error:
+      | Error
+      | {
+          response?: { status: number; data?: unknown };
+          request?: unknown;
+          message?: string;
+        },
+    context?: string
+  ) => {
     let appError: AppError;
 
     if (error instanceof CustomError) {
@@ -244,7 +257,7 @@ export async function retryWithBackoff<T>(
   maxRetries: number = 3,
   baseDelay: number = 1000
 ): Promise<T> {
-  let lastError: any;
+  let lastError: Error | unknown;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {

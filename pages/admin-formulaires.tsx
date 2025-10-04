@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import {
   ExtendedFormSubmission,
   formService,
@@ -10,7 +9,7 @@ const AdminFormulaires: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
-  const { isAuthenticated, user } = useAuth();
+  // const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     loadSubmissions();
@@ -33,10 +32,15 @@ const AdminFormulaires: React.FC = () => {
         submissionsArray = data as ExtendedFormSubmission[];
       } else if (
         data &&
-        (data as any).success &&
-        Array.isArray((data as any).data)
+        (data as { success: boolean; data: ExtendedFormSubmission[] })
+          .success &&
+        Array.isArray(
+          (data as { success: boolean; data: ExtendedFormSubmission[] }).data
+        )
       ) {
-        submissionsArray = (data as any).data as ExtendedFormSubmission[];
+        submissionsArray = (
+          data as { success: boolean; data: ExtendedFormSubmission[] }
+        ).data as ExtendedFormSubmission[];
       } else {
         console.warn('Structure de données inattendue:', data);
         submissionsArray = [];

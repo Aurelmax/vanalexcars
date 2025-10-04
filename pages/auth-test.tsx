@@ -4,7 +4,11 @@ import { authService } from '../lib/services/authService';
 
 const AuthTestPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{
+    id: string;
+    name: string;
+    email: string;
+  } | null>(null);
 
   useEffect(() => {
     // Vérifier si l'utilisateur est déjà authentifié
@@ -14,7 +18,11 @@ const AuthTestPage: React.FC = () => {
     }
   }, []);
 
-  const handleLogin = (userData: any) => {
+  const handleLogin = (userData: {
+    id: string;
+    name: string;
+    email: string;
+  }) => {
     setIsAuthenticated(true);
     setUser(userData);
   };
@@ -29,7 +37,7 @@ const AuthTestPage: React.FC = () => {
     <div className='min-h-screen bg-gray-50 py-12'>
       <div className='max-w-4xl mx-auto px-4'>
         <h1 className='text-3xl font-bold text-gray-900 mb-8 text-center'>
-          Test d'authentification JWT
+          Test d&apos;authentification JWT
         </h1>
 
         {!isAuthenticated ? (
@@ -76,7 +84,7 @@ const AuthTestPage: React.FC = () => {
             </li>
             <li>
               Les soumissions devraient maintenant fonctionner avec
-              l'authentification JWT
+              l&apos;authentification JWT
             </li>
             <li>
               Vérifiez dans WordPress admin que les soumissions apparaissent

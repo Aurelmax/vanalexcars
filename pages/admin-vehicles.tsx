@@ -3,16 +3,8 @@ import VehicleManager from '../components/admin/VehicleManager';
 import { useVehicleManager } from '../hooks/useVehicleManager';
 
 export default function AdminVehicles() {
-  const {
-    vehicles,
-    loading,
-    error,
-    fetchVehicles,
-    saveVehicle,
-    deleteVehicle,
-    uploadImage,
-    deleteImage,
-  } = useVehicleManager();
+  const { vehicles, saveVehicle, deleteVehicle, uploadImage, deleteImage } =
+    useVehicleManager();
 
   return (
     <>

@@ -12,7 +12,9 @@ import { formService } from '../lib/services/formService';
 
 const TestFormulairesPage: React.FC = () => {
   const [selectedForm, setSelectedForm] = useState<string>('selector');
-  const [submissionResults, setSubmissionResults] = useState<any[]>([]);
+  const [submissionResults, setSubmissionResults] = useState<
+    Record<string, string | number | boolean>[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -32,13 +34,30 @@ const TestFormulairesPage: React.FC = () => {
       console.log('✅ Soumissions reçues:', submissions);
       console.log('📊 Nombre de soumissions:', submissions?.length || 0);
       // Traiter correctement la réponse de l'API
-      let results: any[] = [];
+      let results: Record<string, string | number | boolean>[] = [];
       if (submissions && typeof submissions === 'object') {
         if (
-          (submissions as any).success &&
-          Array.isArray((submissions as any).data)
+          (
+            submissions as {
+              success: boolean;
+              data: Record<string, string | number | boolean>[];
+            }
+          ).success &&
+          Array.isArray(
+            (
+              submissions as {
+                success: boolean;
+                data: Record<string, string | number | boolean>[];
+              }
+            ).data
+          )
         ) {
-          results = (submissions as any).data;
+          results = (
+            submissions as {
+              success: boolean;
+              data: Record<string, string | number | boolean>[];
+            }
+          ).data;
         } else if (Array.isArray(submissions)) {
           results = submissions;
         }
@@ -76,7 +95,10 @@ const TestFormulairesPage: React.FC = () => {
     });
   }, [loading, error, submissionResults]);
 
-  const handleFormSubmit = (formType: string, data: any) => {
+  const handleFormSubmit = (
+    formType: string,
+    data: Record<string, string | number | boolean | File[]>
+  ) => {
     const result = {
       id: Date.now(),
       type: formType,
@@ -309,7 +331,7 @@ const TestFormulairesPage: React.FC = () => {
                   ) : (
                     <div className='space-y-4'>
                       {Array.isArray(submissionResults) &&
-                        submissionResults.map((result, index) => (
+                        submissionResults.map(result => (
                           <div
                             key={result.id}
                             className='border border-gray-200 rounded-lg p-4'
@@ -373,7 +395,7 @@ const TestFormulairesPage: React.FC = () => {
                     <li>• Testez chaque formulaire</li>
                     <li>• Vérifiez la validation</li>
                     <li>• Observez les résultats</li>
-                    <li>• Testez l'upload de fichiers</li>
+                    <li>• Testez l&apos;upload de fichiers</li>
                     <li>• Vérifiez le backoffice WordPress</li>
                   </ul>
                 </div>

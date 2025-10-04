@@ -20,15 +20,15 @@ export default function PolitiqueConfidentialite() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Vanalexcars s'engage à protéger votre vie privée et vos
+                  Vanalexcars s&apos;engage à protéger votre vie privée et vos
                   données personnelles. Cette politique de confidentialité
                   décrit comment nous collectons, utilisons, stockons et
                   protégeons vos informations personnelles.
                 </p>
                 <p className='text-gray-700'>
-                  Cette politique s'applique à tous les services fournis par
-                  Vanalexcars, y compris notre site web et nos services d'import
-                  automobile.
+                  Cette politique s&apos;applique à tous les services fournis
+                  par Vanalexcars, y compris notre site web et nos services
+                  d&apos;import automobile.
                 </p>
               </div>
             </section>
@@ -67,7 +67,7 @@ export default function PolitiqueConfidentialite() {
                 <div className='space-y-4'>
                   <div>
                     <h3 className='font-semibold text-gray-900 mb-2'>
-                      Données d'identification :
+                      Données d&apos;identification :
                     </h3>
                     <ul className='text-gray-700 space-y-1 ml-4'>
                       <li>• Nom et prénom</li>
@@ -111,7 +111,7 @@ export default function PolitiqueConfidentialite() {
                   Vos données sont utilisées pour :
                 </p>
                 <ul className='text-gray-700 space-y-2 ml-4'>
-                  <li>• Traiter vos demandes d'import automobile</li>
+                  <li>• Traiter vos demandes d&apos;import automobile</li>
                   <li>• Vous contacter concernant nos services</li>
                   <li>• Améliorer la qualité de nos services</li>
                   <li>• Respecter nos obligations légales</li>
@@ -132,7 +132,7 @@ export default function PolitiqueConfidentialite() {
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <div className='space-y-3'>
                   <p className='text-gray-700'>
-                    <strong>Consentement :</strong> Pour l'envoi de
+                    <strong>Consentement :</strong> Pour l&apos;envoi de
                     communications commerciales
                   </p>
                   <p className='text-gray-700'>
@@ -140,8 +140,8 @@ export default function PolitiqueConfidentialite() {
                     de nos services
                   </p>
                   <p className='text-gray-700'>
-                    <strong>Intérêt légitime :</strong> Pour l'amélioration de
-                    nos services
+                    <strong>Intérêt légitime :</strong> Pour l&apos;amélioration
+                    de nos services
                   </p>
                   <p className='text-gray-700'>
                     <strong>Obligation légale :</strong> Pour respecter les
@@ -170,8 +170,8 @@ export default function PolitiqueConfidentialite() {
                     <strong>Données de navigation :</strong> 13 mois maximum
                   </p>
                   <p className='text-gray-700'>
-                    <strong>Données marketing :</strong> Jusqu'au retrait du
-                    consentement
+                    <strong>Données marketing :</strong> Jusqu&apos;au retrait
+                    du consentement
                   </p>
                 </div>
               </div>
@@ -194,7 +194,9 @@ export default function PolitiqueConfidentialite() {
                     • Avec nos prestataires techniques (sous contrat de
                     confidentialité)
                   </li>
-                  <li>• En cas de fusion ou acquisition de l'entreprise</li>
+                  <li>
+                    • En cas de fusion ou acquisition de l&apos;entreprise
+                  </li>
                 </ul>
               </div>
             </section>
@@ -230,15 +232,15 @@ export default function PolitiqueConfidentialite() {
                 </p>
                 <div className='space-y-3'>
                   <p className='text-gray-700'>
-                    <strong>Droit d'accès :</strong> Connaître les données que
-                    nous détenons sur vous
+                    <strong>Droit d&apos;accès :</strong> Connaître les données
+                    que nous détenons sur vous
                   </p>
                   <p className='text-gray-700'>
                     <strong>Droit de rectification :</strong> Corriger des
                     données inexactes
                   </p>
                   <p className='text-gray-700'>
-                    <strong>Droit d'effacement :</strong> Demander la
+                    <strong>Droit d&apos;effacement :</strong> Demander la
                     suppression de vos données
                   </p>
                   <p className='text-gray-700'>
@@ -250,7 +252,7 @@ export default function PolitiqueConfidentialite() {
                     données dans un format structuré
                   </p>
                   <p className='text-gray-700'>
-                    <strong>Droit d'opposition :</strong> Vous opposer au
+                    <strong>Droit d&apos;opposition :</strong> Vous opposer au
                     traitement de vos données
                   </p>
                 </div>
@@ -270,7 +272,7 @@ export default function PolitiqueConfidentialite() {
                 <p className='text-gray-700 mb-4'>
                   Notre site utilise uniquement des cookies techniques
                   nécessaires au bon fonctionnement. Aucun cookie de tracking ou
-                  de publicité n'est utilisé.
+                  de publicité n&apos;est utilisé.
                 </p>
                 <p className='text-gray-700'>
                   Vous pouvez configurer votre navigateur pour refuser les

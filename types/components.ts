@@ -1,6 +1,6 @@
 // Types pour les composants React
 
-import { ReactNode, CSSProperties } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 // Types de base pour les composants
 export interface BaseComponentProps {
@@ -129,12 +129,12 @@ export interface ToastProps extends BaseComponentProps {
 
 // Types pour les formulaires
 export interface FormProps extends BaseComponentProps {
-  onSubmit: (data: Record<string, any>) => void;
+  onSubmit: (data: Record<string, string | number | boolean | File[]>) => void;
   onReset?: () => void;
   loading?: boolean;
   error?: string;
   success?: string;
-  validation?: Record<string, (value: any) => boolean | string>;
+  validation?: Record<string, (value: unknown) => boolean | string>;
 }
 
 export interface FormFieldProps extends BaseComponentProps {
@@ -171,13 +171,13 @@ export interface TableProps extends BaseComponentProps {
     key: string;
     title: string;
     sortable?: boolean;
-    render?: (value: any, row: any) => ReactNode;
+    render?: (value: unknown, row: Record<string, unknown>) => ReactNode;
   }>;
-  data: Record<string, any>[];
+  data: Record<string, unknown>[];
   loading?: boolean;
   empty?: ReactNode;
   onSort?: (column: string, direction: 'asc' | 'desc') => void;
-  onRowClick?: (row: Record<string, any>) => void;
+  onRowClick?: (row: Record<string, unknown>) => void;
 }
 
 // Types pour les navigation

@@ -51,7 +51,7 @@ export default function VehicleManager({
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [dragActive, setDragActive] = useState(false);
+  // const [dragActive, setDragActive] = useState(false);
   const [draggedImage, setDraggedImage] = useState<number | null>(null);
 
   // Ajouter une image à la galerie
@@ -414,7 +414,7 @@ export default function VehicleManager({
                     {/* Galerie d'images */}
                     <div className='md:col-span-2'>
                       <label className='block text-sm font-medium text-gray-700 mb-2'>
-                        Galerie d'images du véhicule
+                        Galerie d&apos;images du véhicule
                       </label>
 
                       {/* Zone de téléchargement */}
@@ -447,8 +447,8 @@ export default function VehicleManager({
                               sélectionner
                             </p>
                             <p className='text-xs text-gray-500 mt-1'>
-                              PNG, JPG, WEBP jusqu'à 10MB • Plusieurs fichiers
-                              autorisés
+                              PNG, JPG, WEBP jusqu&apos;à 10MB • Plusieurs
+                              fichiers autorisés
                             </p>
                           </div>
                         </div>

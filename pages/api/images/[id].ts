@@ -5,19 +5,24 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query;
+  console.log(`Deleting image with ID: ${id}`);
 
   if (req.method === 'DELETE') {
     try {
       // Pour l'instant, simuler la suppression
       // TODO: Implémenter la vraie suppression dans WordPress
-      
+
       // Simuler un délai de suppression
       await new Promise(resolve => setTimeout(resolve, 500));
-      
-      res.status(200).json({ success: true, message: 'Image supprimée avec succès' });
+
+      res
+        .status(200)
+        .json({ success: true, message: 'Image supprimée avec succès' });
     } catch (error) {
       console.error('Erreur API images DELETE:', error);
-      res.status(500).json({ error: 'Erreur lors de la suppression de l\'image' });
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la suppression de l'image" });
     }
   } else {
     res.setHeader('Allow', ['DELETE']);

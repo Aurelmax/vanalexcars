@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { formService } from '../../lib/services/formService';
@@ -25,7 +26,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
     'idle' | 'success' | 'error'
   >('idle');
 
-  const { values, errors, getFieldProps, setFieldValue, handleSubmit, reset } =
+  const { values, errors, getFieldProps, handleSubmit, reset } =
     useForm<VehicleRequestFormData>({
       initialValues: {
         name: '',
@@ -91,7 +92,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
                 ? String(values.budget)
                 : undefined,
             message: values.message || '',
-          } as any);
+          } as VehicleRequestFormData);
 
           setSubmitStatus('success');
 
@@ -343,7 +344,7 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
             <li>• Recherche personnalisée selon vos critères</li>
             <li>• Vérification technique complète</li>
             <li>• Négociation du prix</li>
-            <li>• Accompagnement dans l'achat</li>
+            <li>• Accompagnement dans l&apos;achat</li>
             <li>• Organisation du transport</li>
           </ul>
         </div>
@@ -356,13 +357,13 @@ const VehicleRequestForm: React.FC<VehicleRequestFormProps> = ({
             className='h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded'
           />
           <label htmlFor='privacy' className='ml-2 block text-sm text-gray-700'>
-            J'accepte la{' '}
-            <a
+            J&apos;accepte la{' '}
+            <Link
               href='/politique-confidentialite'
               className='text-yellow-600 hover:text-yellow-500'
             >
               politique de confidentialité
-            </a>
+            </Link>
           </label>
         </div>
 

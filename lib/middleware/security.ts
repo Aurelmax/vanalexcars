@@ -129,7 +129,7 @@ export const sanitizeFileName = (filename: string): string => {
 // Logger les événements de sécurité
 export const logSecurityEvent = (
   event: string,
-  details: any,
+  details: Record<string, string | number | boolean>,
   req: NextApiRequest
 ) => {
   const ip = getClientIP(req);
@@ -147,7 +147,9 @@ export const logSecurityEvent = (
 };
 
 // Middleware de sécurité principal
-export const securityMiddleware = (handler: Function) => {
+export const securityMiddleware = (
+  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const ip = getClientIP(req);
 
@@ -212,7 +214,7 @@ export const securityMiddleware = (handler: Function) => {
 
 // Valider les données de formulaire
 export const validateFormData = (
-  data: any
+  data: Record<string, string | number | boolean | File[]>
 ): { valid: boolean; errors: string[] } => {
   const errors: string[] = [];
 
@@ -286,7 +288,9 @@ export const detectBot = (req: NextApiRequest): boolean => {
 };
 
 // Middleware de protection contre les bots
-export const botProtectionMiddleware = (handler: Function) => {
+export const botProtectionMiddleware = (
+  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     if (detectBot(req)) {
       logSecurityEvent(

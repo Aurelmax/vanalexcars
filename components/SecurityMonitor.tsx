@@ -5,7 +5,7 @@ interface SecurityEvent {
   type: 'upload' | 'validation' | 'error' | 'success' | 'warning';
   message: string;
   timestamp: Date;
-  details?: any;
+  details?: Record<string, unknown>;
   severity?: 'low' | 'medium' | 'high' | 'critical';
 }
 

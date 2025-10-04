@@ -5,7 +5,7 @@ export interface SecurityEvent {
   type: 'upload' | 'validation' | 'error' | 'success' | 'warning';
   message: string;
   timestamp: Date;
-  details?: any;
+  details?: Record<string, string | number | boolean>;
   severity: 'low' | 'medium' | 'high' | 'critical';
 }
 
@@ -34,7 +34,7 @@ export const useSecurity = () => {
     (
       type: SecurityEvent['type'],
       message: string,
-      details?: any,
+      details?: Record<string, string | number | boolean>,
       severity: SecurityEvent['severity'] = 'medium'
     ) => {
       const event: SecurityEvent = {
@@ -87,21 +87,21 @@ export const useSecurity = () => {
   );
 
   const logSecurityError = useCallback(
-    (error: string, details?: any) => {
+    (error: string, details?: Record<string, string | number | boolean>) => {
       return addEvent('error', `Erreur de sécurité: ${error}`, details, 'high');
     },
     [addEvent]
   );
 
   const logSecuritySuccess = useCallback(
-    (message: string, details?: any) => {
+    (message: string, details?: Record<string, string | number | boolean>) => {
       return addEvent('success', message, details, 'low');
     },
     [addEvent]
   );
 
   const logSecurityWarning = useCallback(
-    (warning: string, details?: any) => {
+    (warning: string, details?: Record<string, string | number | boolean>) => {
       return addEvent('warning', `Attention: ${warning}`, details, 'medium');
     },
     [addEvent]

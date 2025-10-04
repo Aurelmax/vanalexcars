@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import {
   formService,
@@ -5,7 +6,7 @@ import {
 } from '../../lib/services/formService';
 
 interface TestVehicleRequestFormProps {
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: VehicleRequestFormData) => void;
   onSuccess?: () => void;
 }
 
@@ -342,7 +343,7 @@ const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
             <li>• Recherche personnalisée selon vos critères</li>
             <li>• Vérification technique complète</li>
             <li>• Négociation des prix</li>
-            <li>• Accompagnement jusqu'à la livraison</li>
+            <li>• Accompagnement jusqu&apos;à la livraison</li>
           </ul>
         </div>
 
@@ -354,13 +355,13 @@ const TestVehicleRequestForm: React.FC<TestVehicleRequestFormProps> = ({
             className='h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded'
           />
           <label htmlFor='privacy' className='ml-2 block text-sm text-gray-700'>
-            J'accepte la{' '}
-            <a
+            J&apos;accepte la{' '}
+            <Link
               href='/politique-confidentialite'
               className='text-yellow-600 hover:text-yellow-500'
             >
               politique de confidentialité
-            </a>
+            </Link>
           </label>
         </div>
 

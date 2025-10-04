@@ -28,8 +28,9 @@ export default function Services() {
               Mes Forfaits Premium
             </h2>
             <p className='text-gray-600 text-center mb-8 max-w-2xl mx-auto'>
-              Service de proximité et d'expertise en face-à-face en Allemagne,
-              gage de confiance et sécurité accrue pour votre import automobile.
+              Service de proximité et d&apos;expertise en face-à-face en
+              Allemagne, gage de confiance et sécurité accrue pour votre import
+              automobile.
             </p>
 
             <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
@@ -136,7 +137,7 @@ export default function Services() {
                 </p>
                 <p className='text-gray-700 mb-6'>
                   Le choix populaire pour une prise en charge complète de
-                  l'importation et du transport.
+                  l&apos;importation et du transport.
                 </p>
                 <ul className='space-y-3 mb-8'>
                   <li className='flex items-start'>
@@ -224,7 +225,7 @@ export default function Services() {
                 <h3 className='text-xl font-bold mb-2'>Forfait VIP Premium</h3>
                 <p className='text-sm text-gray-800 mb-4'>Tout Inclus</p>
                 <p className='text-gray-700 mb-6'>
-                  L'expérience ultime pour un service sans souci, de la
+                  L&apos;expérience ultime pour un service sans souci, de la
                   négociation à la livraison.
                 </p>
                 <ul className='space-y-3 mb-8'>
@@ -307,12 +308,12 @@ export default function Services() {
             {/* Points forts */}
             <div className='mt-12 text-center'>
               <h3 className='text-xl font-bold text-gray-900 mb-6'>
-                Points forts de l'offre Vanalexcars
+                Points forts de l&apos;offre Vanalexcars
               </h3>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto'>
                 <div className='bg-gray-50 p-6 rounded-lg shadow-md text-left'>
                   <p className='text-gray-700'>
-                    Service de proximité et d'expertise en face-à-face en
+                    Service de proximité et d&apos;expertise en face-à-face en
                     Allemagne, gage de confiance et sécurité accrue.
                   </p>
                 </div>
@@ -343,9 +344,9 @@ export default function Services() {
               Import automobile personnalisé
             </h2>
             <p className='text-gray-600 mb-6'>
-              En tant qu'importateur indépendant, je vous accompagne dans
-              l'achat de votre véhicule en Allemagne avec un service sur mesure
-              et une expertise de terrain.
+              En tant qu&apos;importateur indépendant, je vous accompagne dans
+              l&apos;achat de votre véhicule en Allemagne avec un service sur
+              mesure et une expertise de terrain.
             </p>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -379,7 +380,7 @@ export default function Services() {
                 </h3>
                 <ul className='text-gray-600 space-y-2'>
                   <li>• Négociation du prix</li>
-                  <li>• Sécurisation de l'achat</li>
+                  <li>• Sécurisation de l&apos;achat</li>
                   <li>• Paiement sécurisé</li>
                   <li>• Récupération des documents</li>
                 </ul>
@@ -470,8 +471,8 @@ export default function Services() {
                         </h3>
                       </div>
                       <p className='text-premium-gray-light mb-4'>
-                        Je parcours l'Allemagne pour trouver et vérifier les
-                        meilleures offres
+                        Je parcours l&apos;Allemagne pour trouver et vérifier
+                        les meilleures offres
                       </p>
                       <div className='grid grid-cols-2 gap-3 text-sm'>
                         <div className='flex items-center space-x-2'>
@@ -610,7 +611,7 @@ export default function Services() {
                   Relation personnalisée
                 </h3>
                 <p className='text-gray-600'>
-                  Un seul interlocuteur, disponible et à l'écoute
+                  Un seul interlocuteur, disponible et à l&apos;écoute
                 </p>
               </div>
 

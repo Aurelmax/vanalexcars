@@ -15,7 +15,7 @@ export default function Footer() {
             <p className='text-gray-300 mb-6 max-w-md leading-relaxed'>
               Votre expert en import automobile haut de gamme basé à Antibes.
               Spécialiste Porsche et véhicules de prestige avec plus de 5 ans
-              d'expérience.
+              d&apos;expérience.
             </p>
             <div className='space-y-3'>
               <div className='flex items-center space-x-3'>
@@ -143,7 +143,7 @@ export default function Footer() {
                   className='text-gray-300 hover:text-premium-gold transition flex items-center space-x-2'
                 >
                   <span>⚖️</span>
-                  <span>Conditions d'utilisation</span>
+                  <span>Conditions d&apos;utilisation</span>
                 </Link>
               </li>
             </ul>

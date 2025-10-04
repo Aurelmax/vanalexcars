@@ -5,7 +5,7 @@ export interface ValidationRule {
   minLength?: number;
   maxLength?: number;
   pattern?: RegExp;
-  custom?: (value: any) => string | null;
+  custom?: (value: string | number | boolean | File[]) => string | null;
   message?: string;
 }
 
@@ -29,7 +29,9 @@ const defaultMessages = {
 
 // Validateurs individuels
 export const validators = {
-  required: (value: any): string | null => {
+  required: (
+    value: string | number | boolean | File[] | null | undefined
+  ): string | null => {
     if (value === null || value === undefined || value === '') {
       return defaultMessages.required;
     }
@@ -84,7 +86,7 @@ export const validators = {
     return null;
   },
 
-  number: (value: any): string | null => {
+  number: (value: string | number): string | null => {
     if (value && isNaN(Number(value))) {
       return defaultMessages.number;
     }
@@ -112,7 +114,7 @@ export const validators = {
 
 // Fonction de validation principale
 export function validateField(
-  value: any,
+  value: string | number | boolean | File[] | null | undefined,
   rules: ValidationRule
 ): string | null {
   // Validation required
@@ -156,10 +158,12 @@ export function validateField(
 }
 
 // Validation d'un objet complet
-export function validateForm<T extends Record<string, any>>(
-  values: T,
-  schema: ValidationSchema
-): Partial<Record<keyof T, string>> {
+export function validateForm<
+  T extends Record<
+    string,
+    string | number | boolean | File[] | null | undefined
+  >,
+>(values: T, schema: ValidationSchema): Partial<Record<keyof T, string>> {
   const errors: Partial<Record<keyof T, string>> = {};
 
   Object.entries(schema).forEach(([field, rules]) => {
@@ -248,9 +252,12 @@ export const validationSchemas = {
 // Utilitaires pour les validations conditionnelles
 export function createConditionalValidator<T>(
   condition: (values: T) => boolean,
-  validator: (value: any) => string | null
+  validator: (value: string | number | boolean | File[]) => string | null
 ) {
-  return (value: any, values: T): string | null => {
+  return (
+    value: string | number | boolean | File[],
+    values: T
+  ): string | null => {
     if (condition(values)) {
       return validator(value);
     }

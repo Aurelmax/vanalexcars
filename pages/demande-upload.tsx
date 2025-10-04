@@ -124,7 +124,7 @@ export default function FormulaireDemandeUpload() {
                     Conseil & Expertise
                   </h3>
                   <p className='text-sm text-gray-600'>
-                    J'ai besoin de conseils pour mon projet
+                    J&apos;ai besoin de conseils pour mon projet
                   </p>
                 </div>
               </label>
@@ -218,7 +218,7 @@ export default function FormulaireDemandeUpload() {
                     onChange={handleChange}
                     className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent'
                   >
-                    <option value=''>Sélectionnez l'urgence</option>
+                    <option value=''>Sélectionnez l&apos;urgence</option>
                     <option value='immediate'>Immédiate (1-2 semaines)</option>
                     <option value='normale'>Normale (1-2 mois)</option>
                     <option value='flexible'>Flexible (3+ mois)</option>
@@ -335,10 +335,10 @@ export default function FormulaireDemandeUpload() {
                       <div>
                         <p className='text-sm text-blue-800 font-medium mb-1'>
                           Vos données sont utilisées uniquement pour votre
-                          demande d'import automobile
+                          demande d&apos;import automobile
                         </p>
                         <p className='text-xs text-blue-600'>
-                          Aucune donnée n'est partagée avec des tiers.
+                          Aucune donnée n&apos;est partagée avec des tiers.
                           Suppression automatique après 3 ans.
                         </p>
                       </div>
@@ -356,7 +356,7 @@ export default function FormulaireDemandeUpload() {
                 </div>
                 <div>
                   <h2 className='text-xl font-semibold text-gray-900'>
-                    Documents d'immatriculation
+                    Documents d&apos;immatriculation
                   </h2>
                   <p className='text-gray-600 text-sm'>
                     Téléchargez vos documents directement ici
@@ -374,7 +374,7 @@ export default function FormulaireDemandeUpload() {
                       </span>
                     </div>
                     <h3 className='font-semibold text-gray-900 mb-2'>
-                      Pièce d'identité
+                      Pièce d&apos;identité
                     </h3>
                     <p className='text-sm text-gray-600 mb-4'>
                       CNI, Passeport, etc.
@@ -570,7 +570,7 @@ export default function FormulaireDemandeUpload() {
 
               <div className='bg-gray-50 rounded-lg p-6'>
                 <h3 className='text-lg font-semibold text-gray-900 mb-4'>
-                  Je m'occupe de tout le reste :
+                  Je m&apos;occupe de tout le reste :
                 </h3>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                   <div className='flex items-center space-x-3'>
@@ -630,7 +630,7 @@ export default function FormulaireDemandeUpload() {
                       />
                     </svg>
                     <span className='text-gray-700'>
-                      Démarches ANTS jusqu'à la carte grise définitive
+                      Démarches ANTS jusqu&apos;à la carte grise définitive
                     </span>
                   </div>
                 </div>
@@ -639,7 +639,7 @@ export default function FormulaireDemandeUpload() {
               <div className='mt-6 p-4 bg-yellow-500/10 border border-yellow-300 rounded-lg'>
                 <p className='text-sm text-gray-700'>
                   <strong>💡 Astuce :</strong> Téléchargez vos documents
-                  directement ici. Je m'occupe de toute la complexité
+                  directement ici. Je m&apos;occupe de toute la complexité
                   administrative pour vous !
                 </p>
               </div>

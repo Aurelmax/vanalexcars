@@ -244,7 +244,7 @@ export default function VehicleDetail({ vehicle }: VehicleDetailProps) {
               Intéressé par ce véhicule ?
             </h3>
             <p className='text-sm mb-4'>
-              Contactez-moi pour plus d'informations ou pour organiser une
+              Contactez-moi pour plus d&apos;informations ou pour organiser une
               visite en Allemagne.
             </p>
             <div className='space-y-3'>

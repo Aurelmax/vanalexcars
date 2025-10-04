@@ -32,7 +32,7 @@ export interface WordPressBase {
   comment_status: 'open' | 'closed';
   ping_status: 'open' | 'closed';
   template: string;
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   _links: {
     self: Array<{ href: string }>;
     collection: Array<{ href: string }>;
@@ -96,7 +96,7 @@ export interface WordPressUser {
     '48': string;
     '96': string;
   };
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   _links: {
     self: Array<{ href: string }>;
     collection: Array<{ href: string }>;
@@ -124,7 +124,7 @@ export interface WordPressMedia {
   comment_status: 'open' | 'closed';
   ping_status: 'open' | 'closed';
   template: string;
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   description: {
     rendered: string;
   };
@@ -183,7 +183,7 @@ export interface WordPressCategory {
   slug: string;
   taxonomy: 'category';
   parent: number;
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   _links: {
     self: Array<{ href: string }>;
     collection: Array<{ href: string }>;
@@ -202,7 +202,7 @@ export interface WordPressTag {
   name: string;
   slug: string;
   taxonomy: 'post_tag';
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   _links: {
     self: Array<{ href: string }>;
     collection: Array<{ href: string }>;
@@ -236,7 +236,7 @@ export interface WordPressComment {
     '48': string;
     '96': string;
   };
-  meta: Record<string, any>;
+  meta: Record<string, string | number | boolean | string[]>;
   _links: {
     self: Array<{ href: string }>;
     collection: Array<{ href: string }>;
@@ -318,8 +318,8 @@ export interface WordPressApiError {
   message: string;
   data: {
     status: number;
-    params: Record<string, any>;
-    details: Record<string, any>;
+    params: Record<string, string | number | boolean>;
+    details: Record<string, string | number | boolean>;
   };
 }
 

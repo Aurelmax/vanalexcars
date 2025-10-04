@@ -87,10 +87,10 @@ export default function VehiclePage() {
             {error || 'Véhicule non trouvé'}
           </h1>
           <p className='text-gray-600 mb-4'>
-            Le véhicule demandé n'existe pas ou n'est plus disponible.
+            Le véhicule demandé n&apos;existe pas ou n&apos;est plus disponible.
           </p>
           <Link href='/' className='text-premium-gold hover:underline'>
-            Retour à l'accueil
+            Retour à l&apos;accueil
           </Link>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default function VehiclePage() {
     image: vehicle.image_url || vehicle.featured_image?.url || '',
     year: vehicle.year.toString(),
     mileage: vehicle.mileage,
-    power: vehicle.power,
+    power: parseInt(vehicle.power.replace(/\D/g, '')) || 0,
     owners: 1, // Valeur par défaut
     transmission: vehicle.transmission,
     fuel: vehicle.fuel_type,

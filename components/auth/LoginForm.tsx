@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AuthCredentials, authService } from '../../lib/services/authService';
 
 interface LoginFormProps {
-  onLogin?: (user: any) => void;
+  onLogin?: (user: { id: string; name: string; email: string }) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
@@ -58,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             htmlFor='username'
             className='block text-sm font-medium text-gray-700'
           >
-            Nom d'utilisateur
+            Nom d&apos;utilisateur
           </label>
           <input
             type='text'

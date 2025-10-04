@@ -5,7 +5,7 @@ import {
 } from '../../lib/services/formService';
 
 interface TestTestimonialFormProps {
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: TestimonialFormData) => void;
   onSuccess?: () => void;
 }
 
@@ -331,7 +331,7 @@ const TestTestimonialForm: React.FC<TestTestimonialFormProps> = ({
           <div className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center'>
             <div className='text-4xl mb-2'>📸</div>
             <div className='text-sm text-gray-600'>
-              Ajoutez des photos de votre véhicule ou de l'expérience
+              Ajoutez des photos de votre véhicule ou de l&apos;expérience
             </div>
             <input
               type='file'
@@ -360,8 +360,8 @@ const TestTestimonialForm: React.FC<TestTestimonialFormProps> = ({
             }`}
           />
           <label htmlFor='consent' className='ml-2 block text-sm text-gray-700'>
-            J'autorise la publication de mon témoignage sur le site Vanalexcars
-            *
+            J&apos;autorise la publication de mon témoignage sur le site
+            Vanalexcars *
           </label>
         </div>
         {errors.consent && (

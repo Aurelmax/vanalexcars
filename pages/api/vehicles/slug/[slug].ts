@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 // Vos véhicules réels avec slugs
-let mockVehicles = [
+const mockVehicles = [
   {
     id: 1,
     slug: 'bmw-m3-competition-2023',

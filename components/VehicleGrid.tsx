@@ -123,8 +123,8 @@ export default function VehicleGrid({
   vehicles,
   title = 'Nos meilleures offres',
   showLoadMore = true,
-  featured,
-  is_new,
+  // featured,
+  // is_new,
   limit = 8,
 }: VehicleGridProps) {
   const [apiVehicles, setApiVehicles] = useState<Vehicle[]>([]);
@@ -142,20 +142,37 @@ export default function VehicleGrid({
         const data = await response.json();
 
         // Convertir les données de l'API au format attendu
-        const formattedVehicles: Vehicle[] = data.map((vehicle: any) => ({
-          id: vehicle.id,
-          title: vehicle.title,
-          price: `€ ${vehicle.price.toLocaleString()}`,
-          year: vehicle.year,
-          mileage: `${vehicle.mileage.toLocaleString()} km`,
-          location: vehicle.location,
-          imageUrl: vehicle.image_url || vehicle.featured_image?.url || '',
-          isNew: vehicle.is_new,
-          isFeatured: vehicle.is_featured,
-          fuelType: vehicle.fuel_type,
-          transmission: vehicle.transmission,
-          power: vehicle.power,
-        }));
+        const formattedVehicles: Vehicle[] = data.map(
+          (vehicle: {
+            id: number;
+            slug?: string;
+            title: string;
+            price: number;
+            year: number;
+            mileage: number;
+            location: string;
+            image_url?: string;
+            featured_image?: { url: string };
+            is_new?: boolean;
+            is_featured?: boolean;
+            fuel_type: string;
+            transmission: string;
+            power: string;
+          }) => ({
+            id: vehicle.id,
+            title: vehicle.title,
+            price: `€ ${vehicle.price.toLocaleString()}`,
+            year: vehicle.year,
+            mileage: `${vehicle.mileage.toLocaleString()} km`,
+            location: vehicle.location,
+            imageUrl: vehicle.image_url || vehicle.featured_image?.url || '',
+            isNew: vehicle.is_new,
+            isFeatured: vehicle.is_featured,
+            fuelType: vehicle.fuel_type,
+            transmission: vehicle.transmission,
+            power: vehicle.power,
+          })
+        );
 
         setApiVehicles(formattedVehicles);
       } catch (err) {
@@ -169,7 +186,7 @@ export default function VehicleGrid({
     };
 
     fetchVehicles();
-  }, []);
+  }, [limit]);
 
   if (loading) {
     return (
@@ -227,7 +244,8 @@ function VehicleGridContent({
           <div className='text-center mb-8'>
             <h2 className='text-3xl font-bold text-gray-900 mb-4'>{title}</h2>
             <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Découvrez les meilleures annonces de véhicules d'occasion premium
+              Découvrez les meilleures annonces de véhicules d&apos;occasion
+              premium
             </p>
           </div>
         )}
@@ -334,7 +352,7 @@ function VehicleGridContent({
                 </div>
 
                 <Link
-                  href={`/vehicule/${vehicle.slug || vehicle.id}`}
+                  href={`/vehicule/${(vehicle as { slug?: string }).slug || vehicle.id}`}
                   className='block w-full bg-premium-gold text-premium-black text-center py-2 px-4 rounded font-semibold hover:bg-yellow-400 transition-colors duration-300'
                 >
                   Voir les détails
@@ -347,7 +365,7 @@ function VehicleGridContent({
         {showLoadMore && (
           <div className='text-center mt-8'>
             <button className='bg-white border border-premium-gold text-premium-gold px-6 py-3 rounded-lg font-semibold hover:bg-premium-gold hover:text-premium-black transition-colors duration-300'>
-              Voir plus d'annonces
+              Voir plus d&apos;annonces
             </button>
           </div>
         )}

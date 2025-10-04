@@ -28,7 +28,8 @@ export default async function handler(
     // Filtrer par type de formulaire si spécifié
     if (form_type) {
       submissions = submissions.filter(
-        (submission: any) => submission.form_type === form_type
+        (submission: { form_type?: string }) =>
+          submission.form_type === form_type
       );
     }
 

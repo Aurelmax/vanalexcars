@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { formService } from '../../lib/services/formService';
@@ -135,7 +136,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
   return (
     <div className='max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8'>
       <h2 className='text-2xl font-bold text-gray-900 mb-6 text-center'>
-        Demande avec documents d'immatriculation
+        Demande avec documents d&apos;immatriculation
       </h2>
 
       {submitStatus === 'success' && (
@@ -308,7 +309,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
             <div className='text-2xl mr-3'>📄</div>
             <div>
               <h3 className='text-lg font-semibold text-gray-900'>
-                Documents d'immatriculation
+                Documents d&apos;immatriculation
               </h3>
               <p className='text-sm text-gray-600'>
                 Collecte simplifiée pour vos démarches administratives
@@ -333,7 +334,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                     1
                   </div>
                   <span className='font-medium text-gray-900'>
-                    Pièce d'identité
+                    Pièce d&apos;identité
                   </span>
                 </div>
                 <FileUpload
@@ -419,7 +420,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                       1
                     </div>
                     <span className='text-sm font-medium text-gray-900'>
-                      Pièce d'identité
+                      Pièce d&apos;identité
                     </span>
                     <div className='ml-auto'>
                       {values.documents.identity.length > 0 ? (
@@ -518,7 +519,7 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
               <span className='w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3'>
                 🛠️
               </span>
-              Je m'occupe de tout le reste :
+              Je m&apos;occupe de tout le reste :
             </h4>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               {[
@@ -546,8 +547,9 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
                   Astuce :
                 </div>
                 <div className='text-yellow-700 text-sm'>
-                  Vous n'avez qu'à fournir ces 3 documents simples. Je m'occupe
-                  de toute la complexité administrative pour vous !
+                  Vous n&apos;avez qu&apos;à fournir ces 3 documents simples. Je
+                  m&apos;occupe de toute la complexité administrative pour vous
+                  !
                 </div>
               </div>
             </div>
@@ -582,20 +584,20 @@ const RegistrationDocumentsForm: React.FC<RegistrationDocumentsFormProps> = ({
             className='h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded'
           />
           <label htmlFor='privacy' className='ml-2 block text-sm text-gray-700'>
-            J'accepte la{' '}
-            <a
+            J&apos;accepte la{' '}
+            <Link
               href='/politique-confidentialite'
               className='text-yellow-600 hover:text-yellow-500'
             >
               politique de confidentialité
-            </a>{' '}
+            </Link>{' '}
             et les{' '}
-            <a
+            <Link
               href='/conditions-utilisation'
               className='text-yellow-600 hover:text-yellow-500'
             >
-              conditions d'utilisation
-            </a>
+              conditions d&apos;utilisation
+            </Link>
           </label>
         </div>
 

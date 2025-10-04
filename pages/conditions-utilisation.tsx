@@ -21,12 +21,12 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  L'accès et l'utilisation du site vanalexcars.fr impliquent
-                  l'acceptation pleine et entière des présentes conditions
-                  d'utilisation.
+                  L&apos;accès et l&apos;utilisation du site vanalexcars.fr
+                  impliquent l&apos;acceptation pleine et entière des présentes
+                  conditions d&apos;utilisation.
                 </p>
                 <p className='text-gray-700'>
-                  Si vous n'acceptez pas ces conditions, veuillez ne pas
+                  Si vous n&apos;acceptez pas ces conditions, veuillez ne pas
                   utiliser ce site.
                 </p>
               </div>
@@ -40,9 +40,9 @@ export default function ConditionsUtilisation() {
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
                   Le site vanalexcars.fr a pour objet de présenter les services
-                  d'import automobile proposés par Vanalexcars,
-                  auto-entrepreneur spécialisé dans l'import de véhicules haut
-                  de gamme depuis l'Allemagne.
+                  d&apos;import automobile proposés par Vanalexcars,
+                  auto-entrepreneur spécialisé dans l&apos;import de véhicules
+                  haut de gamme depuis l&apos;Allemagne.
                 </p>
                 <p className='text-gray-700'>
                   Les services incluent : recherche de véhicules, vérification
@@ -59,13 +59,13 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  L'accès au site est libre et gratuit. Cependant, Vanalexcars
-                  se réserve le droit d'interrompre temporairement ou
-                  définitivement l'accès au site pour des raisons de maintenance
-                  ou de mise à jour.
+                  L&apos;accès au site est libre et gratuit. Cependant,
+                  Vanalexcars se réserve le droit d&apos;interrompre
+                  temporairement ou définitivement l&apos;accès au site pour des
+                  raisons de maintenance ou de mise à jour.
                 </p>
                 <p className='text-gray-700'>
-                  L'utilisateur est responsable de la configuration de son
+                  L&apos;utilisateur est responsable de la configuration de son
                   équipement informatique pour accéder au site.
                 </p>
               </div>
@@ -78,20 +78,22 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  L'utilisateur s'engage à utiliser le site de manière licite et
-                  à :
+                  L&apos;utilisateur s&apos;engage à utiliser le site de manière
+                  licite et à :
                 </p>
                 <ul className='text-gray-700 space-y-2 ml-4'>
                   <li>• Respecter les droits de propriété intellectuelle</li>
                   <li>
-                    • Ne pas porter atteinte à l'ordre public et aux bonnes
+                    • Ne pas porter atteinte à l&apos;ordre public et aux bonnes
                     mœurs
                   </li>
                   <li>
                     • Ne pas diffuser de contenu illégal, diffamatoire ou
                     offensant
                   </li>
-                  <li>• Ne pas tenter de pirater ou d'endommager le site</li>
+                  <li>
+                    • Ne pas tenter de pirater ou d&apos;endommager le site
+                  </li>
                   <li>• Fournir des informations exactes lors des demandes</li>
                   <li>• Respecter la vie privée des autres utilisateurs</li>
                 </ul>
@@ -105,9 +107,10 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  L'ensemble du contenu du site (textes, images, vidéos, logos,
-                  etc.) est protégé par le droit de la propriété intellectuelle
-                  et appartient à Vanalexcars ou à ses partenaires.
+                  L&apos;ensemble du contenu du site (textes, images, vidéos,
+                  logos, etc.) est protégé par le droit de la propriété
+                  intellectuelle et appartient à Vanalexcars ou à ses
+                  partenaires.
                 </p>
                 <p className='text-gray-700 mb-4'>
                   Toute reproduction, représentation, modification, publication,
@@ -115,9 +118,9 @@ export default function ConditionsUtilisation() {
                   interdite, sauf autorisation écrite préalable.
                 </p>
                 <p className='text-gray-700'>
-                  L'utilisation non autorisée du site ou de l'un quelconque des
-                  éléments qu'il contient sera considérée comme constitutive
-                  d'une contrefaçon et poursuivie.
+                  L&apos;utilisation non autorisée du site ou de l&apos;un
+                  quelconque des éléments qu&apos;il contient sera considérée
+                  comme constitutive d&apos;une contrefaçon et poursuivie.
                 </p>
               </div>
             </section>
@@ -129,10 +132,10 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Vanalexcars s'efforce de fournir des informations exactes et à
-                  jour sur le site. Cependant, nous ne pouvons garantir
-                  l'exactitude, la précision ou l'exhaustivité des informations
-                  mises à disposition.
+                  Vanalexcars s&apos;efforce de fournir des informations exactes
+                  et à jour sur le site. Cependant, nous ne pouvons garantir
+                  l&apos;exactitude, la précision ou l&apos;exhaustivité des
+                  informations mises à disposition.
                 </p>
                 <p className='text-gray-700 mb-4'>
                   Vanalexcars ne saurait être tenu responsable :
@@ -140,10 +143,10 @@ export default function ConditionsUtilisation() {
                 <ul className='text-gray-700 space-y-2 ml-4'>
                   <li>
                     • Des dommages directs ou indirects causés au matériel de
-                    l'utilisateur
+                    l&apos;utilisateur
                   </li>
                   <li>• De la perte de données ou de programmes</li>
-                  <li>• Des conséquences de l'utilisation du site</li>
+                  <li>• Des conséquences de l&apos;utilisation du site</li>
                   <li>• Des interruptions de service</li>
                   <li>• Des virus ou autres éléments nuisibles</li>
                 </ul>
@@ -157,15 +160,15 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Le site peut contenir des liens vers d'autres sites web.
-                  Vanalexcars n'exerce aucun contrôle sur ces sites et décline
-                  toute responsabilité quant à leur contenu ou leur politique de
-                  confidentialité.
+                  Le site peut contenir des liens vers d&apos;autres sites web.
+                  Vanalexcars n&apos;exerce aucun contrôle sur ces sites et
+                  décline toute responsabilité quant à leur contenu ou leur
+                  politique de confidentialité.
                 </p>
                 <p className='text-gray-700'>
-                  L'insertion de liens vers le site vanalexcars.fr sur d'autres
-                  sites est autorisée sous réserve de ne pas porter atteinte à
-                  l'image de Vanalexcars.
+                  L&apos;insertion de liens vers le site vanalexcars.fr sur
+                  d&apos;autres sites est autorisée sous réserve de ne pas
+                  porter atteinte à l&apos;image de Vanalexcars.
                 </p>
               </div>
             </section>
@@ -190,8 +193,8 @@ export default function ConditionsUtilisation() {
                 </p>
                 <p className='text-gray-700'>
                   En utilisant le site, vous acceptez la collecte et
-                  l'utilisation de vos données personnelles conformément à cette
-                  politique.
+                  l&apos;utilisation de vos données personnelles conformément à
+                  cette politique.
                 </p>
               </div>
             </section>
@@ -204,12 +207,12 @@ export default function ConditionsUtilisation() {
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
                   Le site utilise des cookies techniques nécessaires au bon
-                  fonctionnement. Aucun cookie de tracking ou de publicité n'est
-                  utilisé.
+                  fonctionnement. Aucun cookie de tracking ou de publicité
+                  n&apos;est utilisé.
                 </p>
                 <p className='text-gray-700'>
-                  En continuant à utiliser le site, vous acceptez l'utilisation
-                  de ces cookies.
+                  En continuant à utiliser le site, vous acceptez
+                  l&apos;utilisation de ces cookies.
                 </p>
               </div>
             </section>
@@ -222,13 +225,13 @@ export default function ConditionsUtilisation() {
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
                   Vanalexcars se réserve le droit de modifier ces conditions
-                  d'utilisation à tout moment. Les modifications entrent en
+                  d&apos;utilisation à tout moment. Les modifications entrent en
                   vigueur dès leur publication sur le site.
                 </p>
                 <p className='text-gray-700'>
-                  Il appartient à l'utilisateur de consulter régulièrement ces
-                  conditions. L'utilisation continue du site après modification
-                  vaut acceptation des nouvelles conditions.
+                  Il appartient à l&apos;utilisateur de consulter régulièrement
+                  ces conditions. L&apos;utilisation continue du site après
+                  modification vaut acceptation des nouvelles conditions.
                 </p>
               </div>
             </section>
@@ -240,13 +243,13 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Les présentes conditions d'utilisation sont soumises à la loi
-                  française. En cas de litige, les tribunaux français seront
+                  Les présentes conditions d&apos;utilisation sont soumises à la
+                  loi française. En cas de litige, les tribunaux français seront
                   seuls compétents.
                 </p>
                 <p className='text-gray-700'>
                   Tout litige sera de la compétence exclusive des tribunaux
-                  d'Antibes.
+                  d&apos;Antibes.
                 </p>
               </div>
             </section>
@@ -258,7 +261,8 @@ export default function ConditionsUtilisation() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-2'>
-                  Pour toute question concernant ces conditions d'utilisation :
+                  Pour toute question concernant ces conditions
+                  d&apos;utilisation :
                 </p>
                 <p className='text-gray-700 mb-2'>
                   Email : contact@vanalexcars.fr

@@ -24,8 +24,8 @@ export default function NewsletterSection() {
                 </h2>
                 <p className='text-lg text-gray-600 mb-6'>
                   Restez informé des dernières tendances, nouveautés et conseils
-                  d'experts dans votre boîte mail. Recevez nos sélections de
-                  véhicules premium.
+                  d&apos;experts dans votre boîte mail. Recevez nos sélections
+                  de véhicules premium.
                 </p>
               </div>
 

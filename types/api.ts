@@ -8,8 +8,8 @@ export interface ApiResponse<T> {
   errors?: ApiError[];
   meta?: {
     pagination?: PaginationMeta;
-    filters?: Record<string, any>;
-    sorting?: Record<string, any>;
+    filters?: Record<string, string | number | boolean>;
+    sorting?: Record<string, 'asc' | 'desc'>;
   };
 }
 
@@ -17,7 +17,7 @@ export interface ApiError {
   field?: string;
   code: string;
   message: string;
-  details?: Record<string, any>;
+  details?: Record<string, string | number | boolean>;
 }
 
 export interface PaginationMeta {
@@ -35,8 +35,8 @@ export interface PaginationMeta {
 export interface RequestConfig {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   headers?: Record<string, string>;
-  body?: any;
-  params?: Record<string, any>;
+  body?: string | FormData | Record<string, unknown>;
+  params?: Record<string, string | number | boolean>;
   timeout?: number;
   retries?: number;
 }
@@ -59,7 +59,7 @@ export interface ApiClientConfig {
 export interface EndpointConfig {
   path: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  params?: Record<string, any>;
+  params?: Record<string, string | number | boolean>;
   headers?: Record<string, string>;
   cache?: {
     enabled: boolean;
@@ -90,10 +90,10 @@ export interface FormField {
     min?: number;
     max?: number;
     pattern?: string;
-    custom?: (value: any) => boolean | string;
+    custom?: (value: unknown) => boolean | string;
   };
   options?: Array<{ value: string; label: string }>;
-  defaultValue?: any;
+  defaultValue?: string | number | boolean;
 }
 
 export interface FormConfig {
@@ -109,7 +109,7 @@ export interface FormConfig {
 export interface LoadingState {
   isLoading: boolean;
   error: string | null;
-  data: any;
+  data: unknown;
   lastUpdated?: number;
 }
 
@@ -133,7 +133,7 @@ export interface FilterConfig {
     | 'between'
     | 'in'
     | 'not_in';
-  value: any;
+  value: string | number | boolean | string[];
   caseSensitive?: boolean;
 }
 
@@ -247,7 +247,7 @@ export interface AuditLog {
   action: string;
   resource: string;
   resourceId: string;
-  details: Record<string, any>;
+  details: Record<string, string | number | boolean>;
   timestamp: string;
   ipAddress: string;
   userAgent: string;
@@ -271,7 +271,7 @@ export interface Metric {
 
 export interface AnalyticsEvent {
   event: string;
-  properties: Record<string, any>;
+  properties: Record<string, string | number | boolean>;
   timestamp: string;
   userId?: string;
   sessionId?: string;
@@ -289,7 +289,7 @@ export interface WebhookConfig {
 
 export interface WebhookPayload {
   event: string;
-  data: any;
+  data: Record<string, unknown>;
   timestamp: string;
   signature?: string;
 }

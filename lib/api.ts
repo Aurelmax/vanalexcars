@@ -71,7 +71,7 @@ class ApiClient {
 
   async post<T>(
     endpoint: string,
-    data: any,
+    data: Record<string, unknown> | FormData,
     headers?: Record<string, string>
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(endpoint, {
@@ -83,7 +83,7 @@ class ApiClient {
 
   async put<T>(
     endpoint: string,
-    data: any,
+    data: Record<string, unknown> | FormData,
     headers?: Record<string, string>
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(endpoint, {
@@ -95,7 +95,7 @@ class ApiClient {
 
   async patch<T>(
     endpoint: string,
-    data: any,
+    data: Record<string, unknown> | FormData,
     headers?: Record<string, string>
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(endpoint, {

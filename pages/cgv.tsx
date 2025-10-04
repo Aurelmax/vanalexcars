@@ -20,10 +20,11 @@ export default function CGV() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Les présentes conditions générales de vente (CGV) s'appliquent
-                  à tous les services d'import automobile proposés par
-                  Vanalexcars, auto-entrepreneur spécialisé dans l'import de
-                  véhicules haut de gamme depuis l'Allemagne.
+                  Les présentes conditions générales de vente (CGV)
+                  s&apos;appliquent à tous les services d&apos;import automobile
+                  proposés par Vanalexcars, auto-entrepreneur spécialisé dans
+                  l&apos;import de véhicules haut de gamme depuis
+                  l&apos;Allemagne.
                 </p>
                 <p className='text-gray-700'>
                   Les services proposés incluent : recherche de véhicules,
@@ -95,7 +96,7 @@ export default function CGV() {
                   </p>
                   <p className='text-gray-700'>
                     <strong>Validité :</strong> 30 jours à compter de la date
-                    d'émission
+                    d&apos;émission
                   </p>
                   <p className='text-gray-700'>
                     <strong>Paiement :</strong> 50% à la commande, 50% à la
@@ -115,7 +116,9 @@ export default function CGV() {
                 Article 4 - Obligations du client
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
-                <p className='text-gray-700 mb-4'>Le client s'engage à :</p>
+                <p className='text-gray-700 mb-4'>
+                  Le client s&apos;engage à :
+                </p>
                 <ul className='text-gray-700 space-y-2 ml-4'>
                   <li>
                     • Fournir des informations exactes sur le véhicule recherché
@@ -125,7 +128,7 @@ export default function CGV() {
                     • Être disponible pour les rendez-vous de vérification
                   </li>
                   <li>
-                    • Fournir les documents nécessaires à l'immatriculation
+                    • Fournir les documents nécessaires à l&apos;immatriculation
                   </li>
                   <li>• Informer de tout changement de situation</li>
                 </ul>
@@ -138,14 +141,16 @@ export default function CGV() {
                 Article 5 - Obligations du prestataire
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
-                <p className='text-gray-700 mb-4'>Vanalexcars s'engage à :</p>
+                <p className='text-gray-700 mb-4'>
+                  Vanalexcars s&apos;engage à :
+                </p>
                 <ul className='text-gray-700 space-y-2 ml-4'>
                   <li>
                     • Effectuer une recherche approfondie selon vos critères
                   </li>
-                  <li>• Vérifier l'état technique du véhicule</li>
+                  <li>• Vérifier l&apos;état technique du véhicule</li>
                   <li>• Négocier le meilleur prix</li>
-                  <li>• Sécuriser l'achat et le transport</li>
+                  <li>• Sécuriser l&apos;achat et le transport</li>
                   <li>• Fournir un rapport détaillé</li>
                   <li>• Respecter les délais convenus</li>
                 </ul>
@@ -159,9 +164,9 @@ export default function CGV() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Vanalexcars garantit la qualité de ses services et s'engage à
-                  effectuer les vérifications avec le plus grand soin.
-                  Cependant, la responsabilité ne peut être engagée pour :
+                  Vanalexcars garantit la qualité de ses services et
+                  s&apos;engage à effectuer les vérifications avec le plus grand
+                  soin. Cependant, la responsabilité ne peut être engagée pour :
                 </p>
                 <ul className='text-gray-700 space-y-2 ml-4'>
                   <li>
@@ -186,15 +191,15 @@ export default function CGV() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  Conformément à l'article L. 221-28 du Code de la consommation,
-                  le droit de rétractation ne s'applique pas aux contrats de
-                  fourniture de services pleinement exécutés avant la fin du
-                  délai de rétractation et dont l'exécution a commencé après
-                  accord préalable exprès du consommateur et renoncement exprès
-                  à son droit de rétractation.
+                  Conformément à l&apos;article L. 221-28 du Code de la
+                  consommation, le droit de rétractation ne s&apos;applique pas
+                  aux contrats de fourniture de services pleinement exécutés
+                  avant la fin du délai de rétractation et dont l&apos;exécution
+                  a commencé après accord préalable exprès du consommateur et
+                  renoncement exprès à son droit de rétractation.
                 </p>
                 <p className='text-gray-700'>
-                  Le client peut annuler sa commande jusqu'à 24h avant le
+                  Le client peut annuler sa commande jusqu&apos;à 24h avant le
                   déplacement en Allemagne, sous réserve de remboursement des
                   frais déjà engagés.
                 </p>
@@ -209,11 +214,11 @@ export default function CGV() {
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700'>
                   Les parties ne pourront être tenues pour responsables si la
-                  non-exécution ou le retard dans l'exécution de l'une
+                  non-exécution ou le retard dans l&apos;exécution de l&apos;une
                   quelconque des obligations décrites dans les présentes est due
                   à un cas de force majeure. À ce titre, la force majeure
-                  s'entend de tout événement extérieur, imprévisible et
-                  irrésistible au sens de l'article 1148 du Code civil.
+                  s&apos;entend de tout événement extérieur, imprévisible et
+                  irrésistible au sens de l&apos;article 1148 du Code civil.
                 </p>
               </div>
             </section>
@@ -228,7 +233,7 @@ export default function CGV() {
                   Les présentes CGV sont soumises à la loi française. En cas de
                   litige, les tribunaux français seront seuls compétents. Tout
                   litige sera de la compétence exclusive des tribunaux
-                  d'Antibes.
+                  d&apos;Antibes.
                 </p>
               </div>
             </section>

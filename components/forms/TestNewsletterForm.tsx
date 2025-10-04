@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import {
   formService,
@@ -5,7 +6,7 @@ import {
 } from '../../lib/services/formService';
 
 interface TestNewsletterFormProps {
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: NewsletterFormData) => void;
   onSuccess?: () => void;
 }
 
@@ -164,7 +165,7 @@ const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
 
           <div>
             <label className='block text-sm font-medium text-gray-800 mb-3'>
-              Vos centres d'intérêt (optionnel)
+              Vos centres d&apos;intérêt (optionnel)
             </label>
             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
               {[
@@ -201,7 +202,7 @@ const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
             </h3>
             <ul className='text-sm text-gray-700 space-y-1'>
               <li>• Nouveaux véhicules disponibles</li>
-              <li>• Conseils d'import automobile</li>
+              <li>• Conseils d&apos;import automobile</li>
               <li>• Actualités du secteur</li>
               <li>• Offres exclusives</li>
             </ul>
@@ -218,13 +219,13 @@ const TestNewsletterForm: React.FC<TestNewsletterFormProps> = ({
               htmlFor='privacy'
               className='ml-2 block text-sm text-gray-800'
             >
-              J'accepte de recevoir la newsletter et la{' '}
-              <a
+              J&apos;accepte de recevoir la newsletter et la{' '}
+              <Link
                 href='/politique-confidentialite'
                 className='text-gray-800 hover:text-gray-600 underline'
               >
                 politique de confidentialité
-              </a>
+              </Link>
             </label>
           </div>
 

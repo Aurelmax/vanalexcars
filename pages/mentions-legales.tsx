@@ -82,16 +82,16 @@ export default function MentionsLegales() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700 mb-4'>
-                  L'ensemble de ce site relève de la législation française et
-                  internationale sur le droit d'auteur et la propriété
+                  L&apos;ensemble de ce site relève de la législation française
+                  et internationale sur le droit d&apos;auteur et la propriété
                   intellectuelle. Tous les droits de reproduction sont réservés,
                   y compris pour les documents téléchargeables et les
                   représentations iconographiques et photographiques.
                 </p>
                 <p className='text-gray-700'>
                   La reproduction de tout ou partie de ce site sur un support
-                  électronique quel qu'il soit est formellement interdite sauf
-                  autorisation expresse du directeur de la publication.
+                  électronique quel qu&apos;il soit est formellement interdite
+                  sauf autorisation expresse du directeur de la publication.
                 </p>
               </div>
             </section>
@@ -115,7 +115,7 @@ export default function MentionsLegales() {
                   </p>
                   <p className='text-gray-700'>
                     <strong>Finalité :</strong> Traitement de vos demandes
-                    d'import automobile et communication commerciale.
+                    d&apos;import automobile et communication commerciale.
                   </p>
                   <p className='text-gray-700'>
                     <strong>Base légale :</strong> Consentement et intérêt
@@ -140,7 +140,7 @@ export default function MentionsLegales() {
                 <p className='text-gray-700 mb-4'>
                   Ce site utilise des cookies techniques nécessaires au bon
                   fonctionnement du site. Aucun cookie de tracking ou de
-                  publicité n'est utilisé.
+                  publicité n&apos;est utilisé.
                 </p>
                 <p className='text-gray-700'>
                   Vous pouvez configurer votre navigateur pour refuser les
@@ -159,13 +159,13 @@ export default function MentionsLegales() {
                 <p className='text-gray-700 mb-4'>
                   Les informations contenues sur ce site sont aussi précises que
                   possible et le site remis à jour à différentes périodes de
-                  l'année, mais peut toutefois contenir des inexactitudes ou des
-                  omissions.
+                  l&apos;année, mais peut toutefois contenir des inexactitudes
+                  ou des omissions.
                 </p>
                 <p className='text-gray-700'>
                   Vanalexcars ne saurait être tenu responsable des erreurs ou
-                  omissions, ni de l'utilisation des informations, et de
-                  l'utilisation qui pourrait en être faite par des tiers.
+                  omissions, ni de l&apos;utilisation des informations, et de
+                  l&apos;utilisation qui pourrait en être faite par des tiers.
                 </p>
               </div>
             </section>
@@ -177,10 +177,10 @@ export default function MentionsLegales() {
               </h2>
               <div className='bg-gray-50 p-6 rounded-lg'>
                 <p className='text-gray-700'>
-                  Tout litige en relation avec l'utilisation du site
+                  Tout litige en relation avec l&apos;utilisation du site
                   vanalexcars.fr est soumis au droit français. Il est fait
                   attribution exclusive de juridiction aux tribunaux compétents
-                  d'Antibes.
+                  d&apos;Antibes.
                 </p>
               </div>
             </section>

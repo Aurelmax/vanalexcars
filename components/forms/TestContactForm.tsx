@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { ContactFormData, formService } from '../../lib/services/formService';
 
 interface TestContactFormProps {
-  onSubmit?: (data: any) => void;
+  onSubmit?: (data: ContactFormData) => void;
   onSuccess?: () => void;
 }
 
@@ -211,7 +212,7 @@ const TestContactForm: React.FC<TestContactFormProps> = ({
             }`}
           >
             <option value=''>Sélectionnez un sujet</option>
-            <option value='demande-info'>Demande d'information</option>
+            <option value='demande-info'>Demande d&apos;information</option>
             <option value='devis'>Demande de devis</option>
             <option value='rendez-vous'>Prise de rendez-vous</option>
             <option value='autre'>Autre</option>
@@ -252,13 +253,13 @@ const TestContactForm: React.FC<TestContactFormProps> = ({
             className='h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded'
           />
           <label htmlFor='privacy' className='ml-2 block text-sm text-gray-700'>
-            J'accepte la{' '}
-            <a
+            J&apos;accepte la{' '}
+            <Link
               href='/politique-confidentialite'
               className='text-yellow-600 hover:text-yellow-500'
             >
               politique de confidentialité
-            </a>
+            </Link>
           </label>
         </div>
 

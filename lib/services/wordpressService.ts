@@ -32,10 +32,10 @@ export interface WordPressPost {
   sticky: boolean;
   template: string;
   format: string;
-  meta: any;
+  meta: Record<string, string | number | boolean | string[]>;
   categories: number[];
   tags: number[];
-  _links: any;
+  _links: Record<string, unknown>;
 }
 
 export interface WordPressMedia {
@@ -51,7 +51,7 @@ export interface WordPressMedia {
   comment_status: string;
   ping_status: string;
   template: string;
-  meta: any;
+  meta: Record<string, string | number | boolean | string[]>;
   description: {
     rendered: string;
   };
@@ -65,10 +65,19 @@ export interface WordPressMedia {
     width: number;
     height: number;
     file: string;
-    sizes: any;
+    sizes: Record<
+      string,
+      {
+        file: string;
+        width: number;
+        height: number;
+        mime_type: string;
+        source_url: string;
+      }
+    >;
   };
   source_url: string;
-  _links: any;
+  _links: Record<string, unknown>;
 }
 
 export interface WordPressCategory {
@@ -80,8 +89,8 @@ export interface WordPressCategory {
   slug: string;
   taxonomy: string;
   parent: number;
-  meta: any;
-  _links: any;
+  meta: Record<string, string | number | boolean | string[]>;
+  _links: Record<string, unknown>;
 }
 
 export interface WordPressTag {
@@ -92,8 +101,8 @@ export interface WordPressTag {
   name: string;
   slug: string;
   taxonomy: string;
-  meta: any;
-  _links: any;
+  meta: Record<string, string | number | boolean | string[]>;
+  _links: Record<string, unknown>;
 }
 
 // Service WordPress

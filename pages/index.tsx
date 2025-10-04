@@ -24,7 +24,7 @@ export default function Home() {
             </h2>
             <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
               Un processus simple et transparent pour importer votre véhicule
-              d'Allemagne
+              d&apos;Allemagne
             </p>
           </div>
 
@@ -66,8 +66,8 @@ export default function Home() {
                 Livraison en France
               </h3>
               <p className='text-gray-600'>
-                Je m'occupe de tout : achat, immatriculation, livraison à votre
-                domicile.
+                Je m&apos;occupe de tout : achat, immatriculation, livraison à
+                votre domicile.
               </p>
             </div>
           </div>
@@ -345,8 +345,8 @@ export default function Home() {
               Questions Fréquentes
             </h2>
             <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Tout ce que vous devez savoir sur notre service premium d'import
-              automobile
+              Tout ce que vous devez savoir sur notre service premium
+              d&apos;import automobile
             </p>
           </div>
 
@@ -354,7 +354,8 @@ export default function Home() {
             {/* FAQ 1 */}
             <div className='bg-white rounded-lg shadow-md p-6'>
               <h3 className='text-xl font-semibold text-gray-900 mb-3'>
-                Combien coûte l'import d'un véhicule d'Allemagne ?
+                Combien coûte l&apos;import d&apos;un véhicule d&apos;Allemagne
+                ?
               </h3>
               <p className='text-gray-600'>
                 Le coût dépend du forfait choisi (299€ à 999€) et des frais
@@ -370,8 +371,8 @@ export default function Home() {
               </h3>
               <p className='text-gray-600'>
                 En moyenne, 2-4 semaines entre la sélection du véhicule et la
-                livraison en France. Cela inclut l'achat, l'immatriculation
-                temporaire allemande, et la livraison.
+                livraison en France. Cela inclut l&apos;achat,
+                l&apos;immatriculation temporaire allemande, et la livraison.
               </p>
             </div>
 
@@ -419,9 +420,9 @@ export default function Home() {
               ))}
             </div>
             <blockquote className='text-xl lg:text-2xl font-medium mb-6'>
-              "Service exceptionnel ! Alexandre a trouvé exactement la BMW M3
-              que je cherchais, à un prix imbattable. Le processus était
-              transparent et la livraison parfaite."
+              &quot;Service exceptionnel ! Alexandre a trouvé exactement la BMW
+              M3 que je cherchais, à un prix imbattable. Le processus était
+              transparent et la livraison parfaite.&quot;
             </blockquote>
             <div className='flex items-center justify-center'>
               <div className='text-left'>
@@ -442,7 +443,7 @@ export default function Home() {
             Prêt à trouver votre véhicule idéal ?
           </h2>
           <p className='text-xl text-black mb-8'>
-            Contactez-moi dès aujourd'hui pour commencer votre recherche
+            Contactez-moi dès aujourd&apos;hui pour commencer votre recherche
           </p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <Link

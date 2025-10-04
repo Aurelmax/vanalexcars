@@ -120,8 +120,8 @@ const AdminLogin: React.FC = () => {
 
             <div className='mt-4 bg-blue-50 border border-blue-200 rounded-md p-4'>
               <p className='text-sm text-blue-800'>
-                <strong>Pour la démo :</strong> Utilisez n'importe quel email et
-                mot de passe
+                <strong>Pour la démo :</strong> Utilisez n&apos;importe quel
+                email et mot de passe
               </p>
               <p className='text-xs text-blue-600 mt-1'>
                 Exemple : admin@vanalexcars.com / motdepasse123

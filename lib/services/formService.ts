@@ -76,9 +76,9 @@ export interface FormSubmission {
 // Interface étendue pour les données réelles de l'API
 export interface ExtendedFormSubmission extends FormSubmission {
   form_type: string;
-  form_data: any;
+  form_data: Record<string, string | number | boolean | File[]>;
   form_status: string;
-  meta?: any;
+  meta?: Record<string, string | number | boolean>;
 }
 
 // Service pour gérer les formulaires
