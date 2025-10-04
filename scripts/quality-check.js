@@ -81,7 +81,7 @@ const main = () => {
   // Vérification ESLint
   logSection('Vérification ESLint');
   results.eslint = runCommand(
-    'npx eslint . --ext .ts,.tsx,.js,.jsx',
+    'npx eslint .',
     'Vérification du code avec ESLint'
   );
 
